@@ -1,5 +1,6 @@
 package edu.ace.infinite.utils;
 
+import edu.ace.infinite.pojo.Video;
 import okhttp3.Cookie;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -7,6 +8,8 @@ import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -25,6 +28,7 @@ public class HttpUtils {
         if(cookie == null || cookie.isEmpty()){
             cookie = HttpUtils.cookie;
         }
+        List<Video> videos = new ArrayList<>();
         Request request = new Request.Builder()
                 .url("https://www.douyin.com/aweme/v1/web/tab/feed/?device_platform=webapp&aid=6383&channel=channel_pc_web&tag_id=&share_aweme_id=&live_insert_type=&count=10&refresh_index=2&video_type_select=1&aweme_pc_rec_raw_data=%7B%22is_client%22%3Afalse%2C%22ff_danmaku_status%22%3A1%2C%22danmaku_switch_status%22%3A1%2C%22is_dash_user%22%3A1%2C%22is_auto_play%22%3A0%2C%22is_full_screen%22%3A0%2C%22is_full_webscreen%22%3A0%2C%22is_mute%22%3A1%2C%22is_speed%22%3A1%2C%22is_visible%22%3A1%2C%22related_recommend%22%3A1%7D&globalwid=&pull_type=2&min_window=0&free_right=0&view_count=2&plug_block=0&ug_source=&creative_id=&pc_client_type=1&pc_libra_divert=Windows&version_code=170400&version_name=17.4.0&cookie_enabled=true&screen_width=1536&screen_height=864&browser_language=zh-CN&browser_platform=Win32&browser_name=Chrome&browser_version=131.0.0.0&browser_online=true&engine_name=Blink&engine_version=131.0.0.0&os_name=Windows&os_version=10&cpu_core_num=16&device_memory=8&platform=PC&downlink=10&effective_type=4g&round_trip_time=100&webid=7395471247238809125&msToken=Y2QCF10ovIp9-tioxtXn2k6Ll03msLIWhi8URGJVT9aXTCN8ej4Nm0KcV3aejH-a6nmNnTBjmvFfwkmDSJ2vvZFvgl3H8rgRbbKtVxLlhguf-uKLtesuEfC-VwseigJC_BpYWPr-6NGfv5k7vgxGr57OTaX_GgpEGfazjXh92Smmngh2gsMp&a_bogus=m64fge7JENRbcVFtmKbvCA3l82LlrsSyjNToSwPTyNKhbHMay8N0iPeGJoq9mayqaWpshe37GdFlbEVcBGUkZorkKmkfSmJyU4%2FA98soZqwXGUG%2FEN6YSg4zowsF0miN-59rEAD5XsMN2nxRVqVBlBBa95zo5cEgbrpAp2S9GDC8psLTV9QXeVfWk1E%3D&verifyFp=verify_m3cssxot_nGMCjVUb_AS8M_4Uk4_95fx_ilcrcqL9qPOL&fp=verify_m3cssxot_nGMCjVUb_AS8M_4Uk4_95fx_ilcrcqL9qPOL")
                 .addHeader("user-agent",randomUA("windows"))
@@ -49,13 +53,28 @@ public class HttpUtils {
             for (int i = 0; i < awemeList.length(); i++) {
                 JSONObject item = awemeList.getJSONObject(i);
                 if(!item.isNull("video")){
-                    JSONObject video = item.getJSONObject("video");
-                    JSONObject playAddr = video.getJSONObject("play_addr");
+                    Video video = new Video();
+                    JSONObject videojson = item.getJSONObject("video");
+                    JSONObject playAddr = videojson.getJSONObject("play_addr");
                     JSONArray urlList = playAddr.getJSONArray("url_list");
+                    JSONObject cover = videojson.getJSONObject("origin_cover");
+                    JSONArray coverList = cover.getJSONArray("url_list");
+                    JSONObject author = item.getJSONObject("author");
+                    JSONObject avatarThumb = author.getJSONObject("avatar_thumb");
+                    JSONArray authorCovers = avatarThumb.getJSONArray("url_list");
+
                     String videoSrc = urlList.getString(2); //播放地址
+                    String videoId = item.getString("aweme_id"); //视频ID
+                    String desc = item.getString("desc"); //视频介绍
+                    String shareUrl = item.getString("share_url"); //分享地址
+                    String coverSrc = coverList.getString(0); //图片地址
+                    String authorAvatar = authorCovers.getString(0); //作者头像
+                    String uid = author.getString("uid"); //作者ID
+                    String nickname = author.getString("nickname"); //作者昵称
 
 
-
+                    video.setVideoSrc(videoSrc);
+                    videos.add(video);
                 }
             }
         }  catch (Exception e) {
