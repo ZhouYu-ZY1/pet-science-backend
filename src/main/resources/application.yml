@@ -1,0 +1,43 @@
+server:
+  port: 8181
+ #端口
+
+spring:
+  # 数据库链接配置
+  datasource:
+    url:  jdbc:mysql://localhost:3306/rpsm?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    # 链接池
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  servlet:
+    multipart:
+      #上传单个文件的最大值
+      max-file-size: 10MB
+      #单次请求中, 上传的所有文件总大小最大值
+      max-request-size: 100MB
+#    druid:
+#      # 链接池初始化大小
+#      initial-size: 8
+#      # 最大活跃数
+#      max-active: 16
+#      # 最小空闲数
+#      min-idle: 1
+#      # 最大等待时间
+#      max-wait: 60000
+
+## mybatis配置
+mybatis:
+  #  配置mapper路径
+  mapper-locations: "classpath:mybatis/mapper/*Mapper.xml"
+  #  配置model包路径
+  type-aliases-package: "edu.ace.infinite.pojo"
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  mybatis框架配置文件，对mybatis的生命周期起作用
+#  config-location: "classpath:mybatis/mybatisConfig.xml"
+#  check-config-location: true
+
+
