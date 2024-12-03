@@ -2,6 +2,8 @@ package edu.ace.infinite.pojo;
 
 import lombok.Data;
 
+import java.util.Objects;
+
 @Data
 public class Video {
     // 视频源地址
@@ -20,4 +22,12 @@ public class Video {
     private String uid;
     // 用户昵称
     private String nickname;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Video video = (Video) o;
+        return Objects.equals(videoId, video.videoId) && Objects.equals(uid, video.uid);
+    }
 }
