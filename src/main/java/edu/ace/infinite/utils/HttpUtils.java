@@ -24,7 +24,7 @@ public class HttpUtils {
     /**
      * 推荐视频
      */
-    public static void recommendVideo(String cookie){
+    public static List<Video> recommendVideo(String cookie){
         if(cookie == null || cookie.isEmpty()){
             cookie = HttpUtils.cookie;
         }
@@ -74,12 +74,20 @@ public class HttpUtils {
 
 
                     video.setVideoSrc(videoSrc);
+                    video.setVideoId(videoId);
+                    video.setDesc(desc);
+                    video.setShareUrl(shareUrl);
+                    video.setCoverSrc(coverSrc);
+                    video.setAuthorAvatar(authorAvatar);
+                    video.setUid(uid);
+                    video.setNickname(nickname);
                     videos.add(video);
                 }
             }
         }  catch (Exception e) {
             e.printStackTrace();
         }
+        return videos; // 返回视频列表
     }
 
     public static String randomUA(String type){

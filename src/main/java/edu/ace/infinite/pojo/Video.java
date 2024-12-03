@@ -4,10 +4,20 @@ import lombok.Data;
 
 @Data
 public class Video {
-    //作者昵称
-    //作者头像
-    //视频介绍
-    //视频地址
-    //视频ID
+    // 视频源地址
     private String videoSrc;
+    // 视频ID
+    private String videoId;
+    // 描述
+    private String desc;
+    // 分享链接
+    private String shareUrl;
+    // 封面图片地址
+    private String coverSrc;
+    // 作者头像地址
+    private String authorAvatar;
+    // 用户ID
+    private String uid;
+    // 用户昵称
+    private String nickname;
 }
