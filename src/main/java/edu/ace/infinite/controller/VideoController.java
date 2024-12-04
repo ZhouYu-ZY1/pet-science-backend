@@ -6,9 +6,7 @@ import edu.ace.infinite.pojo.Video;
 import edu.ace.infinite.service.VideoService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +25,21 @@ public class VideoController {
         response.put("code", 200);
         response.put("message", "Success");
         response.put("data", videos);
+
+        return JSON.toJSONString(response);
+    }
+    @PostMapping("/like")
+    public String likeVideo(@RequestParam String userId, @RequestParam String videoId) {
+        boolean success = videoService.likeVideo(userId, videoId);
+
+        JSONObject response = new JSONObject();
+        if (success) {
+            response.put("code", 200);
+            response.put("message", "Successfully liked the video");
+        } else {
+            response.put("code", 500);
+            response.put("message", "Failed to like the video");
+        }
 
         return JSON.toJSONString(response);
     }
