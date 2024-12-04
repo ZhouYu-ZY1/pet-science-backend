@@ -5,6 +5,7 @@ import edu.ace.infinite.service.VideoService;
 import edu.ace.infinite.utils.HttpUtils;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Constraint;
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +15,14 @@ public class VideoServiceImpl implements VideoService {
     private List<Video> videoList = new ArrayList<>();
     @Override
     public List<Video> getVideoList() {
-        if(videoList.size() < 100){
+        if(videoList.size() < 200){
             if(videoList.size() < 5){
                 List<Video> videos = HttpUtils.recommendVideo(null);
                 videoList.addAll(videos);
             }
             new Thread(() -> {
                 try {
-                    for (int i = 0; i < 20; i++) { //批量获取10次
+                    for (int i = 0; i < 20; i++) { //批量获取20次
                         List<Video> recommendVideo = HttpUtils.recommendVideo(null);
                         videoList.addAll(recommendVideo);
                         Thread.sleep(300);  //延迟300毫秒再获取
