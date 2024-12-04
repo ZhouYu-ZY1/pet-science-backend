@@ -15,14 +15,14 @@ public class VideoServiceImpl implements VideoService {
     private List<Video> videoList = new ArrayList<>();
     @Override
     public List<Video> getVideoList() {
-        if(videoList.size() < 200){
+        if(videoList.size() < 50){
             if(videoList.size() < 5){
                 List<Video> videos = HttpUtils.recommendVideo(null);
                 videoList.addAll(videos);
             }
             new Thread(() -> {
                 try {
-                    for (int i = 0; i < 20; i++) { //批量获取20次
+                    for (int i = 0; i < 10; i++) { //批量获取10次
                         List<Video> recommendVideo = HttpUtils.recommendVideo(null);
                         videoList.addAll(recommendVideo);
                         Thread.sleep(300);  //延迟300毫秒再获取
@@ -33,11 +33,12 @@ public class VideoServiceImpl implements VideoService {
             }).start();
         }
 
-//        System.err.println(videoList.size());
+
         // 取出前10条
         List<Video> result = new ArrayList<>(videoList.subList(0, Math.min(10,videoList.size())));
         // 移除这5条数据
         videoList.removeAll(result);
+        System.err.println("视频列表剩余"+videoList.size());
 
         // 调用HttpUtils类的recommendVideo方法获取视频列表
         return result;

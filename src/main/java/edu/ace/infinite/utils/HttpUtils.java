@@ -79,10 +79,10 @@ public class HttpUtils {
                         String uid = author.getString("uid"); //作者ID
                         String nickname = author.getString("nickname"); //作者昵称
 
-                        String videoUrl = getVideoUrl(videoSrc);
-                        if(!videoUrl.isEmpty()){
-                            videoSrc = videoUrl;
-                        }
+//                        String videoUrl = getVideoUrl(videoSrc);
+//                        if(!videoUrl.isEmpty()){
+//                            videoSrc = videoUrl;
+//                        }
 
                         video.setVideoSrc(videoSrc);
                         video.setVideoId(videoId);
