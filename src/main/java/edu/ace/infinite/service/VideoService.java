@@ -7,4 +7,5 @@ import java.util.List;
 @Service
 public interface VideoService {
     List<Video> getVideoList();
+    boolean likeVideo(String userId, String videoId);
 }

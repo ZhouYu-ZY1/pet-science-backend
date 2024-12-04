@@ -1,8 +1,11 @@
 package edu.ace.infinite.service.impl;
 
+import edu.ace.infinite.mapper.VideoMapper;
 import edu.ace.infinite.pojo.Video;
 import edu.ace.infinite.service.VideoService;
 import edu.ace.infinite.utils.HttpUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Constraint;
@@ -11,7 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 @Service
 public class VideoServiceImpl implements VideoService {
-
+    @Autowired
+    private VideoMapper videoMapper;
     private List<Video> videoList = new ArrayList<>();
     @Override
     public List<Video> getVideoList() {
@@ -25,7 +29,7 @@ public class VideoServiceImpl implements VideoService {
                     for (int i = 0; i < 10; i++) { //批量获取10次
                         List<Video> recommendVideo = HttpUtils.recommendVideo(null);
                         videoList.addAll(recommendVideo);
-                        Thread.sleep(300);  //延迟300毫秒再获取
+                        Thread.sleep(3000);  //延迟300毫秒再获取
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -36,12 +40,23 @@ public class VideoServiceImpl implements VideoService {
 
         // 取出前10条
         List<Video> result = new ArrayList<>(videoList.subList(0, Math.min(10,videoList.size())));
-        // 移除这5条数据
+        // 移除这10条数据
         videoList.removeAll(result);
         System.err.println("视频列表剩余"+videoList.size());
 
         // 调用HttpUtils类的recommendVideo方法获取视频列表
         return result;
+    }
+
+    @Override
+    public boolean likeVideo(String userId, String videoId) {
+        try {
+            int result = videoMapper.insertLike(userId, videoId);
+            return result > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

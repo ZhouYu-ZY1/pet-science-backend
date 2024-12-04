@@ -1,7 +1,6 @@
 package edu.ace.infinite.utils;
 
 import edu.ace.infinite.pojo.Video;
-import okhttp3.Cookie;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
