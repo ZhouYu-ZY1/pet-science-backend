@@ -9,6 +9,7 @@ import edu.ace.infinite.utils.HttpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Constraint;
 import javax.validation.constraints.Min;
@@ -50,21 +51,22 @@ public class VideoServiceImpl implements VideoService {
         return result;
     }
 
+    @Transactional
     @Override
     public boolean likeVideo(String userId, Like like) {
         try {
             String videoId = like.getVideo().getVideoId();
-            String uid = like.getVideo().getUid();
+
             if(like.getVideo().getType() == 0){ //抖音的视频
                 //验证视频在不在数据库中
                 if ( videoMapper.selectTypeById(videoId) <= 0 ) {
-                    int i = videoMapper.insertVideo(uid, like.getVideo());
+                    int i = videoMapper.insertVideo(like.getVideo());
                     if(i <= 0) {
                         throw  new RuntimeException("插入视频失败");
                     }
                 }
             }
-            int result = videoMapper.insertLike(userId, like.getVideo().getVideoId());
+            int result = videoMapper.insertLike(userId, videoId);
             return result > 0;
         } catch (Exception e) {
             e.printStackTrace();

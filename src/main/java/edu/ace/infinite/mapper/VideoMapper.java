@@ -12,9 +12,9 @@ import org.springframework.stereotype.Repository;
 public interface VideoMapper {
     @Insert("INSERT INTO `like` (user_id, video_id, create_time) VALUES (#{userId}, #{videoId}, NOW())")
     int insertLike(@Param("userId") String userId, @Param("videoId") String videoId);
-    @Select("SELECT count(1) FROM video WHERE user_id = #{videoId}")
+    @Select("SELECT count(1) FROM video WHERE video_id = #{videoId}")
     int selectTypeById(String videoId);
-    @Insert("INSERT INTO video (video_id, author_id, cover_src,video_src,description,share_url,avatar_url,nickname,type,create_time,update_time)" +
-            " VALUES (#{videoId}, #{uid}, #{coverSrc}, #{videoSrc},#{desc},#{shareUrl},#{authorAvatar},#{nickname},#{type},NOW(),NOW()})")
-    int insertVideo(String uid, Video video);
+    @Insert("INSERT INTO video (video_id,author_id,video_src,cover_src,description,share_url,create_time,update_time,type,nickname,avatar_url)" +
+            " VALUES (#{videoId}, #{uid},#{videoSrc},#{coverSrc},#{desc},#{shareUrl},NOW(),NOW(),#{type},#{nickname},#{authorAvatar})")
+    int insertVideo(Video video);
 }
