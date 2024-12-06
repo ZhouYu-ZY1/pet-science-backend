@@ -24,23 +24,22 @@ public class VideoController {
         List<Video> videos = videoService.getRecommendVideoList();
         JSONObject response = new JSONObject();
         response.put("code", 200);
-        response.put("message", "Success");
+        response.put("message", "成功");
         response.put("data", videos);
         return JSON.toJSONString(response);
     }
 
     @PostMapping("/like")
     public String likeVideo(@RequestBody Like like) {
-        System.err.println(like);
         String videoId = like.getVideo().getVideoId();
         boolean success = videoService.likeVideo(like, videoId);
         JSONObject response = new JSONObject();
         if (success) {
             response.put("code", 200);
-            response.put("message", "Successfully liked the video");
+            response.put("message", "点赞成功");
         } else {
             response.put("code", 500);
-            response.put("message", "Failed to like the video");
+            response.put("message", "点赞失败");
         }
         return JSON.toJSONString(response);
     }
@@ -52,10 +51,10 @@ public class VideoController {
         JSONObject response = new JSONObject();
         if (success) {
             response.put("code", 200);
-            response.put("message", "Successfully liked the video");
+            response.put("message", "取消成功");
         } else {
             response.put("code", 500);
-            response.put("message", "Failed to like the video");
+            response.put("message", "取消失败");
         }
         return JSON.toJSONString(response);
     }

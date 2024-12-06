@@ -56,37 +56,29 @@ public class VideoServiceImpl implements VideoService {
     public boolean likeVideo(Like like,String videoId) {
         try {
             String userId = like.getUser_id();
-            if (like.getVideo().getType() == 0) {
+            if (like.getVideo().getType() == 0) {  //0为抖音视频
                 //验证视频在不在数据库中
                 if (videoMapper.findTypeById(videoId) <= 0) {
-                    int i = videoMapper.insertVideo(like.getVideo());
-                    int result = videoMapper.insertLike(userId, videoId);
-                    if (i > 0 && result > 0) {
-                        return true;
-                    }else {
+                    //如果不存在则插入数据
+                    if(videoMapper.insertVideo(like.getVideo()) <= 0){
                         throw new RuntimeException("抖音视频插入失败");
                     }
                 }
-
-            } else if (like.getVideo().getType() == 1) {
-
-                //验证视频在不在数据库中
+            } else if (like.getVideo().getType() == 1) { //1为用户上传视频
                 if (videoMapper.findTypeById(videoId) <= 0) {
-                    int i = videoMapper.insertVideo(like.getVideo());
-                    int result = videoMapper.insertLike(userId, videoId);
-                    if (i > 0 && result > 0) {
-                        return true;
-                    }else {
-                        throw new RuntimeException("用户视频插入失败");
-                    }
+                    //如果不存在则说明数据异常
+                    throw new RuntimeException("视频数据异常");
                 }
+            }else {
+                throw new RuntimeException("视频类型错误");
+            }
 
-            }throw new RuntimeException("视频类型错误");
-
+            int result = videoMapper.insertLike(userId, videoId);
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     @Override
