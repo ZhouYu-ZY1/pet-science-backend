@@ -24,6 +24,8 @@ public class Video {
     private String nickname;
     // 视频类型，0为抖音视频，1为用户上传
     private Integer type;
+    //是否收藏
+    private boolean like;
 
     @Override
     public boolean equals(Object o) {

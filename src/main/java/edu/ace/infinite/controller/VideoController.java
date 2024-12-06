@@ -22,14 +22,13 @@ public class VideoController {
     @GetMapping("/getRecommendList")
     public String getRecommendVideoList() {
         List<Video> videos = videoService.getRecommendVideoList();
-
         JSONObject response = new JSONObject();
         response.put("code", 200);
         response.put("message", "Success");
         response.put("data", videos);
-
         return JSON.toJSONString(response);
     }
+
     @PostMapping("/like")
     public String likeVideo(@RequestBody Like like) {
         System.err.println(like);

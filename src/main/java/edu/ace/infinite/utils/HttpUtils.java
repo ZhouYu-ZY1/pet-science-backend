@@ -84,6 +84,7 @@ public class HttpUtils {
 //                        }
 
                         video.setType(0); //抖音视频
+                        video.setLike(false); //默认推荐视频都没有收藏
                         video.setVideoSrc(videoSrc);
                         video.setVideoId(videoId);
                         video.setDesc(desc);
