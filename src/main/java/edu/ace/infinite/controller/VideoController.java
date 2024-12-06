@@ -33,7 +33,9 @@ public class VideoController {
     @PostMapping("/like")
     public String likeVideo(@RequestBody Like like) {
         System.err.println(like);
-        String userId = "";
+
+        String userId = like.getUser_id();
+
         boolean success = videoService.likeVideo(userId, like);
         JSONObject response = new JSONObject();
         if (success) {

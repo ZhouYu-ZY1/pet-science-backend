@@ -10,5 +10,4 @@ public class Like {
     private Video video;
     private String create_time;
     private boolean isLike;
-
 }

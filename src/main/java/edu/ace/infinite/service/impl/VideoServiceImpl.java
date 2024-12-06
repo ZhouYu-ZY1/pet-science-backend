@@ -1,5 +1,6 @@
 package edu.ace.infinite.service.impl;
 
+import com.alibaba.druid.sql.visitor.functions.If;
 import edu.ace.infinite.mapper.VideoMapper;
 import edu.ace.infinite.pojo.Like;
 import edu.ace.infinite.pojo.Video;
@@ -52,7 +53,17 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public boolean likeVideo(String userId, Like like) {
         try {
-
+            String videoId = like.getVideo().getVideoId();
+            String uid = like.getVideo().getUid();
+            if(like.getVideo().getType() == 0){ //抖音的视频
+                //验证视频在不在数据库中
+                if ( videoMapper.selectTypeById(videoId) <= 0 ) {
+                    int i = videoMapper.insertVideo(uid, like.getVideo());
+                    if(i <= 0) {
+                        throw  new RuntimeException("插入视频失败");
+                    }
+                }
+            }
             int result = videoMapper.insertLike(userId, like.getVideo().getVideoId());
             return result > 0;
         } catch (Exception e) {
