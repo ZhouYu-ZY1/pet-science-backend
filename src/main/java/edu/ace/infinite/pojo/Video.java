@@ -22,6 +22,8 @@ public class Video {
     private String uid;
     // 用户昵称
     private String nickname;
+    // 视频类型，0为抖音视频，1为用户上传
+    private Integer type;
 
     @Override
     public boolean equals(Object o) {

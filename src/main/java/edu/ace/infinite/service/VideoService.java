@@ -1,11 +1,12 @@
 package edu.ace.infinite.service;
 
+import edu.ace.infinite.pojo.Like;
 import edu.ace.infinite.pojo.Video;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public interface VideoService {
-    List<Video> getVideoList();
-    boolean likeVideo(String userId, String videoId);
+    List<Video> getRecommendVideoList();
+    boolean likeVideo(String userId, Like videoId);
 }

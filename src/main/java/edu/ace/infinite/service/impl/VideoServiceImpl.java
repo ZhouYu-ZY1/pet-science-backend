@@ -1,6 +1,7 @@
 package edu.ace.infinite.service.impl;
 
 import edu.ace.infinite.mapper.VideoMapper;
+import edu.ace.infinite.pojo.Like;
 import edu.ace.infinite.pojo.Video;
 import edu.ace.infinite.service.VideoService;
 import edu.ace.infinite.utils.HttpUtils;
@@ -18,7 +19,7 @@ public class VideoServiceImpl implements VideoService {
     private VideoMapper videoMapper;
     private List<Video> videoList = new ArrayList<>();
     @Override
-    public List<Video> getVideoList() {
+    public List<Video> getRecommendVideoList() {
         if(videoList.size() < 50){
             if(videoList.size() < 5){
                 List<Video> videos = HttpUtils.recommendVideo(null);
@@ -49,9 +50,10 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public boolean likeVideo(String userId, String videoId) {
+    public boolean likeVideo(String userId, Like like) {
         try {
-            int result = videoMapper.insertLike(userId, videoId);
+
+            int result = videoMapper.insertLike(userId, like.getVideo().getVideoId());
             return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
