@@ -8,5 +8,7 @@ import java.util.List;
 @Service
 public interface VideoService {
     List<Video> getRecommendVideoList();
-    boolean likeVideo(String userId, Like videoId);
+    boolean likeVideo(Like like,String  videoId);
+
+    boolean dislikeVideo(Like like,String  videoId);
 }

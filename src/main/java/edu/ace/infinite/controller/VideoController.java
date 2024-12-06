@@ -32,10 +32,8 @@ public class VideoController {
     @PostMapping("/like")
     public String likeVideo(@RequestBody Like like) {
         System.err.println(like);
-
-        String userId = like.getUser_id();
-
-        boolean success = videoService.likeVideo(userId, like);
+        String videoId = like.getVideo().getVideoId();
+        boolean success = videoService.likeVideo(like, videoId);
         JSONObject response = new JSONObject();
         if (success) {
             response.put("code", 200);
@@ -44,7 +42,22 @@ public class VideoController {
             response.put("code", 500);
             response.put("message", "Failed to like the video");
         }
-
         return JSON.toJSONString(response);
     }
+    @PostMapping("/dislike")
+    public String dislikeVideo(@RequestBody Like like) {
+        String videoId = like.getVideo().getVideoId();
+        boolean success = videoService.dislikeVideo(like, videoId);
+
+        JSONObject response = new JSONObject();
+        if (success) {
+            response.put("code", 200);
+            response.put("message", "Successfully liked the video");
+        } else {
+            response.put("code", 500);
+            response.put("message", "Failed to like the video");
+        }
+        return JSON.toJSONString(response);
+    }
+
 }

@@ -53,21 +53,52 @@ public class VideoServiceImpl implements VideoService {
 
     @Transactional
     @Override
-    public boolean likeVideo(String userId, Like like) {
+    public boolean likeVideo(Like like,String videoId) {
         try {
-            String videoId = like.getVideo().getVideoId();
-
-            if(like.getVideo().getType() == 0){ //抖音的视频
+            String userId = like.getUser_id();
+            if (like.getVideo().getType() == 0) {
                 //验证视频在不在数据库中
-                if ( videoMapper.selectTypeById(videoId) <= 0 ) {
+                if (videoMapper.findTypeById(videoId) <= 0) {
                     int i = videoMapper.insertVideo(like.getVideo());
-                    if(i <= 0) {
-                        throw  new RuntimeException("插入视频失败");
+                    int result = videoMapper.insertLike(userId, videoId);
+                    if (i > 0 && result > 0) {
+                        return true;
+                    }else {
+                        throw new RuntimeException("抖音视频插入失败");
                     }
                 }
+
+            } else if (like.getVideo().getType() == 1) {
+
+                //验证视频在不在数据库中
+                if (videoMapper.findTypeById(videoId) <= 0) {
+                    int i = videoMapper.insertVideo(like.getVideo());
+                    int result = videoMapper.insertLike(userId, videoId);
+                    if (i > 0 && result > 0) {
+                        return true;
+                    }else {
+                        throw new RuntimeException("用户视频插入失败");
+                    }
+                }
+
+            }throw new RuntimeException("视频类型错误");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean dislikeVideo(Like like, String videoId) {
+        try {
+            String userId = like.getUser_id();
+            int result = videoMapper.deleteLike(userId, videoId);
+            if (result > 0) {
+                return true;
+            } else {
+                throw new RuntimeException("取消点赞失败");
             }
-            int result = videoMapper.insertLike(userId, videoId);
-            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
