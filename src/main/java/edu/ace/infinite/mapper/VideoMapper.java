@@ -22,24 +22,40 @@ public interface VideoMapper {
 
     @Select("SELECT * FROM video WHERE video_id = #{videoId}")
     Video findVideoById(String videoId);
-    @Select("SELECT l.id as like_id, l.user_id, l.create_time, " +
-            "v.video_id, v.author_id as uid, v.video_src, v.cover_src, v.description as `desc`, " +
-            "v.share_url " +
+
+
+//    @Select("SELECT l.id as like_id, l.user_id, l.create_time, " +
+//            "v.video_id, v.author_id as uid, v.video_src, v.cover_src, v.description as `desc`, " +
+//            "v.share_url " +
+//            "FROM `like` l " +
+//            "LEFT JOIN video v ON l.video_id = v.video_id " +
+//            "WHERE l.user_id = #{uid}")
+//   @Results({
+//            @Result(property = "like_id", column = "like_id"),
+//            @Result(property = "user_id", column = "user_id"),
+//            @Result(property = "create_time", column = "create_time"),
+//            @Result(property = "video.videoId", column = "video_id"),
+//            @Result(property = "video.uid", column = "uid"),
+//            @Result(property = "video.videoSrc", column = "video_src"),
+//            @Result(property = "video.coverSrc", column = "cover_src"),
+//            @Result(property = "video.desc", column = "desc"),
+//            @Result(property = "video.shareUrl", column = "share_url")
+//  })
+    @Select("SELECT v.* " +
             "FROM `like` l " +
             "LEFT JOIN video v ON l.video_id = v.video_id " +
-            "WHERE l.user_id = #{uid}")
+            "WHERE l.user_id = #{uid} " +
+            "ORDER BY l.create_time DESC") //时间降序排序
     @Results({
-            @Result(property = "like_id", column = "like_id"),
-            @Result(property = "user_id", column = "user_id"),
-            @Result(property = "create_time", column = "create_time"),
-            @Result(property = "video.videoId", column = "video_id"),
-            @Result(property = "video.uid", column = "uid"),
-            @Result(property = "video.videoSrc", column = "video_src"),
-            @Result(property = "video.coverSrc", column = "cover_src"),
-            @Result(property = "video.desc", column = "desc"),
-            @Result(property = "video.shareUrl", column = "share_url")
+            @Result(property = "videoSrc", column = "video_src"),
+            @Result(property = "videoId", column = "video_id"),
+            @Result(property = "desc", column = "description"),
+            @Result(property = "shareUrl", column = "share_url"),
+            @Result(property = "coverSrc", column = "cover_src"),
+            @Result(property = "authorAvatar", column = "avatar_url"),
+            @Result(property = "uid", column = "author_id"),
     })
-    List<Like> selectLikeList(String uid);
+    List<Video> selectLikeList(String uid);
 
 
 }

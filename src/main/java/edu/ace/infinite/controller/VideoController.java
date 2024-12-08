@@ -59,20 +59,14 @@ public class VideoController {
         }
         return JSON.toJSONString(response);
     }
-    @PostMapping("/getLikeList")
-    public String getLikeVideoList(@RequestBody Map<String, String> requestData) {
-        String userId = requestData.get("userId");
+    @RequestMapping("/getLikeList")
+    public String getLikeVideoList(@RequestParam String userId) {
         JSONObject response = new JSONObject();
         try {
-            List<Like> likeList = videoService.getLikeList(userId);
-            if (likeList != null && !likeList.isEmpty()) {
-                response.put("code", 200);
-                response.put("message", "获取喜欢列表成功");
-                response.put("data", likeList);
-            } else {
-                response.put("code", 404); // 数据为空时，使用更合理的状态码
-                response.put("message", "获取喜欢列表失败，数据为空");
-            }
+            List<Video> likeList = videoService.getLikeList(userId);
+            response.put("code", 200);
+            response.put("message", "获取喜欢列表成功");
+            response.put("data", likeList);
         } catch (Exception e) {
             response.put("code", 500);
             response.put("message", "获取喜欢列表失败，发生异常");

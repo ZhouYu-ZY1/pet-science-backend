@@ -2,6 +2,7 @@ package edu.ace.infinite.pojo;
 
 import lombok.Data;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Data

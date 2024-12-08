@@ -86,11 +86,7 @@ public class VideoServiceImpl implements VideoService {
         try {
             String userId = like.getUser_id();
             int result = videoMapper.deleteLike(userId, videoId);
-            if (result > 0) {
-                return true;
-            } else {
-                throw new RuntimeException("取消点赞失败");
-            }
+            return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -98,9 +94,12 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<Like> getLikeList(String userId) {
+    public List<Video> getLikeList(String userId) {
         try {
-            List<Like> likeList = videoMapper.selectLikeList(userId);
+            List<Video> likeList = videoMapper.selectLikeList(userId);
+            for (Video video : likeList) {
+                video.setLike(true); //喜欢列表都是点赞的视频
+            }
             return likeList;
         } catch (Exception e) {
             e.printStackTrace();
