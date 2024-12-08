@@ -11,4 +11,6 @@ public interface VideoService {
     boolean likeVideo(Like like,String  videoId);
 
     boolean dislikeVideo(Like like,String  videoId);
+
+    List<Like> getLikeList(String uid);
 }

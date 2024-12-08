@@ -97,4 +97,15 @@ public class VideoServiceImpl implements VideoService {
         }
     }
 
+    @Override
+    public List<Like> getLikeList(String userId) {
+        try {
+            List<Like> likeList = videoMapper.selectLikeList(userId);
+            return likeList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

@@ -36,6 +36,7 @@ mybatis:
   type-aliases-package: "edu.ace.infinite.pojo"
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
 #  mybatis框架配置文件，对mybatis的生命周期起作用
 #  config-location: "classpath:mybatis/mybatisConfig.xml"
 #  check-config-location: true
