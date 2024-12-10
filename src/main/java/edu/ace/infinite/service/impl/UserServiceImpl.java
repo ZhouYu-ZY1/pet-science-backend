@@ -44,10 +44,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String followUser(FollowVO follow) {
+    public Boolean followUser(FollowVO follow) {
         Integer FromId = follow.getFromUserId();
         Integer ToId = follow.getToUserId();
-        return userMapper.followUser(FromId, ToId);
+        Integer i = userMapper.followUser(FromId, ToId);
+        return i > 0;
     }
 
 

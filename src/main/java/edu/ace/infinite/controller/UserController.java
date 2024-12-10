@@ -84,23 +84,31 @@ public class UserController {
     }
     @PostMapping("/followUser")
     @ResponseBody
-    public String followUser(HttpServletRequest request) {
+    public String followUser(HttpServletRequest request, @RequestParam Integer toUserId) {
         String token = request.getHeader("token");
         if (token == null) {
             return "未登录";
         }
         Integer fromUserId = JWTUtil.getUserId(token);
-        Integer toUserId = JWTUtil.getUserId(token);
+        if (fromUserId == null) {
+            return "无效的用户";
+        }
 
         FollowVO follow = new FollowVO();
         follow.setFromUserId(fromUserId);
         follow.setToUserId(toUserId);
 
         try {
-            userService.followUser(follow);
+            boolean result = userService.followUser(follow);
+            if (result) {
+                return "关注成功";
+            } else {
+                return "关注失败";
+            }
         } catch (Exception e) {
+            e.printStackTrace(); // 实际生产环境中应使用日志记录，如：log.error("关注用户时发生异常", e);
             return "关注失败";
         }
-        return "关注成功";
     }
+
 }

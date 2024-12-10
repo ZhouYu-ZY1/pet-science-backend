@@ -10,5 +10,5 @@ public interface UserService {
 
     User getUserInfo(User user);
 
-    String  followUser(FollowVO follow);
+    Boolean  followUser(FollowVO follow);
 }
