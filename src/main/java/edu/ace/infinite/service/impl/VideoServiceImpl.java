@@ -53,9 +53,10 @@ public class VideoServiceImpl implements VideoService {
 
     @Transactional
     @Override
-    public boolean likeVideo(Like like,String videoId) {
+    public boolean likeVideo(Like like) {
         try {
             String userId = like.getUser_id();
+            String videoId = like.getVideo().getVideoId();
             if (like.getVideo().getType() == 0) {  //0为抖音视频
                 //验证视频在不在数据库中
                 if (videoMapper.findTypeById(videoId) <= 0) {
@@ -82,9 +83,10 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public boolean dislikeVideo(Like like, String videoId) {
+    public boolean dislikeVideo(Like like) {
         try {
             String userId = like.getUser_id();
+            String videoId = like.getVideo().getVideoId();
             int result = videoMapper.deleteLike(userId, videoId);
             return result > 0;
         } catch (Exception e) {

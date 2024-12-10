@@ -6,10 +6,12 @@ import edu.ace.infinite.pojo.Like;
 import edu.ace.infinite.pojo.Video;
 import edu.ace.infinite.service.VideoService;
 import com.alibaba.fastjson.JSONObject;
+import edu.ace.infinite.utils.JWTUtil;
 import okhttp3.internal.platform.ConscryptPlatform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -31,9 +33,12 @@ public class VideoController {
     }
 
     @PostMapping("/like")
-    public String likeVideo(@RequestBody Like like) {
-        String videoId = like.getVideo().getVideoId();
-        boolean success = videoService.likeVideo(like, videoId);
+    public String likeVideo(@RequestBody Like like,HttpServletRequest request) {
+        String token = request.getHeader("token");
+        Integer userId = JWTUtil.getUserId(token);
+        like.setUser_id(String.valueOf(userId));
+
+        boolean success = videoService.likeVideo(like);
         JSONObject response = new JSONObject();
         if (success) {
             response.put("code", 200);
@@ -45,10 +50,12 @@ public class VideoController {
         return JSON.toJSONString(response);
     }
     @PostMapping("/dislike")
-    public String dislikeVideo(@RequestBody Like like) {
-        String videoId = like.getVideo().getVideoId();
-        boolean success = videoService.dislikeVideo(like, videoId);
+    public String dislikeVideo(@RequestBody Like like, HttpServletRequest request) {
+        String token = request.getHeader("token");
+        Integer userId = JWTUtil.getUserId(token);
+        like.setUser_id(String.valueOf(userId));
 
+        boolean success = videoService.dislikeVideo(like);
         JSONObject response = new JSONObject();
         if (success) {
             response.put("code", 200);
@@ -60,10 +67,13 @@ public class VideoController {
         return JSON.toJSONString(response);
     }
     @RequestMapping("/getLikeList")
-    public String getLikeVideoList(@RequestParam String userId) {
+    public String getLikeVideoList(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        Integer userId = JWTUtil.getUserId(token);
+
         JSONObject response = new JSONObject();
         try {
-            List<Video> likeList = videoService.getLikeList(userId);
+            List<Video> likeList = videoService.getLikeList(String.valueOf(userId));
             response.put("code", 200);
             response.put("message", "获取喜欢列表成功");
             response.put("data", likeList);
