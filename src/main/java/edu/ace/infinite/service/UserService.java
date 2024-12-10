@@ -1,5 +1,6 @@
 package edu.ace.infinite.service;
 
+import edu.ace.infinite.pojo.FollowVO;
 import edu.ace.infinite.pojo.User;
 
 public interface UserService {
@@ -8,4 +9,6 @@ public interface UserService {
     Boolean registerUser(User user);
 
     User getUserInfo(User user);
+
+    String  followUser(FollowVO follow);
 }

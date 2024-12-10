@@ -3,6 +3,7 @@ package edu.ace.infinite.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import edu.ace.infinite.pojo.FollowVO;
 import edu.ace.infinite.pojo.User;
 import edu.ace.infinite.service.UserService;
 import edu.ace.infinite.utils.JWTUtil;
@@ -80,5 +81,26 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+    @PostMapping("/followUser")
+    @ResponseBody
+    public String followUser(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        if (token == null) {
+            return "未登录";
+        }
+        Integer fromUserId = JWTUtil.getUserId(token);
+        Integer toUserId = JWTUtil.getUserId(token);
+
+        FollowVO follow = new FollowVO();
+        follow.setFromUserId(fromUserId);
+        follow.setToUserId(toUserId);
+
+        try {
+            userService.followUser(follow);
+        } catch (Exception e) {
+            return "关注失败";
+        }
+        return "关注成功";
     }
 }

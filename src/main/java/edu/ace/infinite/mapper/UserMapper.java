@@ -23,4 +23,6 @@ public interface UserMapper {
     User getUserByUsername(String uname);
     @Select("SELECT * FROM user WHERE id = #{id}")
     User getUserInfo(Integer id);
+    @Insert("INSERT INTO follow (from_user_id, to_user_id,create_time) VALUES (#{fromId}, #{toId},NOW())")
+    String followUser(Integer fromId, Integer toId);
 }

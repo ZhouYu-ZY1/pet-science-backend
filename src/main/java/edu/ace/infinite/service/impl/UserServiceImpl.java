@@ -1,5 +1,6 @@
 package edu.ace.infinite.service.impl;
 
+import edu.ace.infinite.pojo.FollowVO;
 import edu.ace.infinite.pojo.User;
 import edu.ace.infinite.mapper.UserMapper;
 import edu.ace.infinite.service.UserService;
@@ -41,4 +42,13 @@ public class UserServiceImpl implements UserService {
     public User getUserInfo(User user) {
         return userMapper.getUserInfo(user.getId());
     }
+
+    @Override
+    public String followUser(FollowVO follow) {
+        Integer FromId = follow.getFromUserId();
+        Integer ToId = follow.getToUserId();
+        return userMapper.followUser(FromId, ToId);
+    }
+
+
 } 
