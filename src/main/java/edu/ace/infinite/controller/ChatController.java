@@ -14,7 +14,7 @@ public class ChatController {
         // 处理并广播消息
         return chatMessage;
     }
-    @MessageMapping("/private-message")
+    @MessageMapping("/chat")
     @SendToUser("/topic/private")
     public ChatMessage sendPrivateMessage(ChatMessage chatMessage) {
         // 发送私聊消息

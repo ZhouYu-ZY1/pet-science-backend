@@ -5,8 +5,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import edu.ace.infinite.pojo.User;
 import edu.ace.infinite.service.UserService;
+import edu.ace.infinite.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -51,5 +56,29 @@ public class UserController {
         }
         return JSON.toJSONString(response);
     }
+    @GetMapping("/getUserInfo")
+    @ResponseBody
+    public ResponseEntity<User> getUserInfo(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
+        Integer userId = JWTUtil.getUserId(token);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        User user = new User();
+        user.setId(userId);
+        try {
+            User userInfo = userService.getUserInfo(user);
+            if (userInfo == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            return ResponseEntity.ok(userInfo);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
