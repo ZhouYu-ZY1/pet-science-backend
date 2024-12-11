@@ -9,7 +9,6 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 import org.apache.ibatis.annotations.*;
 
-// ... existing code ...
 
 @Mapper
 public interface UserMapper {

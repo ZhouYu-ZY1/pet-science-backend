@@ -14,9 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -172,4 +176,24 @@ public class UserController {
 
 
 
+    @PostMapping("/updateAvatar")
+    public Integer updateAvatar(MultipartFile avatar, HttpServletRequest request) throws IOException {
+        String pathInServer = request.getServletContext().getRealPath("/statics/images");
+        if (pathInServer == null) {
+            pathInServer = request.getServletContext().getRealPath("/") + File.separator + "statics" + File.separator + "images" + File.separator;
+            new File(pathInServer).mkdirs();
+        }
+        String fromFileName = avatar.getOriginalFilename();
+        int index = fromFileName.lastIndexOf(46);
+        String sufName = fromFileName.substring(index);
+        String fileName = fromFileName.substring(0, index);
+        String newName = new StringBuffer(fileName).append(new Random().nextInt(10000)).append(sufName).toString();
+        avatar.transferTo(new File(pathInServer, newName));
+        User user = new User();
+        String token = request.getHeader("token");
+        Integer userId = JWTUtil.getUserId(token);
+        user.setId(userId);
+        user.setAvatar("/statics/images/" + newName);
+        return userService.updateUserAvatar(user);
+    }
 }
