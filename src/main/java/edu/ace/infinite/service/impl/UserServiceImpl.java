@@ -117,15 +117,6 @@ public class UserServiceImpl implements UserService {
         }
         return PageResult.restPage((Page<User>) users);
     }
-    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");  //用于时间格式化
-    @Override
-    public PageResult<User> getFollowList(Integer current, Integer size, Integer userId) {
-        PageHelper.startPage(current, size);
-        List<User> users = userMapper.getFollowList(userId);
-        for (User user : users) {
-            user.setIsFollowed(true);
-        }
-        return PageResult.restPage((Page<User>) users);
-    }
+
 
 }
