@@ -11,6 +11,13 @@ import edu.ace.infinite.utils.JWTUtil;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.Random;
 
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
@@ -82,13 +89,12 @@ public class UserServiceImpl implements UserService {
         }
         return i > 0;
     }
-//    @Override
-//    public Boolean unFollowUser(FollowVO follow) {
-//        Integer fromId = follow.getFromUserId();
-//        Integer toId = follow.getToUserId();
-//        Integer i = userMapper.unFollowUser(fromId, toId);
-//        return i > 0;
-//    }
+
+    @Override
+    public Integer updateUserAvatar(User user) {
+        Integer id = user.getId();
+        return userMapper.updateAvatarById(user,id);
+    }
 
     public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");  //用于时间格式化
     @Override

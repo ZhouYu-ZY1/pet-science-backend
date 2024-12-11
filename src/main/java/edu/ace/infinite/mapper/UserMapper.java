@@ -4,6 +4,7 @@ import edu.ace.infinite.pojo.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import org.apache.ibatis.annotations.*;
 
 // ... existing code ...
 
@@ -62,4 +63,6 @@ public interface UserMapper {
             "WHERE f.to_user_id = #{userId} " +
             "ORDER BY f.follow_time DESC")
     List<User> getFansList(@Param("userId") Integer userId);
+    @Update("UPDATE user SET avatar=#{user.avatar} WHERE id=#{id}")
+    Integer updateAvatarById(User user, Integer id);
 }
