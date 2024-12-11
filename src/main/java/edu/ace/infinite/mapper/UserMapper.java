@@ -4,6 +4,10 @@ import edu.ace.infinite.pojo.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
+import org.apache.ibatis.annotations.*;
 
 // ... existing code ...
 
@@ -62,4 +66,26 @@ public interface UserMapper {
             "WHERE f.to_user_id = #{userId} " +
             "ORDER BY f.follow_time DESC")
     List<User> getFansList(@Param("userId") Integer userId);
+
+    //取关
+    @Delete("DELETE FROM follow WHERE from_user_id = #{fromId} AND to_user_id = #{toId}")
+    Integer unFollowUser(Integer fromId, Integer toId);
+
+    //获取关注列表
+    @Select("SELECT u.*,f.follow_time " +
+            "FROM user u " +
+            "JOIN follow f ON u.id = f.to_user_id " +
+            "WHERE f.from_user_id = #{userId} " +
+            "ORDER BY f.follow_time DESC")
+    List<User> getFollowList(@Param("userId") Integer userId);
+
+    //获取粉丝列表
+    @Select("SELECT u.*,f.follow_time " +
+            "FROM user u " +
+            "JOIN follow f ON u.id = f.from_user_id " +
+            "WHERE f.to_user_id = #{userId} " +
+            "ORDER BY f.follow_time DESC")
+    List<User> getFansList(@Param("userId") Integer userId);
+    @Update("UPDATE user SET avatar=#{user.avatar} WHERE id=#{id}")
+    Integer updateAvatarById(User user, Integer id);
 }

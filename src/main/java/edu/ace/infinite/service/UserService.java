@@ -17,4 +17,12 @@ public interface UserService {
     Boolean  followUser(FollowVO follow,boolean isFollow);
 
     PageResult<User> getFollowList(Integer current, Integer size, Integer userId);
+    User getUserInfo(Integer userId);
+
+    Boolean  followUser(FollowVO follow,boolean isFollow);
+
+    PageResult<User> getFollowList(Integer current, Integer size, Integer userId);
+    Boolean  followUser(FollowVO follow);
+
+    Integer updateUserAvatar(User user);
 }
