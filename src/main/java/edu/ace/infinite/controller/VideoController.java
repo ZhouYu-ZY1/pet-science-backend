@@ -29,7 +29,7 @@ public class VideoController {
         response.put("code", 200);
         response.put("message", "成功");
         response.put("data", videos);
-        return JSON.toJSONString(response);
+        return response.toJSONString();
     }
 
     @PostMapping("/like")
@@ -47,7 +47,7 @@ public class VideoController {
             response.put("code", 500);
             response.put("message", "点赞失败");
         }
-        return JSON.toJSONString(response);
+        return response.toJSONString();
     }
     @PostMapping("/dislike")
     public String dislikeVideo(@RequestBody Like like, HttpServletRequest request) {
@@ -64,7 +64,7 @@ public class VideoController {
             response.put("code", 500);
             response.put("message", "取消失败");
         }
-        return JSON.toJSONString(response);
+        return response.toJSONString();
     }
     @RequestMapping("/getLikeList")
     public String getLikeVideoList(HttpServletRequest request) {
@@ -81,7 +81,7 @@ public class VideoController {
             response.put("code", 500);
             response.put("message", "获取喜欢列表失败，发生异常");
         }
-        return JSON.toJSONString(response);
+        return response.toJSONString();
     }
 
 
