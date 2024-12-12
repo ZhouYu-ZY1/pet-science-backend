@@ -96,25 +96,27 @@ public class UserController {
     }
     @GetMapping("/getUserInfo")
     @ResponseBody
-    public ResponseEntity<User> getUserInfo(HttpServletRequest request) {
+    public String  getUserInfo(HttpServletRequest request) {
+        JSONObject response = new JSONObject();
         String token = request.getHeader("token");
         if (token == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            response.put("code", 400);
+            response.put("message", "未登录");
+            return response.toJSONString();
         }
-
         Integer userId = JWTUtil.getUserId(token);
         if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            response.put("code", 400);
+            response.put("message", "无效的用户");
+            return response.toJSONString();
         }
-
         try {
             User userInfo = userService.getUserInfo(userId);
-            if (userInfo == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-            return ResponseEntity.ok(userInfo);
+            response.put("data", userInfo);
+            response.put("code", 200);
+            return response.toJSONString();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return response.toJSONString();
         }
     }
     @PostMapping("/followUser")

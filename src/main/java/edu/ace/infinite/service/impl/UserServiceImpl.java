@@ -78,7 +78,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserInfo(Integer userId) {
-        return userMapper.getUserInfo(userId);
+        User user = userMapper.getUserInfo(userId);
+        if (user != null) {
+            int followCount = userMapper.getFollowList(userId).size();
+            int fansCount = userMapper.getFansList(userId).size();
+            user.setFollowCount(followCount);
+            user.setFansCount(fansCount);
+        }
+        return user;
     }
 
     @Override

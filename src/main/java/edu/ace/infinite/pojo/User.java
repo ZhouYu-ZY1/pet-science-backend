@@ -17,4 +17,7 @@ public class User {
     private Date updateTime;
     private Boolean isFollowed; //是否关注
     private Date followTime; //关注时间
+    private String intro;//简介
+    private Integer followCount;
+    private Integer fansCount;
 }
