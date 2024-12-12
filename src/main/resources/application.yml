@@ -12,6 +12,10 @@ spring:
     # 链接池
     type: com.alibaba.druid.pool.DruidDataSource
 
+
+  mvc:
+    static-path-pattern: /resources/static/**
+
   servlet:
     multipart:
       #上传单个文件的最大值

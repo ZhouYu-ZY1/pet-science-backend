@@ -3,6 +3,7 @@ package edu.ace.infinite.service;
 import edu.ace.infinite.pojo.FollowVO;
 import edu.ace.infinite.pojo.PageResult;
 import edu.ace.infinite.pojo.User;
+import io.swagger.models.auth.In;
 
 public interface UserService {
     String login(User user);
@@ -20,4 +21,5 @@ public interface UserService {
 
 
     Integer updateUserAvatar(User user);
+
 }

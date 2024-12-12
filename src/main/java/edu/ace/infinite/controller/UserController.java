@@ -7,9 +7,8 @@ import edu.ace.infinite.pojo.PageResult;
 import edu.ace.infinite.pojo.FollowVO;
 import edu.ace.infinite.pojo.User;
 import edu.ace.infinite.service.UserService;
-import edu.ace.infinite.utils.HttpUtils;
 import edu.ace.infinite.utils.JWTUtil;
-import edu.ace.infinite.utils.JWTUtil;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,13 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,14 +59,14 @@ public class UserController {
         try {
             boolean b = userService.registerUser(user);
             if(b){
-                response.put("code", "200");
+                response.put("code", 200);
                 response.put("message", "注册成功");
             }else {
-                response.put("code", "500");
+                response.put("code", 500);
                 response.put("message", "注册失败");
             }
         } catch (RuntimeException e) {
-            response.put("code", "500");
+            response.put("code", 500);
             response.put("message", e.getMessage());
             return response.toJSONString();
         }
@@ -83,7 +88,7 @@ public class UserController {
             response.put("data", list);
         } catch (RuntimeException e) {
             e.printStackTrace();
-            response.put("code", "500");
+            response.put("code", 500);
             response.put("message", e.getMessage());
             return response.toJSONString();
         }
@@ -167,7 +172,7 @@ public class UserController {
             response.put("data", list);
         } catch (RuntimeException e) {
             e.printStackTrace();
-            response.put("code", "500");
+            response.put("code", 500);
             response.put("message", e.getMessage());
             return response.toJSONString();
         }
@@ -176,24 +181,78 @@ public class UserController {
 
 
 
+    private static final String UPLOAD_DIR = "uploads";
+
     @PostMapping("/updateAvatar")
-    public Integer updateAvatar(MultipartFile avatar, HttpServletRequest request) throws IOException {
-        String pathInServer = request.getServletContext().getRealPath("/statics/images");
-        if (pathInServer == null) {
-            pathInServer = request.getServletContext().getRealPath("/") + File.separator + "statics" + File.separator + "images" + File.separator;
-            new File(pathInServer).mkdirs();
-        }
-        String fromFileName = avatar.getOriginalFilename();
-        int index = fromFileName.lastIndexOf(46);
-        String sufName = fromFileName.substring(index);
-        String fileName = fromFileName.substring(0, index);
-        String newName = new StringBuffer(fileName).append(new Random().nextInt(10000)).append(sufName).toString();
-        avatar.transferTo(new File(pathInServer, newName));
-        User user = new User();
-        String token = request.getHeader("token");
-        Integer userId = JWTUtil.getUserId(token);
-        user.setId(userId);
-        user.setAvatar("/statics/images/" + newName);
-        return userService.updateUserAvatar(user);
+    public String updateAvatar(@RequestParam("file") MultipartFile file,HttpServletRequest request) {
+        return uploadImageFile(file, "avatar",request);
     }
+
+    @PostMapping("/uploadBackground")
+    public String uploadBackground(@RequestParam("file") MultipartFile file,HttpServletRequest request) {
+        return uploadImageFile(file, "background",request);
+    }
+    public static final String USER_AVATAR_PATH = "src/main/resources/statics/images/userAvatar/";
+    private String uploadImageFile(MultipartFile file, String type,HttpServletRequest request) {
+        JSONObject response = new JSONObject();
+        if (file.isEmpty()) {
+            response.put("code", 400);
+            response.put("message", "空文件");
+            return response.toJSONString();
+        }
+        try {
+            Integer userId = JWTUtil.getUserId(request.getHeader("token"));;
+            String fromFileName = file.getOriginalFilename();
+            int index = fromFileName.lastIndexOf(46); //ASCII码46为.
+            String sufName = fromFileName.substring(index); //截取文件后缀
+            String fileName = fromFileName.substring(0, index); //截取文件名
+            String newName = new StringBuffer(fileName).append(new Random().nextInt(10000)).append(sufName).toString();
+            Path path = Paths.get(USER_AVATAR_PATH+newName);
+            byte[] bytes = file.getBytes();
+
+            Files.write(path,bytes); //使用Files.write解析相对路径
+
+            Integer result = 0;
+            if(type.equals("avatar")){
+                User user = new User();
+                user.setId(userId);
+                user.setAvatar("/statics/images/userAvatar/" + newName);
+                result = userService.updateUserAvatar(user);
+            }
+            if(result>0){
+                response.put("code", 200);
+                response.put("message", "上传成功");
+            }else {
+                response.put("code", 500);
+                response.put("message", "上传失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.put("code", 500);
+            response.put("message", e.getMessage());
+        }
+        return response.toJSONString();
+    }
+
+
+//    @PostMapping("/updateAvatar")
+//    public Integer updateAvatar(MultipartFile avatar, HttpServletRequest request) throws IOException {
+//        String pathInServer = request.getServletContext().getRealPath("/statics/images");
+//        if (pathInServer == null) {
+//            pathInServer = request.getServletContext().getRealPath("/") + File.separator + "statics" + File.separator + "images" + File.separator;
+//            new File(pathInServer).mkdirs();
+//        }
+//        String fromFileName = avatar.getOriginalFilename();
+//        int index = fromFileName.lastIndexOf(46);
+//        String sufName = fromFileName.substring(index);
+//        String fileName = fromFileName.substring(0, index);
+//        String newName = new StringBuffer(fileName).append(new Random().nextInt(10000)).append(sufName).toString();
+//        avatar.transferTo(new File(pathInServer, newName));
+//        User user = new User();
+//        String token = request.getHeader("token");
+//        Integer userId = JWTUtil.getUserId(token);
+//        user.setId(userId);
+//        user.setAvatar("/statics/images/" + newName);
+//        return userService.updateUserAvatar(user);
+//    }
 }
