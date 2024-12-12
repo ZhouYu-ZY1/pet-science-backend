@@ -10,14 +10,14 @@ import edu.ace.infinite.service.UserService;
 import edu.ace.infinite.utils.JWTUtil;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -206,9 +206,8 @@ public class UserController {
             Integer userId = JWTUtil.getUserId(request.getHeader("token"));;
             String fromFileName = file.getOriginalFilename();
             int index = fromFileName.lastIndexOf(46); //ASCII码46为.
-            String sufName = fromFileName.substring(index); //截取文件后缀
             String fileName = fromFileName.substring(0, index); //截取文件名
-            String newName = new StringBuffer(fileName).append(new Random().nextInt(10000)).append(sufName).toString();
+            String newName = new StringBuffer(fileName).append(new Random().nextInt(10000)).append(".jpg").toString();
             Path path = Paths.get(USER_AVATAR_PATH+newName);
             byte[] bytes = file.getBytes();
 
@@ -235,6 +234,8 @@ public class UserController {
         }
         return response.toJSONString();
     }
+
+
 
 
 //    @PostMapping("/updateAvatar")
