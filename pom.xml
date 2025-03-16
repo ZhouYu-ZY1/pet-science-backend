@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>edu.ace.infinite</groupId>
-    <artifactId>property</artifactId>
+    <groupId>com.pet_science</groupId>
+    <artifactId>pet-science-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>property</name>
-    <description>property</description>
+    <name>pet-science-backend</name>
+    <description>pet-science-backend</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -195,7 +195,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>edu.ace.infinite.InfiniteApplication</mainClass>
+                    <mainClass>com.pet_science.PetScienceApplication</mainClass>
                     <skip>true</skip>
                 </configuration>
                 <executions>

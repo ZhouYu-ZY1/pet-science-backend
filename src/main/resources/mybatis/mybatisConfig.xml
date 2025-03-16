@@ -25,12 +25,12 @@
 
     <!--实体类别名-->
     <typeAliases>
-        <package name="edu.ace.infinite.pojo"/>
+        <package name="com.pet_science.pojo"/>
     </typeAliases>
 
     <!--mapper映射文件位置-->
     <mappers>
-        <package name="edu.ace.infinite.mapper"/>
+        <package name="com.pet_science.mapper"/>
     </mappers>
 
 <!--    <plugins>-->
