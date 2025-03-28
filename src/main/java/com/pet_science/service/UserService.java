@@ -1,5 +1,6 @@
 package com.pet_science.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pet_science.pojo.FollowVO;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.pojo.User;
@@ -18,7 +19,7 @@ public interface UserService {
      * @param password 密码
      * @return JWT token
      */
-    String login( String account, String password);
+    JSONObject login(String account, String password);
 
     /**
      * 根据用户名查询用户
@@ -40,4 +41,12 @@ public interface UserService {
      * @return 用户信息
      */
     User findByMobile(String mobile);
+
+    /**
+     * 验证码登录
+     * @param email 邮箱
+     * @param code 验证码
+     * @return JWT token
+     */
+    JSONObject loginByCode(String email, String code);
 }

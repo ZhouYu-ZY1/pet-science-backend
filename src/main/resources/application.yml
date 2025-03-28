@@ -1,5 +1,5 @@
 server:
-  port: 8181
+  port: 8180
  #端口
 
 spring:
@@ -12,6 +12,18 @@ spring:
     # 链接池
     type: com.alibaba.druid.pool.DruidDataSource
 
+  # 邮箱配置
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: 2179853437@qq.com  # 发件人邮箱
+    password: sntrltxdsglxeabj   # 授权码
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
 
   servlet:
     multipart:

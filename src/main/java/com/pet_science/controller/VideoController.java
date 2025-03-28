@@ -8,8 +8,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.pet_science.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController

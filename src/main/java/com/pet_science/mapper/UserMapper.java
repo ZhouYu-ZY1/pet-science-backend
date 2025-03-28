@@ -12,8 +12,8 @@ public interface UserMapper {
      * 插入新用户
      * @param user 用户信息
      */
-    @Insert("INSERT INTO users (username, password, email, mobile, created_at, updated_at) " +
-            "VALUES (#{username}, #{password}, #{email}, #{mobile}, #{createdAt}, #{updatedAt})")
+    @Insert("INSERT INTO users (username, password, email, mobile, avatar_url, bio, created_at, updated_at) " +
+            "VALUES (#{username}, #{password}, #{email}, #{mobile}, #{avatarUrl}, #{bio}, #{createdAt}, #{updatedAt})")
     @Options(useGeneratedKeys = true, keyProperty = "userId")
     Integer insert(User user);
 

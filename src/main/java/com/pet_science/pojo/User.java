@@ -22,7 +22,7 @@ public class User {
 
     @NotBlank(message = "密码不能为空")
     @Pattern(regexp = "^.{6,20}$", message = "密码长度必须在6-20位之间")
-    @ApiModelProperty(value = "密码", required = true, example = "password123")
+    @ApiModelProperty(value = "密码", required = true, example = "123456")
     private String password;
 
     @NotBlank(message = "邮箱不能为空")
@@ -34,7 +34,7 @@ public class User {
     @ApiModelProperty(value = "手机号", example = "13800138000")
     private String mobile;
 
-    @ApiModelProperty(value = "头像URL", example = "https://example.com/avatar.jpg")
+    @ApiModelProperty(value = "头像URL", example = "/statics/images/defaultAvatar.jpg")
     private String avatarUrl;
 
     @ApiModelProperty(value = "个人简介", example = "这是我的个人简介")
