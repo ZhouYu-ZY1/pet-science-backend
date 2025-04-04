@@ -2,24 +2,29 @@ package com.pet_science.service;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
+/**
+ * 邮箱服务
+ */
 @Service
 public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
     @Autowired
-    private Cache<String, String> verificationCodeCache;
+    private Cache<String, String> verificationCodeCache; // 邮箱验证码缓存
 
+    String emailCodeCachePrefix = "email:"; // 邮箱缓存前缀
+
+    /**
+     * 发送验证码
+     */
     public String sendVerificationCode(String to) {
         // 生成6位随机验证码
         String verificationCode = String.format("%06d", new Random().nextInt(999999));
@@ -29,7 +34,7 @@ public class EmailService {
         try {
             helper = new MimeMessageHelper(message, true);
             // 设置发件人昵称和邮箱
-            helper.setFrom("2179853437@qq.com", "萌宠视界");
+            helper.setFrom("3257249392@qq.com", "萌宠视界");
             // 收件人
             helper.setTo(to);
             // 邮件主题
@@ -64,15 +69,15 @@ public class EmailService {
         mailSender.send(message);
 
         // 存储验证码
-        verificationCodeCache.put("email:code:" + to, verificationCode);
+        verificationCodeCache.put(emailCodeCachePrefix + to, verificationCode);
         return verificationCode;
     }
 
     public String getVerificationCode(String email) {
-        return verificationCodeCache.getIfPresent("email:code:" + email);
+        return verificationCodeCache.getIfPresent(emailCodeCachePrefix + email);
     }
 
     public void removeVerificationCode(String email) {
-        verificationCodeCache.invalidate("email:code:" + email);
+        verificationCodeCache.invalidate(emailCodeCachePrefix + email);
     }
 }

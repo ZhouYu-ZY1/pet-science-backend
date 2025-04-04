@@ -45,4 +45,7 @@ public class User {
 
     @ApiModelProperty(value = "更新时间")
     private Date updatedAt;
+
+    @ApiModelProperty(value = "状态", example = "1")
+    private Integer status;
 }

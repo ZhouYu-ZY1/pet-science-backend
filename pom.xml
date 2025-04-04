@@ -46,6 +46,20 @@
             <artifactId>spring-messaging</artifactId>
         </dependency>
 
+        <!-- bao -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.5.3.1</version>
+        </dependency>
+
+
+        <!-- Spring Security 如：密码加密 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <!--邮箱发送-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -56,13 +70,13 @@
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.4.4</version>
+            <version>3.5.11</version>
         </dependency>
         <!-- mybatis 在 springboot 中的启动包 -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>1.1.1</version>
+            <version>3.0.0</version>
         </dependency>
 
         <dependency>
@@ -197,8 +211,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>15</source>
-                    <target>15</target>
+                    <source>18</source>
+                    <target>18</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>

@@ -1,5 +1,5 @@
 server:
-  port: 8180
+  port: 8888
  #端口
 
 spring:
@@ -16,8 +16,8 @@ spring:
   mail:
     host: smtp.qq.com
     port: 465
-    username: 2179853437@qq.com  # 发件人邮箱
-    password: sntrltxdsglxeabj   # 授权码
+    username: 3257249392@qq.com  # 发件人邮箱
+    password: ukebuwtyzmdjdaai   # 授权码
     properties:
       mail:
         smtp:
@@ -40,7 +40,9 @@ spring:
 #      min-idle: 1
 #      # 最大等待时间
 #      max-wait: 60000
-
+upload:
+  path: C:/Users/zhouyu/Desktop/Project/pet-science-backend/src/main/resources/statics/images/userAvatar
+  url: /statics/images/userAvatar
 ## mybatis配置
 mybatis:
   #  配置mapper路径
