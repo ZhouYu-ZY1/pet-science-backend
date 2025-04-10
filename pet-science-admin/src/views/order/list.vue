@@ -18,8 +18,8 @@
         <el-form-item label="手机号">
           <el-input v-model="queryParams.mobile" placeholder="请输入手机号" clearable />
         </el-form-item>
-        <el-form-item label="订单状态">
-          <el-select v-model="queryParams.status" placeholder="请选择状态" clearable>
+        <el-form-item label="订单状态" >
+          <el-select v-model="queryParams.status" placeholder="请选择状态" clearable style="width: 150px">
             <el-option label="待付款" value="pending" />
             <el-option label="已付款" value="paid" />
             <el-option label="已发货" value="shipped" />
@@ -37,7 +37,7 @@
             value-format="YYYY-MM-DD"
           />
         </el-form-item>
-        <el-form-item>
+        <el-form-item width="50">
           <el-button type="primary" @click="handleQuery">查询</el-button>
           <el-button @click="resetQuery">重置</el-button>
         </el-form-item>
@@ -50,10 +50,18 @@
         border
         style="width: 100%"
       >
-        <el-table-column type="index" width="50" />
+        <el-table-column label="ID" prop="orderId" width="50" align="center" />
         <el-table-column prop="orderNo" label="订单编号" width="180" />
-        <el-table-column prop="consignee" label="收货人" width="100" />
-        <el-table-column prop="mobile" label="手机号" width="120" />
+        <el-table-column label="收货人" width="100">
+          <template #default="scope">
+            {{ scope.row.shipping?.receiverName || '-' }}
+          </template>
+        </el-table-column>
+        <el-table-column label="手机号" width="120">
+          <template #default="scope">
+            {{ scope.row.shipping?.receiverMobile || '-' }}
+          </template>
+        </el-table-column>
         <el-table-column prop="totalAmount" label="订单金额" width="100">
           <template #default="scope">
             ¥{{ scope.row.totalAmount }}
@@ -66,9 +74,17 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="paymentTime" label="支付时间" width="180" />
-        <el-table-column prop="createdAt" label="下单时间" width="180" />
-        <el-table-column label="操作" width="200">
+        <el-table-column prop="paymentTime" label="支付时间" width="180">
+          <template #default="scope">
+            {{ $formatDate(scope.row.payment?.paymentTime) || '-' }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="createdAt" label="下单时间" width="180">
+          <template #default="scope">
+            {{ $formatDate(scope.row.createdAt) }}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
           <template #default="scope">
             <el-button
               size="small"
@@ -149,7 +165,7 @@
 import { ref, reactive, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { getOrderList, updateOrderStatus } from '@/api/order'
+import { getOrderList, updateOrderStatus, shipOrder } from '@/api/order'
 
 const router = useRouter()
 
@@ -197,10 +213,24 @@ const getList = async () => {
   loading.value = true
   try {
     const res = await getOrderList(queryParams)
-    orderList.value = res.data.list
-    total.value = res.data.total
+    // 适配新的返回格式
+    if (res.code === 200 && res.data) {
+      // 如果返回的是分页数据
+      if (res.data.list && res.data.total) {
+        orderList.value = res.data.list
+        total.value = res.data.total
+      } else {
+        orderList.value = []
+        total.value = 0
+      }
+    } else {
+      orderList.value = []
+      total.value = 0
+    }
   } catch (error) {
     console.error('获取订单列表失败:', error)
+    orderList.value = []
+    total.value = 0
   } finally {
     loading.value = false
   }
@@ -263,8 +293,10 @@ const confirmShip = async () => {
   
   shipLoading.value = true
   try {
-    await updateOrderStatus(shipForm.orderId, 'shipped', {
-      logisticsCompany: shipForm.logisticsCompany,
+    // 修改为调用shipOrder接口
+    await shipOrder({
+      orderId: shipForm.orderId,
+      shippingCompany: shipForm.logisticsCompany,
       trackingNumber: shipForm.trackingNumber
     })
     ElMessage.success('发货成功')

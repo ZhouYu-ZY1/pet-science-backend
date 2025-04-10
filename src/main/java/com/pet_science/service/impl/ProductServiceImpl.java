@@ -8,6 +8,7 @@ import com.pet_science.exception.BaseException;
 import com.pet_science.mapper.ProductMapper;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.pojo.Product;
+import com.pet_science.service.FileService;
 import com.pet_science.service.ProductService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductMapper productMapper;
-    
+
+    @Autowired
+    private FileService fileService;
 
 
     @Override
@@ -123,7 +126,17 @@ public class ProductServiceImpl implements ProductService {
         if (product == null) {
             throw new BaseException(404, "产品不存在");
         }
-        
+
+        // 删除关联的图片
+        String mainImage = product.getMainImage();
+        if (mainImage != null && !mainImage.isEmpty()) {
+            String[] imageUrls = mainImage.split(";");
+            boolean b = fileService.cleanupImages(imageUrls);
+            if(!b){
+                throw new BaseException(500, "删除产品图片失败");
+            }
+        }
+
         // 删除产品
         int rows = productMapper.deleteById(id);
         return rows > 0;

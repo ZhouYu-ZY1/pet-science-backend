@@ -25,3 +25,12 @@ export function updateOrderStatus(id: number, status: string) {
     data: { orderId: id, status }
   })
 }
+
+// 订单发货
+export function shipOrder(data: any) {
+  return request({
+    url: '/order/ship',
+    method: 'put',
+    data
+  })
+}

@@ -43,14 +43,11 @@ export function deleteProduct(id: number) {
   })
 }
 
-// 上传产品图片
-export function uploadProductImage(data: FormData) {
+//清理图片
+export function cleanupImages(urls: string[]) {
   return request({
-    url: '/upload/image',
+    url: '/cleanup/image',
     method: 'post',
-    data,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
+    data: { urls }
   })
 }

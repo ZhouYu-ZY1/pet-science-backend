@@ -15,8 +15,8 @@ import java.util.Map;
 
 public class JWTUtil {
 
-    private static final String SECURITY = "pet_security";
-    public static String createToken(Integer id){
+    private static final String SECURITY = "pet_security_0qwer";
+    public static String createToken(Integer id,boolean isAdmin){
         Map<String,String> map = new HashMap<>();
         map.put("alg","HS256"); //描述加密类型
         map.put("typ","jwt");   //描述身份验证的工具
@@ -25,9 +25,10 @@ public class JWTUtil {
                 //30天过期
                 .withExpiresAt(Date.from(LocalDateTime.now().plusDays(30).atZone(ZoneId.systemDefault()).toInstant()))
                 .withClaim("id",id) //公共信息中加入id
+                .withClaim("isAdmin",isAdmin)
                 .sign(Algorithm.HMAC256(SECURITY));
     }
-    public static Map<String, Claim> verifyToken(String token)  {
+    private static Map<String, Claim> getTokenMessage(String token)  {
         DecodedJWT jwt = null;
         try {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECURITY)).build();
@@ -40,8 +41,21 @@ public class JWTUtil {
     }
 
 
+    public static boolean verifyAdmin(String token) {
+        Map<String, Claim> claims = getTokenMessage(token);
+        Claim user_id_claim = claims.get("id");
+        Claim isAdmin = claims.get("isAdmin");
+        return user_id_claim != null && user_id_claim.asInt() != null && isAdmin.asBoolean();
+    }
+
+    public static boolean verifyUser(String token){
+        Map<String, Claim> claims = getTokenMessage(token);
+        Claim user_id_claim = claims.get("id");
+        return user_id_claim != null && user_id_claim.asInt() != null;
+    }
+
     public static Integer getUserId(String token) {
-        Map<String, Claim> claims = verifyToken(token);
+        Map<String, Claim> claims = getTokenMessage(token);
         Claim user_id_claim = claims.get("id");
         if (null == user_id_claim || user_id_claim.asInt() == null) {
             throw new RuntimeException("id is not right");

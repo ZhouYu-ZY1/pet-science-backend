@@ -8,18 +8,20 @@ const service = axios.create({
   timeout: 15000 // 请求超时时间
 })
 
-// request拦截器
+// 请求拦截器
 service.interceptors.request.use(
   config => {
+    // 从localStorage获取token并添加到请求头
     const token = localStorage.getItem('token')
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`
+      config.headers['Authorization'] = `Bearer ${token}` // 或者根据后端要求的格式调整
     }
+    
     return config
   },
   error => {
     console.log(error)
-    Promise.reject(error)
+    return Promise.reject(error)
   }
 )
 

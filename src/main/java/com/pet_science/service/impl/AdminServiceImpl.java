@@ -65,7 +65,7 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.updateLastLoginTime(admin.getAdminId(), admin.getLastLoginTime());
         
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("token", JWTUtil.createToken(admin.getAdminId()));
+        jsonObject.put("token", JWTUtil.createToken(admin.getAdminId(),true));
         jsonObject.put("loginType", loginType);
         jsonObject.put("adminId", admin.getAdminId());
         jsonObject.put("username", admin.getUsername());

@@ -39,7 +39,19 @@
       >
         <el-table-column prop="productId" width="50" label="ID" />
         <el-table-column prop="productName" label="产品名称" min-width="150" />
-        <el-table-column prop="category" label="分类" width="100">
+        <!-- 添加产品图片列 -->
+        <el-table-column label="产品图片" width="120" align="center">
+          <template #default="scope">
+            <el-image 
+              v-if="scope.row.mainImage" 
+              :src="getFirstImage(scope.row.mainImage)" 
+              style="width: 80px; height: 80px; object-fit: cover;"
+              :preview-src-list="[getFirstImage(scope.row.mainImage)]"
+            />
+            <el-icon v-else style="width: 80px; height: 80px; "><Picture /></el-icon>
+          </template>
+        </el-table-column>
+        <el-table-column prop="category" label="分类" width="150" align="center">
           <template #default="scope">
             <el-tag>{{ getCategoryName(scope.row.category) }}</el-tag>
           </template>
@@ -50,11 +62,15 @@
           </template>
         </el-table-column>
         <el-table-column prop="stock" label="库存" width="80" />
-        <el-table-column prop="status" label="状态" width="80">
+        <el-table-column prop="status" label="上架状态" width="100">
           <template #default="scope">
-            <el-tag :type="scope.row.status === 1 ? 'success' : 'info'">
-              {{ scope.row.status === 1 ? '上架' : '下架' }}
-            </el-tag>
+            <el-switch
+              v-model="scope.row.status"
+              :active-value="1"
+              :inactive-value="0"
+              @change="handleStatusChange(scope.row)"
+              :loading="scope.row.statusLoading"
+            />
           </template>
         </el-table-column>
         <el-table-column prop="createdAt" label="创建时间" width="180" >
@@ -62,7 +78,7 @@
             {{ $formatDate(scope.row.createdAt) }}
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200">
+        <el-table-column label="操作" width="150">
           <template #default="scope">
             <el-button
               size="small"
@@ -70,13 +86,6 @@
               @click="handleEdit(scope.row)"
             >
               编辑
-            </el-button>
-            <el-button
-              size="small"
-              :type="scope.row.status === 1 ? 'warning' : 'success'"
-              @click="handleStatusChange(scope.row)"
-            >
-              {{ scope.row.status === 1 ? '下架' : '上架' }}
             </el-button>
             <el-button
               size="small"
@@ -109,6 +118,7 @@
 import { ref, reactive, onMounted, onActivated } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { Picture } from '@element-plus/icons-vue'  // 添加图标引入
 import { getProductList, updateProduct, deleteProduct } from '@/api/product'
 import { getAllCategories } from '@/api/category'
 
@@ -176,9 +186,14 @@ const handleEdit = (row: any) => {
 }
 
 // 修改产品状态
-const handleStatusChange = (row: any) => {
-  const statusText = row.status === 1 ? '下架' : '上架'
-  const newStatus = row.status === 1 ? '0' : '1'
+const handleStatusChange = async (row: any) => {
+  // 先恢复原状态，等确认后再修改
+  const originalStatus = row.status === 1 ? 0 : 1
+  
+  // 修正状态文本逻辑：当原状态为1时，应该提示"下架"；当原状态为0时，应该提示"上架"
+  const statusText = originalStatus === 1 ? '下架' : '上架'
+  // 新状态应该是切换后的状态
+  const newStatus = (originalStatus === 1 ? 0 : 1).toString()
   
   ElMessageBox.confirm(
     `确认要${statusText}产品 ${row.productName} 吗?`,
@@ -189,17 +204,26 @@ const handleStatusChange = (row: any) => {
       type: 'warning'
     }
   ).then(async () => {
+    // 设置当前行的状态加载中
+    row.statusLoading = true
     try {
       await updateProduct({
         productId: row.productId,
         status: newStatus
       })
       ElMessage.success(`${statusText}成功`)
-      getList()
+      // 操作成功，状态已经在前面修改了
     } catch (error) {
       console.error(`${statusText}失败:`, error)
+      ElMessage.error(`${statusText}失败`)
+      // 操作失败时恢复原状态
+      row.status = originalStatus
+    } finally {
+      row.statusLoading = false
     }
   }).catch(() => {
+    // 用户取消操作，恢复原状态
+    row.status = originalStatus
     ElMessage.info('已取消操作')
   })
 }
@@ -245,13 +269,20 @@ const getCategoryList = async () => {
 
 onMounted(() => {
   getCategoryList()
-  getList()
+  // getList()
 })
 
 // 添加onActivated钩子，确保从编辑页面返回时重新获取数据
 onActivated(() => {
   getList()
 })
+
+// 获取第一张图片
+const getFirstImage = (imageStr: string) => {
+  if (!imageStr) return ''
+  const images = imageStr.split(';')
+  return images[0]
+}
 </script>
 
 <style scoped>

@@ -56,13 +56,13 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'create',
         name: 'ProductCreate',
-        component: () => import('@/views/product/create.vue'),
+        component: () => import('@/views/product/ProductForm.vue'),
         meta: { title: '发布产品', icon: 'edit' }
       },
       {
         path: 'edit/:id',
         name: 'ProductEdit',
-        component: () => import('@/views/product/edit.vue'),
+        component: () => import('@/views/product/ProductForm.vue'),
         meta: { title: '编辑产品', hidden: true }
       }
     ]

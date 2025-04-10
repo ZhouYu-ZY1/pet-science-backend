@@ -3,7 +3,7 @@
     <!-- 侧边栏 -->
     <div class="sidebar-container" :class="{ 'is-collapse': isCollapse }">
       <div class="logo-container">
-        <img src="../assets/logo.png" alt="萌宠视界" class="logo-img" />
+        <img src="../assets/logo.svg" alt="萌宠视界" class="logo-img" />
         <span v-show="!isCollapse" class="logo-text">萌宠视界管理</span>
       </div>
       <el-menu
@@ -65,11 +65,24 @@
     <div class="main-container">
       <!-- 顶部导航 -->
       <div class="navbar">
+        <!-- 添加面包屑导航 -->
+        <div class="breadcrumb-container">
+          <el-breadcrumb separator="/">
+            <el-breadcrumb-item 
+              v-for="(item, index) in breadcrumbList" 
+              :key="index" 
+              :to="index === breadcrumbList.length - 1 ? '' : item.path"
+            >
+              {{ item.title }}
+            </el-breadcrumb-item>
+          </el-breadcrumb>
+        </div>
+        
         <div class="right-menu">
           <el-dropdown trigger="click">
             <div class="avatar-wrapper">
-              <el-avatar :size="36" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
-              <span class="user-name">管理员</span>
+              <img style="width: 36px;" src="../assets/admin.svg" />
+              <span class="user-name">&ensp;管理员</span>
               <el-icon><CaretBottom /></el-icon>
             </div>
             <template #dropdown>
@@ -97,7 +110,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { 
   Monitor, User, Goods, List, Picture, 
@@ -111,6 +124,40 @@ const router = useRouter()
 const activeMenu = computed(() => {
   return route.path
 })
+
+// 面包屑导航数据
+const breadcrumbList = ref<Array<{title: string, path: string}>>([])
+
+// 根据路由生成面包屑导航
+const generateBreadcrumb = () => {
+  const { path, meta, matched } = route
+  
+  // 清空面包屑
+  breadcrumbList.value = []
+  
+  // 添加首页
+  breadcrumbList.value.push({
+    title: '控制台',
+    path: '/dashboard'
+  })
+  
+  // 根据路由匹配添加面包屑
+  if (matched && matched.length > 0) {
+    matched.forEach(item => {
+      if (item.meta && item.meta.title && item.path !== '/dashboard') {
+        breadcrumbList.value.push({
+          title: item.meta.title as string,
+          path: item.path
+        })
+      }
+    })
+  }
+}
+
+// 监听路由变化，更新面包屑
+watch(() => route.path, () => {
+  generateBreadcrumb()
+}, { immediate: true })
 
 const toggleSidebar = () => {
   isCollapse.value = !isCollapse.value
@@ -195,8 +242,16 @@ const logout = () => {
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between; /* 修改为两端对齐 */
   padding: 0 20px;
+}
+
+/* 添加面包屑容器样式 */
+.breadcrumb-container {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin-left: 20px;
 }
 
 .right-menu {

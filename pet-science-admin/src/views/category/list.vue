@@ -26,10 +26,9 @@
         border
         style="width: 100%"
       >
-        <el-table-column prop="categoryId" label="ID" width="80" />
-        <el-table-column prop="categoryCode" label="分类编码" min-width="120" />
-        <el-table-column prop="categoryName" label="分类名称" min-width="150" />
-        <el-table-column label="操作" width="180">
+        <el-table-column prop="categoryCode" label="分类编码" width="150" align="center" />
+        <el-table-column prop="categoryName" label="分类名称" min-width="500" align="center" />
+        <el-table-column label="操作" align="center" width="300">
           <template #default="scope">
             <el-button
               size="small"

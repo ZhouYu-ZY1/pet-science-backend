@@ -1,4 +1,4 @@
-package com.pet_science.service;
+package com.pet_science.service.impl;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;

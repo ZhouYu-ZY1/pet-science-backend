@@ -44,13 +44,15 @@
             :headers="uploadHeaders"
             :show-file-list="false"
             :on-success="handleUploadSuccess"
-            :before-upload="beforeUpload"
-          >
-            <img v-if="productForm.mainImage" :src="productForm.mainImage" class="product-image" />
-            <el-icon v-else class="product-uploader-icon"><Plus /></el-icon>
+            :before-upload="beforeUpload">
+            <el-icon class="product-uploader-icon"><Plus /></el-icon>
           </el-upload>
-          <div class="el-upload__tip">
-            建议上传尺寸为800x800像素的JPG/PNG图片，且不超过2MB
+         
+          <!-- 已上传图片预览区域 -->
+          <div v-if="productForm.mainImage" class="image-preview-container">
+            <div v-for="(url, index) in getImageList()" :key="index" class="image-preview-item">
+              <img :src="url" class="preview-image" />
+            </div>
           </div>
         </el-form-item>
         
@@ -71,11 +73,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted,onActivated } from 'vue'
+import { ref, reactive, onMounted,onActivated,onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, FormInstance } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { getProductDetail, updateProduct } from '@/api/product'
+import { getProductDetail, updateProduct,cleanupImages} from '@/api/product'
 import { getAllCategories } from '@/api/category'
 
 const route = useRoute()
@@ -177,9 +179,36 @@ const beforeUpload = (file: File) => {
 
 // 上传成功回调
 const handleUploadSuccess = (response: any) => {
-  productForm.mainImage = response.data.url
+  ElMessage.success('上传成功')
+  setTimeout(() => {
+     // 如果已经有图片URL，则添加新的URL并用分号分隔
+      if (productForm.mainImage) {
+        productForm.mainImage += ';' + response.data.url
+      } else {
+        productForm.mainImage = response.data.url
+      }
+      imageList.value.push(response.data.url)
+  }, 1000)
 }
 
+// 获取所有图片URL列表
+const getImageList = () => {
+  if (!productForm.mainImage) return []
+  return productForm.mainImage.split(';')
+}
+
+// 添加页面卸载前的清理函数
+const cleanupTempImages = async () => {
+  console.log('页面卸载前清理临时图片')
+  if (imageList.value.length > 0) {
+    try {
+      // 调用后端清理接口
+      await cleanupImages(imageList.value)
+    } catch (error) {
+      console.error('清理临时图片失败:', error)
+    }
+  }
+}
 // 提交表单
 const submitForm = async () => {
   if (!productFormRef.value) return
@@ -189,6 +218,7 @@ const submitForm = async () => {
       submitLoading.value = true
       try {
         await updateProduct(productForm)
+        imageList.value = [] // 清空临时图片列表
         ElMessage.success('产品更新成功')
         // 使用replace而不是push，确保返回列表页面时会重新加载数据
         router.replace('/product/list')
@@ -203,15 +233,24 @@ const submitForm = async () => {
 }
 
 onMounted(() => {
-  fetchCategories()
-  fetchProductDetail()
+  window.addEventListener('beforeunload', cleanupTempImages)
+  // fetchCategories()
+  // fetchProductDetail()
 })
+
+const imageList = ref<string[]>([]) // 新增临时图片列表
 
 // 添加onActivated钩子，确保重新获取数据
 onActivated(() => {
   productId = route.params.id as string
   fetchCategories()
   fetchProductDetail()
+})
+
+// 添加页面卸载钩子
+onBeforeUnmount(() => {
+  window.removeEventListener('beforeunload', cleanupTempImages)
+  cleanupTempImages()
 })
 </script>
 
@@ -232,8 +271,8 @@ onActivated(() => {
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
 }
 
 .product-uploader:hover {
@@ -243,16 +282,34 @@ onActivated(() => {
 .product-uploader-icon {
   font-size: 28px;
   color: #8c939d;
-  width: 200px;
-  height: 200px;
-  line-height: 200px;
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.product-image {
-  width: 200px;
-  height: 200px;
-  display: block;
+.image-preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 10px;
+  gap: 10px;
+}
+
+.image-preview-item {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 </style>

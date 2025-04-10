@@ -36,6 +36,7 @@ public class Product {
 
     @ApiModelProperty(value = "产品图片URL")
     private String mainImage;
+
     @ApiModelProperty(value = "产品状态：0-下架，1-上架")
     private Integer status;
 

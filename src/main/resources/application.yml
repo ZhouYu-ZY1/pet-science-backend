@@ -41,8 +41,8 @@ spring:
 #      # 最大等待时间
 #      max-wait: 60000
 upload:
-  path: C:/Users/zhouyu/Desktop/Project/pet-science-backend/src/main/resources/statics/images/userAvatar
-  url: /statics/images/userAvatar
+  path: C:/Users/zhouyu/Desktop/Project/pet-science-backend/src/main/resources/statics/images/upload
+  url: /statics/images/upload
 ## mybatis配置
 mybatis:
   #  配置mapper路径

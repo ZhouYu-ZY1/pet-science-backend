@@ -81,20 +81,24 @@
           </template>
           <el-table :data="latestOrders" style="width: 100%" stripe>
             <el-table-column prop="orderNo" label="订单编号" width="180" />
-            <el-table-column prop="consignee" label="收货人" width="120" />
-            <el-table-column prop="totalAmount" label="金额" width="100">
+            <el-table-column prop="consignee" label="收货人" width="70" />
+            <el-table-column prop="totalAmount" label="金额" width="70">
               <template #default="scope">
                 ¥{{ scope.row.totalAmount }}
               </template>
             </el-table-column>
-            <el-table-column prop="status" label="状态">
+            <el-table-column prop="status" label="状态" width="70" align="center">
               <template #default="scope">
                 <el-tag :type="getOrderStatusType(scope.row.status)">
                   {{ getOrderStatusText(scope.row.status) }}
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="createdAt" label="下单时间" />
+            <el-table-column prop="createdAt" label="下单时间" >
+              <template #default="scope">
+                {{ $formatDate(scope.row.createdAt) }}
+              </template>
+            </el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -143,6 +147,8 @@ import {
 } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 import { getUserList } from '@/api/user'  // 导入用户API
+import { getOrderList } from '@/api/order'  // 导入订单API
+import { getProductList } from '@/api/product'  // 导入产品API
 
 // 注册必须的组件
 echarts.use([
@@ -155,46 +161,16 @@ echarts.use([
   CanvasRenderer
 ])
 
-// 模拟数据
+// 统计数据
 const statistics = reactive({
-  userCount: 0,  // 初始化为0，将通过API获取
-  productCount: 86,
-  orderCount: 324,
+  userCount: 0,
+  productCount: 0,
+  orderCount: 0,
   contentCount: 156
 })
 
-const latestOrders = ref([
-  {
-    orderNo: 'ORD20250315001',
-    consignee: '张三',
-    totalAmount: 299.00,
-    status: 'pending',
-    createdAt: '2025-03-15 10:23:45'
-  },
-  {
-    orderNo: 'ORD20250315002',
-    consignee: '李四',
-    totalAmount: 158.50,
-    status: 'paid',
-    createdAt: '2025-03-15 11:45:12'
-  },
-  {
-    orderNo: 'ORD20250314001',
-    consignee: '王五',
-    totalAmount: 499.00,
-    status: 'shipped',
-    createdAt: '2025-03-14 16:32:08'
-  },
-  {
-    orderNo: 'ORD20250314002',
-    consignee: '赵六',
-    totalAmount: 89.90,
-    status: 'completed',
-    createdAt: '2025-03-14 09:15:30'
-  }
-])
-
-const latestUsers = ref([])  // 初始化为空数组，将通过API获取
+const latestOrders = ref([])
+const latestUsers = ref([])
 
 const orderChartRef = ref<HTMLElement>()
 const userChartRef = ref<HTMLElement>()
@@ -238,9 +214,64 @@ const fetchUserData = async () => {
   }
 }
 
+// 获取订单数据
+const fetchOrderData = async () => {
+  try {
+    const res = await getOrderList({
+      pageNum: 1,
+      pageSize: 4  // 只获取4条最新订单数据
+    })
+    
+    if (res.data && res.data.list) {
+      // 处理订单数据，确保有收货人信息
+      latestOrders.value = res.data.list.map((order: any) => ({
+        orderNo: order.orderNo,
+        consignee: order.shipping?.receiverName || '未知',
+        totalAmount: order.totalAmount,
+        status: order.status,
+        createdAt: order.createdAt
+      }))
+      statistics.orderCount = res.data.total || 0
+    }
+  } catch (error) {
+    console.error('获取订单数据失败:', error)
+  }
+}
+
+// 获取产品数据
+const fetchProductData = async () => {
+  try {
+    const res = await getProductList({
+      pageNum: 1,
+      pageSize: 1  // 只需要获取总数
+    })
+    
+    if (res.data && res.data.total) {
+      statistics.productCount = res.data.total
+    }
+  } catch (error) {
+    console.error('获取产品数据失败:', error)
+  }
+}
+
+// 获取最近7天的日期
+const getLast7Days = () => {
+  const dates = []
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date()
+    date.setDate(date.getDate() - i)
+    dates.push(`${date.getMonth() + 1}/${date.getDate()}`)
+  }
+  return dates
+}
+
 onMounted(() => {
-  // 获取用户数据
+  // 获取各种数据
   fetchUserData()
+  fetchOrderData()
+  fetchProductData()
+  
+  const last7Days = getLast7Days()
   
   // 初始化订单图表
   if (orderChartRef.value) {
@@ -254,7 +285,7 @@ onMounted(() => {
       },
       xAxis: {
         type: 'category',
-        data: ['3/9', '3/10', '3/11', '3/12', '3/13', '3/14', '3/15']
+        data: last7Days
       },
       yAxis: [
         {
@@ -304,7 +335,7 @@ onMounted(() => {
       },
       xAxis: {
         type: 'category',
-        data: ['3/9', '3/10', '3/11', '3/12', '3/13', '3/14', '3/15']
+        data: last7Days
       },
       yAxis: {
         type: 'value',

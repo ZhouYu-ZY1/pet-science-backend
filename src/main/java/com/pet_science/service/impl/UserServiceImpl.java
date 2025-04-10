@@ -6,7 +6,6 @@ import com.github.pagehelper.PageInfo;
 import com.pet_science.mapper.UserMapper;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.pojo.User;
-import com.pet_science.service.EmailService;
 import com.pet_science.service.UserService;
 import com.pet_science.utils.JWTUtil;
 
@@ -79,7 +78,7 @@ public class UserServiceImpl implements UserService {
         }
         
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("token", JWTUtil.createToken(user.getUserId()));
+        jsonObject.put("token", JWTUtil.createToken(user.getUserId(),false));
         jsonObject.put("loginType", "email_code");
         return jsonObject;
     }
@@ -137,7 +136,7 @@ public class UserServiceImpl implements UserService {
         }
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("token",JWTUtil.createToken(user.getUserId()));
+        jsonObject.put("token",JWTUtil.createToken(user.getUserId(),false));
         jsonObject.put("loginType",loginType);
         // 生成JWT token
         return jsonObject;
