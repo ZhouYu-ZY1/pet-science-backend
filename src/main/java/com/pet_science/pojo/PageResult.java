@@ -1,5 +1,6 @@
 package com.pet_science.pojo;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import lombok.Data;
@@ -38,6 +39,13 @@ public final class PageResult<T> {
         return new PageResult<>(page.getPageNum(),
                 page.getPageSize(), page.getTotal(), page.getResult());
     }
+
+
+    public static <T> PageResult<T> restPage(@NotNull IPage<T> page) {
+        return new PageResult<>((int) page.getCurrent(),
+                (int) page.getSize(), page.getTotal(), page.getRecords());
+    }
+
     /**
      * 将 MyBatis 分页结果转化为通用结果
      *

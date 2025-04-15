@@ -55,7 +55,8 @@ public class UserServiceImpl implements UserService {
         
         // 验证码正确，从缓存中删除
         emailService.removeVerificationCode(email);
-        
+
+        boolean isRegister = false; // 是否注册新用户
         // 查找用户是否存在
         User user = findByEmail(email);
         if (user == null) {
@@ -75,11 +76,13 @@ public class UserServiceImpl implements UserService {
             if(user == null){ // 注册失败，抛出异常
                 throw new SystemException("注册失败，请重试！");
             }
+            isRegister = true;
         }
         
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("token", JWTUtil.createToken(user.getUserId(),false));
         jsonObject.put("loginType", "email_code");
+        jsonObject.put("isRegister", isRegister);
         return jsonObject;
     }
 
@@ -174,8 +177,7 @@ public class UserServiceImpl implements UserService {
 
         // 保存用户信息
         Integer i = userMapper.insert(user);
-        if(i > 0){
-        }else {
+        if (i <= 0) {
             throw new SystemException("注册失败");
         }
     }

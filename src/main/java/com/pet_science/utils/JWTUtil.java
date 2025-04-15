@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collections;
@@ -63,4 +64,20 @@ public class JWTUtil {
         return user_id_claim.asInt();
     }
 
+    public static int verifyToken(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+        if (token == null) {
+            return 0;
+        }
+        if(verifyAdmin(token)){
+            return 1;
+        }
+        if(verifyUser(token)){
+            return 2;
+        }
+        return 0;
+    }
 }

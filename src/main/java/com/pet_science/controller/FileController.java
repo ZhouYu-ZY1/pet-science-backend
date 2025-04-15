@@ -27,37 +27,22 @@ public class FileController {
     @PostMapping("/upload/image")
     @ApiOperation(value = "上传产品图片", notes = "上传产品相关图片")
     public Result<JSONObject> uploadProductImage(@RequestParam("file") MultipartFile file) {
-        try {
-            JSONObject result = fileService.uploadProductImage(file);
-            return Result.successResultData(result);
-        } catch (BaseException e) {
-            e.printStackTrace();
-            return Result.error(e.getCode(), e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.error(500, "上传图片失败");
-        }
+        JSONObject result = fileService.uploadProductImage(file);
+        return Result.successResultData(result);
     }
 
     @PostMapping("/cleanup/image")
     @ApiOperation(value = "清理临时图片", notes = "清理未使用的临时图片")
     public Result<String> cleanupImages(@RequestBody JSONObject json) {
-        try {
-            JSONArray urlsArray = json.getJSONArray("urls");
-            String[] urls = new String[urlsArray.size()];
-            for (int i = 0; i < urlsArray.size(); i++) {
-                urls[i] = urlsArray.getString(i);
-            }
-            boolean b = fileService.cleanupImages(urls);
-            if (!b) {
-                return Result.error(500, "清理临时图片失败");
-            }
-            return Result.successResultData("清理临时图片成功");
-        } catch (BaseException e) {
-            return Result.error(e.getCode(), e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.error(500, "清理临时图片失败");
+        JSONArray urlsArray = json.getJSONArray("urls");
+        String[] urls = new String[urlsArray.size()];
+        for (int i = 0; i < urlsArray.size(); i++) {
+            urls[i] = urlsArray.getString(i);
         }
+        boolean b = fileService.cleanupImages(urls);
+        if (b) {
+            return Result.successResultData("清理临时图片成功");
+        }
+        throw new BaseException(500, "清理临时图片失败");
     }
 }

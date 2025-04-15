@@ -40,12 +40,21 @@
                         </el-icon>
                     </el-upload>
 
-                    <!-- 已上传图片预览区域 -->
+                    <!-- 已上传图片预览区域 - 改为可拖拽排序 -->
                     <div v-if="productForm.mainImage" class="image-preview-container">
-                        <div v-for="(url, index) in getImageList()" :key="index" class="image-preview-item">
-                            <img :src="url" class="preview-image" />
-                            <span class="delete-icon" @click.stop="removeImage(index)">×</span>
-                        </div>
+                        <draggable 
+                            v-model="imageArray" 
+                            item-key="url"
+                            @end="onDragEnd"
+                            :animation="200"
+                            class="draggable-container">
+                            <template #item="{element, index}">
+                                <div class="image-preview-item">
+                                    <img :src="element" class="preview-image" />
+                                    <span class="delete-icon" @click.stop="removeImage(index)">×</span>
+                                </div>
+                            </template>
+                        </draggable>
                     </div>
                 </el-form-item>
 
@@ -67,12 +76,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, onBeforeUnmount, computed, onActivated } from 'vue'
+import { ref, reactive, onMounted, onBeforeUnmount, computed, onActivated, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, FormInstance } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { createProduct, updateProduct, getProductDetail, cleanupImages } from '@/api/product'
 import { getAllCategories } from '@/api/category'
+import draggable from 'vuedraggable'
 
 const route = useRoute()
 const router = useRouter()
@@ -193,19 +203,39 @@ const handleUploadSuccess = (response: any) => {
     }, 1000)
 }
 
+// 图片数组，用于拖拽排序
+const imageArray = ref<string[]>([])
+
+// 监听mainImage变化，更新imageArray
+watch(() => productForm.mainImage, (newValue) => {
+    if (newValue) {
+        imageArray.value = newValue.split(';')
+    } else {
+        imageArray.value = []
+    }
+}, { immediate: true })
+
+// 监听imageArray变化，更新mainImage
+watch(imageArray, (newValue) => {
+    productForm.mainImage = newValue.join(';')
+}, { deep: true })
+
+// 拖拽结束后的处理
+const onDragEnd = () => {
+    // 更新产品表单中的mainImage字段
+    productForm.mainImage = imageArray.value.join(';')
+    ElMessage.success('图片顺序已更新')
+}
+
 // 获取所有图片URL列表
 const getImageList = () => {
-    if (!productForm.mainImage) return []
-    return productForm.mainImage.split(';')
+    return imageArray.value
 }
 
 // 删除图片
 const removeImage = (index: number) => {
-    const imageUrls = getImageList()
     // 从数组中移除指定索引的图片
-    imageUrls.splice(index, 1)
-    // 更新表单中的图片字段
-    productForm.mainImage = imageUrls.join(';')
+    imageArray.value.splice(index, 1)
     // 如果临时图片列表中有这个图片，也需要移除
     if (imageList.value.length > index) {
         imageList.value.splice(index, 1)
@@ -350,6 +380,13 @@ onBeforeUnmount(() => {
     border-radius: 4px;
     overflow: hidden;
     position: relative;
+    cursor: move;
+    transition: transform 0.2s;
+}
+
+.image-preview-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 
 .preview-image {
@@ -377,5 +414,32 @@ onBeforeUnmount(() => {
 
 .delete-icon:hover {
     background-color: rgba(0, 0, 0, 0.8);
+}
+
+.draggable-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.image-preview-container {
+    display: flex;
+    margin-left: 10px;
+}
+
+.image-preview-item {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    cursor: move;
+    transition: transform 0.2s;
+}
+
+.image-preview-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 </style>

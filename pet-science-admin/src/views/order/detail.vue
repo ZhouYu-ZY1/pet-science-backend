@@ -213,6 +213,13 @@ let orderItems = ref([])
 const countdown = ref(0)
 let countdownTimer: any = null
 
+// 获取第一张图片
+const getFirstImage = (imageStr: string) => {
+  if (!imageStr) return '';
+  const images = imageStr.split(';');
+  return images[0];
+}
+
 // 获取图片列表
 const getImageList = (imageStr: string) => {
   if (!imageStr) return [];

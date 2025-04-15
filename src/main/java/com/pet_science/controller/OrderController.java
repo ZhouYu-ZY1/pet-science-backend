@@ -8,10 +8,7 @@ import com.pet_science.pojo.Order;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.pojo.Result;
 import com.pet_science.service.OrderService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,35 +39,21 @@ public class OrderController {
         @ApiImplicitParam(name = "endTime", value = "结束时间", dataType = "String")
     })
     public Result<PageResult<Order>> getOrderList(@RequestParam(required = false) Map<String, Object> params) {
-        try {
-            // 获取分页参数
-            Integer pageNum = params.get("pageNum") != null ? Integer.parseInt(params.get("pageNum").toString()) : 1;
-            Integer pageSize = params.get("pageSize") != null ? Integer.parseInt(params.get("pageSize").toString()) : 10;
-            
-            // 调用服务层方法获取分页数据
-            PageResult<Order> pageResult = orderService.getOrderListPage(pageNum, pageSize, params);
-            return Result.successResultData(pageResult);
-        } catch (BaseException e) {
-            return Result.error(e.getCode(), e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.error(500, "获取订单列表失败");
-        }
+        // 获取分页参数
+        Integer pageNum = params.get("pageNum") != null ? Integer.parseInt(params.get("pageNum").toString()) : 1;
+        Integer pageSize = params.get("pageSize") != null ? Integer.parseInt(params.get("pageSize").toString()) : 10;
+        
+        // 调用服务层方法获取分页数据
+        PageResult<Order> pageResult = orderService.getOrderListPage(pageNum, pageSize, params);
+        return Result.successResultData(pageResult);
     }
     
     @GetMapping("/{id}")
     @ApiOperation(value = "获取订单详情", notes = "根据订单ID获取订单详细信息")
     @ApiImplicitParam(name = "id", value = "订单ID", required = true, dataType = "Integer", paramType = "path")
     public Result<Order> getOrderDetail(@PathVariable("id") Integer id) {
-        try {
-            Order order = orderService.getOrderDetail(id);
-            return Result.successResultData(order);
-        } catch (BaseException e) {
-            return Result.error(e.getCode(), e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.error(500, "获取订单详情失败");
-        }
+        Order order = orderService.getOrderDetail(id);
+        return Result.successResultData(order);
     }
     
     @PutMapping("/status")
@@ -80,21 +63,13 @@ public class OrderController {
         @ApiImplicitParam(name = "status", value = "状态值", required = true, dataType = "String")
     })
     public Result<String> updateOrderStatus(@RequestBody JSONObject jsonObject) {
-        try {
-            Integer orderId = jsonObject.getInteger("orderId");
-            String status = jsonObject.getString("status");
-            boolean result = orderService.updateOrderStatus(orderId, status);
-            if (result) {
-                return Result.successResultData("更新订单状态成功");
-            } else {
-                return Result.error(400, "更新订单状态失败");
-            }
-        } catch (BaseException e) {
-            return Result.error(e.getCode(), e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.error(500, "更新订单状态失败");
+        Integer orderId = jsonObject.getInteger("orderId");
+        String status = jsonObject.getString("status");
+        boolean result = orderService.updateOrderStatus(orderId, status);
+        if (result) {
+            return Result.successResultData("更新订单状态成功");
         }
+        throw new BaseException(400, "更新订单状态失败");
     }
     
     @PostMapping("/create")
@@ -109,59 +84,39 @@ public class OrderController {
         @ApiImplicitParam(name = "shipping.receiverMobile", value = "收货人电话", dataType = "String"),
     })
     public Result<Order> createOrder(@RequestBody Order order) {
-        try {
-            // 创建订单
-            Order createdOrder = orderService.createOrder(order);
-            // 设置订单过期时间
-            orderService.scheduleOrderExpiration(order.getOrderId(), ORDER_EXPIRATION_MINUTES);
-            return Result.successResultData(createdOrder);
-        } catch (BaseException e) {
-            return Result.error(e.getCode(), e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.error(500, "创建订单失败");
-        }
+        // 创建订单
+        Order createdOrder = orderService.createOrder(order);
+        // 设置订单过期时间
+        orderService.scheduleOrderExpiration(order.getOrderId(), ORDER_EXPIRATION_MINUTES);
+        return Result.successResultData(createdOrder);
     }
     
     @GetMapping("/expiration/{id}")
     @ApiOperation(value = "获取订单过期时间", notes = "获取订单剩余支付时间（秒）")
     @ApiImplicitParam(name = "id", value = "订单ID", required = true, dataType = "Integer", paramType = "path")
     public Result<Long> getOrderExpiration(@PathVariable("id") Integer id) {
-        try {
-            Long remainingSeconds = orderService.getOrderRemainingTime(id);
-            return Result.successResultData(remainingSeconds);
-        } catch (BaseException e) {
-            return Result.error(e.getCode(), e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.error(500, "获取订单过期时间失败");
-        }
+        Long remainingSeconds = orderService.getOrderRemainingTime(id);
+        return Result.successResultData(remainingSeconds);
     }
-    
+
+    /**
+         {
+         "paymentMethod":"wx",
+         "orderId":2
+         }
+     */
     @PutMapping("/pay")
     @ApiOperation(value = "支付订单", notes = "更新订单为已支付状态")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "orderId", value = "订单ID", required = true, dataType = "Integer"),
-        @ApiImplicitParam(name = "paymentMethod", value = "支付方式", required = true, dataType = "String")
-    })
     public Result<String> payOrder(@RequestBody JSONObject jsonObject) {
-        try {
-            Integer orderId = jsonObject.getInteger("orderId");
-            String paymentMethod = jsonObject.getString("paymentMethod");
-            boolean result = orderService.payOrder(orderId, paymentMethod);
-            if (result) {
-                // 订单支付成功，移除订单过期时间
-                orderService.removeOrderExpiration(orderId);
-                return Result.successResultData("订单支付成功");
-            } else {
-                return Result.error(400, "订单支付失败");
-            }
-        } catch (BaseException e) {
-            return Result.error(e.getCode(), e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.error(500, "订单支付失败");
+        Integer orderId = jsonObject.getInteger("orderId");
+        String paymentMethod = jsonObject.getString("paymentMethod");
+        boolean result = orderService.payOrder(orderId, paymentMethod);
+        if (result) {
+            // 订单支付成功，移除订单过期时间
+            orderService.removeOrderExpiration(orderId);
+            return Result.successResultData("订单支付成功");
         }
+        throw new BaseException(400, "订单支付失败");
     }
     
     @PutMapping("/ship")
@@ -172,41 +127,25 @@ public class OrderController {
         @ApiImplicitParam(name = "trackingNumber", value = "物流单号", required = true, dataType = "String")
     })
     public Result<String> shipOrder(@RequestBody JSONObject jsonObject) {
-        try {
-            Integer orderId = jsonObject.getInteger("orderId");
-            String trackingNumber = jsonObject.getString("trackingNumber");
-            String shippingCompany = jsonObject.getString("shippingCompany");
-            boolean result = orderService.shipOrder(orderId, trackingNumber,shippingCompany);
-            if (result) {
-                return Result.successResultData("订单发货成功");
-            } else {
-                return Result.error(400, "订单发货失败");
-            }
-        } catch (BaseException e) {
-            return Result.error(e.getCode(), e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.error(500, "订单发货失败");
+        Integer orderId = jsonObject.getInteger("orderId");
+        String trackingNumber = jsonObject.getString("trackingNumber");
+        String shippingCompany = jsonObject.getString("shippingCompany");
+        boolean result = orderService.shipOrder(orderId, trackingNumber, shippingCompany);
+        if (result) {
+            return Result.successResultData("订单发货成功");
         }
+        throw new BaseException(400, "订单发货失败");
     }
     
     @PutMapping("/complete")
     @ApiOperation(value = "完成订单", notes = "更新订单为已完成状态")
     @ApiImplicitParam(name = "orderId", value = "订单ID", required = true, dataType = "Integer")
     public Result<String> completeOrder(@RequestBody JSONObject jsonObject) {
-        try {
-            Integer orderId = jsonObject.getInteger("orderId");
-            boolean result = orderService.completeOrder(orderId);
-            if (result) {
-                return Result.successResultData("订单完成成功");
-            } else {
-                return Result.error(400, "订单完成失败");
-            }
-        } catch (BaseException e) {
-            return Result.error(e.getCode(), e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.error(500, "订单完成失败");
+        Integer orderId = jsonObject.getInteger("orderId");
+        boolean result = orderService.completeOrder(orderId);
+        if (result) {
+            return Result.successResultData("订单已完成");
         }
+        throw new BaseException(400, "订单完成失败");
     }
 }

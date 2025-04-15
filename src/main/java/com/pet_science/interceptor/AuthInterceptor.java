@@ -19,10 +19,10 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler)  {
         // 如果不是映射到方法，直接通过
-        if (!(handler instanceof HandlerMethod handlerMethod)) {
+        if (!(handler instanceof  HandlerMethod)) {
             return true;
         }
-
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
 
         // 获取token

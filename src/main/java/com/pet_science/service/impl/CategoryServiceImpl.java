@@ -37,12 +37,8 @@ public class CategoryServiceImpl implements CategoryService {
         Page<Category> page = new Page<>(pageNum, pageSize);
         Page<Category> categoryPage = categoryMapper.selectPage(page, queryWrapper);
 
-        // 设置分页参数
-        PageHelper.startPage(pageNum, pageSize);
-        // 获取分页信息
-        PageInfo<Category> pageInfo = new PageInfo<>(categoryPage.getRecords());
         // 返回分页结果
-        return PageResult.restPage(pageInfo);
+        return PageResult.restPage(categoryPage);
     }
 
     @Override

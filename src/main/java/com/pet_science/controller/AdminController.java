@@ -28,11 +28,7 @@ public class AdminController {
     public Result<JSONObject> login(
             @RequestParam String account,
             @RequestParam String password) {
-        try {
-            JSONObject data = adminService.login(account, password);
-            return Result.successResultData(data);
-        } catch (BaseException e) {
-            return Result.error(e.getCode(), e.getMessage());
-        }
+        JSONObject data = adminService.login(account, password);
+        return Result.successResultData(data);
     }
 }

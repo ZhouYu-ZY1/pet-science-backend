@@ -1,6 +1,7 @@
 package com.pet_science.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -58,13 +59,8 @@ public class ProductServiceImpl implements ProductService {
         // 执行分页查询
         Page<Product> page = new Page<>(pageNum, pageSize);
         Page<Product> productPage = productMapper.selectPage(page, queryWrapper);
-
-        // 设置分页参数
-        PageHelper.startPage(pageNum, pageSize);
-        // 获取分页信息
-        PageInfo<Product> pageInfo = new PageInfo<>(productPage.getRecords());
         // 返回分页结果
-        return PageResult.restPage(pageInfo);
+        return PageResult.restPage(productPage);
     }
 
     @Override
