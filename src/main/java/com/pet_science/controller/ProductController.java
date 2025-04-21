@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pet_science.annotation.RequireAdmin;
 import com.pet_science.annotation.RequireUser;
 import com.pet_science.exception.BaseException;
+import com.pet_science.exception.BusinessException;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.pojo.Product;
 import com.pet_science.pojo.Result;
@@ -88,6 +89,6 @@ public class ProductController {
         if (result) {
             return Result.successResultData("删除产品成功");
         }
-        throw new BaseException(400, "删除产品失败");
+        throw new BusinessException("删除产品失败");
     }
 }

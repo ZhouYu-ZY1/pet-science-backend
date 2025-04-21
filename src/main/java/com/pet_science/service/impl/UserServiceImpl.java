@@ -1,21 +1,23 @@
 package com.pet_science.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Constant;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pet_science.mapper.UserMapper;
+import com.pet_science.pojo.FollowVO;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.pojo.User;
 import com.pet_science.service.UserService;
 import com.pet_science.utils.JWTUtil;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+
+import java.util.*;
 import java.util.regex.Pattern;
 import com.pet_science.exception.BusinessException;
 import com.pet_science.exception.SystemException;
@@ -64,8 +66,11 @@ public class UserServiceImpl implements UserService {
             user = new User();
             user.setEmail(email);
             // 生成随机用户名
-            String username = "user_" + System.currentTimeMillis();
+            String username = "meng_" + System.currentTimeMillis();
             user.setUsername(username);
+            // 设置默认昵称
+            String nickname = "用户" + RandomStringUtils.randomAlphanumeric(11); // 随机生成11位字符
+            user.setNickname(nickname);
             // 设置默认头像URL
             user.setAvatarUrl("/statics/images/defaultAvatar.jpg");
             // 随机生成初始密码
@@ -182,6 +187,18 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+    @Override
+    public User findUserById(Integer userId) {
+        try {
+            User user = userMapper.findUserById(userId);
+            user.setPassword(null);
+            return user;
+        }catch (Exception e){
+            return null;
+        }
+    }
+
     @Override
     public User findByUsername(String username) {
         try {
@@ -211,18 +228,38 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 获取用户列表（分页）
-     * @param pageNum 页码
+     *
+     * @param pageNum  页码
      * @param pageSize 每页记录数
-     * @param params 查询参数
+     * @param params   查询参数
+     * @param token
      * @return 分页结果
      */
     @Override
-    public PageResult<User> getUserListPage(Integer pageNum, Integer pageSize, Map<String, Object> params) {
+    public PageResult<User> getUserListPage(Integer pageNum, Integer pageSize, Map<String, Object> params, String token) {
         try {
             // 设置分页参数
             PageHelper.startPage(pageNum, pageSize);
             // 查询数据
             List<User> userList = userMapper.getUserList(params);
+
+            if(!JWTUtil.verifyAdmin(token)){
+                // 不是管理员
+                Integer userId = JWTUtil.getUserId(token);
+                Iterator<User> iterator = userList.iterator();
+                while (iterator.hasNext()) {
+                    User user = iterator.next();
+                    //移除自己
+                    if (user.getUserId().equals(userId)) {
+                        iterator.remove();
+                    } else {
+                        // 遍历用户列表，为每个用户添加是否被当前用户关注的信息
+                        boolean isFollowed = userMapper.isFollowing(userId, user.getUserId());
+                        user.setIsFollowed(isFollowed);
+                    }
+                }
+            }
+
             // 获取分页信息
             PageInfo<User> pageInfo = new PageInfo<>(userList);
             // 返回分页结果
@@ -272,5 +309,54 @@ public class UserServiceImpl implements UserService {
         // 更新状态
         int result = userMapper.updateStatus(userId, status);
         return result > 0;
+    }
+
+    @Override
+    public boolean updateUser(User user) {
+        // 这里可以添加业务逻辑验证
+        if (user.getUserId() == null) {
+            throw new BusinessException("用户ID不能为空");
+        }
+
+        // 调用Mapper更新
+        int affectedRows = userMapper.update(user);
+        return affectedRows > 0;
+    }
+
+    @Override
+    public Boolean followUser(FollowVO follow,boolean isFollow) {
+        Integer fromId = follow.getFromUserId();
+        Integer toId = follow.getToUserId();
+        Integer i;
+        // 关注或取消关注
+        if(isFollow){
+            i = userMapper.followUser(fromId, toId);
+        }else {
+            i = userMapper.unFollowUser(fromId, toId);
+        }
+        return i > 0;
+    }
+
+    @Override
+    public PageResult<User> getFollowList(Integer current, Integer size, Integer userId) {
+        PageHelper.startPage(current, size);
+        List<User> users = userMapper.getFollowList(userId);
+        // 遍历关注列表，设置已关注
+        for (User user : users) {
+            user.setIsFollowed(true);
+        }
+        return PageResult.restPage((Page<User>) users);
+    }
+
+    @Override
+    public PageResult<User> getFansList(Integer current, Integer size, Integer userId) {
+        PageHelper.startPage(current, size);
+        List<User> users = userMapper.getFansList(userId);
+        // 遍历粉丝列表，设置是否已关注
+        for (User user : users) {
+            boolean isFollowed = userMapper.isFollowing(userId, user.getUserId());
+            user.setIsFollowed(isFollowed);
+        }
+        return PageResult.restPage((Page<User>) users);
     }
 }

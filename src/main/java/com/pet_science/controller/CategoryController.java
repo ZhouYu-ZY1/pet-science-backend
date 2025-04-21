@@ -3,6 +3,7 @@ package com.pet_science.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.pet_science.annotation.RequireUser;
 import com.pet_science.exception.BaseException;
+import com.pet_science.exception.BusinessException;
 import com.pet_science.pojo.Category;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.pojo.Result;
@@ -74,7 +75,7 @@ public class CategoryController {
         if (result) {
             return Result.successResultData("删除分类成功");
         }
-        throw new BaseException(400, "删除分类失败");
+        throw new BusinessException("删除分类失败");
     }
     
     @GetMapping("/all")

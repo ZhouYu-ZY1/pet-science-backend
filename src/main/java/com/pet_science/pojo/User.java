@@ -37,6 +37,18 @@ public class User {
     @ApiModelProperty(value = "头像URL", example = "/statics/images/defaultAvatar.jpg")
     private String avatarUrl;
 
+    @ApiModelProperty(value = "昵称", example = "昵称")
+    private String nickname;
+
+    @ApiModelProperty(value = "性别", example = "0", notes = "0: 保密, 1: 男, 2: 女")
+    private Integer gender;
+
+    @ApiModelProperty(value = "生日", example = "1990-01-01")
+    private Date birthday;
+
+    @ApiModelProperty(value = "地区", example = "北京市")
+    private String location;
+
     @ApiModelProperty(value = "个人简介", example = "这是我的个人简介")
     private String bio;
 
@@ -46,6 +58,11 @@ public class User {
     @ApiModelProperty(value = "更新时间")
     private Date updatedAt;
 
-    @ApiModelProperty(value = "状态", example = "1")
+    @ApiModelProperty(value = "状态", example = "1", notes = "0: 禁用, 1: 正常")
     private Integer status;
+
+    private Boolean isFollowed = false; // 是否已关注
+    private Date followTime; // 关注时间
+    private Integer followCount = 0; // 关注数
+    private Integer fansCount = 0; // 粉丝数
 }

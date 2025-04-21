@@ -30,6 +30,9 @@ public class JWTUtil {
                 .sign(Algorithm.HMAC256(SECURITY));
     }
     private static Map<String, Claim> getTokenMessage(String token)  {
+        if(token.startsWith("Bearer ")){
+            token = token.substring(7);
+        }
         DecodedJWT jwt = null;
         try {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECURITY)).build();

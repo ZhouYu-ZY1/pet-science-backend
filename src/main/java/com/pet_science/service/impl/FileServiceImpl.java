@@ -2,6 +2,7 @@ package com.pet_science.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pet_science.exception.BaseException;
+import com.pet_science.exception.BusinessException;
 import com.pet_science.service.FileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,16 +16,16 @@ import java.util.UUID;
 @Service
 public class FileServiceImpl implements FileService {
 
-    @Value("${upload.path}")
+    @Value("${upload.image_upload_path}")
     private String uploadPath;
 
-    @Value("${upload.url}")
-    private String uploadUrl;
+//    @Value("${upload.image_upload_url}")
+//    private String uploadUrl;
 
     @Override
     public JSONObject uploadProductImage(MultipartFile file) {
         if (file.isEmpty()) {
-            throw new BaseException(400, "上传文件不能为空");
+            throw new BusinessException("上传文件不能为空");
         }
 
         // 获取文件名
@@ -54,7 +55,7 @@ public class FileServiceImpl implements FileService {
                 throw new BaseException(500, "文件上传失败");
             }
             // 返回访问URL
-            String imageUrl = uploadUrl + "/" + fileName;
+            String imageUrl = uploadPath + "/" + fileName;
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("url", imageUrl);
             return jsonObject;
@@ -68,7 +69,7 @@ public class FileServiceImpl implements FileService {
     public boolean cleanupImages(String[] urls) {
         try {
             for (String url : urls) {
-                url = url.replace(uploadUrl + "/", uploadPath + File.separator);
+                url = url.replace(uploadPath + "/", uploadPath + File.separator);
                 File file = new File(url);
                 if (file.exists()) {
                     file.delete();

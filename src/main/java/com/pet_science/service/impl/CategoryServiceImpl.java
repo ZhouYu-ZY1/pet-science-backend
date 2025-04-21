@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pet_science.exception.BaseException;
+import com.pet_science.exception.BusinessException;
 import com.pet_science.mapper.CategoryMapper;
 import com.pet_science.pojo.Category;
 import com.pet_science.pojo.PageResult;
@@ -57,7 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
         LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Category::getCategoryName, category.getCategoryName());
         if (categoryMapper.selectCount(queryWrapper) > 0) {
-            throw new BaseException(400, "分类名称已存在");
+            throw new BusinessException("分类名称已存在");
         }
         
         // 插入数据
@@ -83,7 +84,7 @@ public class CategoryServiceImpl implements CategoryService {
         queryWrapper.eq(Category::getCategoryName, category.getCategoryName())
                 .ne(Category::getCategoryId, category.getCategoryId());
         if (categoryMapper.selectCount(queryWrapper) > 0) {
-            throw new BaseException(400, "分类名称已存在");
+            throw new BusinessException("分类名称已存在");
         }
         
         // 更新数据

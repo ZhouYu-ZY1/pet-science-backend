@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pet_science.annotation.RequireAdmin;
 import com.pet_science.annotation.RequireUser;
 import com.pet_science.exception.BaseException;
+import com.pet_science.exception.BusinessException;
 import com.pet_science.pojo.Order;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.pojo.Result;
@@ -69,7 +70,7 @@ public class OrderController {
         if (result) {
             return Result.successResultData("更新订单状态成功");
         }
-        throw new BaseException(400, "更新订单状态失败");
+        throw new BusinessException("更新订单状态失败");
     }
     
     @PostMapping("/create")
@@ -116,7 +117,7 @@ public class OrderController {
             orderService.removeOrderExpiration(orderId);
             return Result.successResultData("订单支付成功");
         }
-        throw new BaseException(400, "订单支付失败");
+        throw new BusinessException("订单支付失败");
     }
     
     @PutMapping("/ship")
@@ -134,7 +135,7 @@ public class OrderController {
         if (result) {
             return Result.successResultData("订单发货成功");
         }
-        throw new BaseException(400, "订单发货失败");
+        throw new BusinessException("订单发货失败");
     }
     
     @PutMapping("/complete")
@@ -146,6 +147,6 @@ public class OrderController {
         if (result) {
             return Result.successResultData("订单已完成");
         }
-        throw new BaseException(400, "订单完成失败");
+        throw new BusinessException("订单完成失败");
     }
 }

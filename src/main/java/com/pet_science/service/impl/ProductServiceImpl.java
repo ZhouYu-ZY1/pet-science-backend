@@ -41,8 +41,8 @@ public class ProductServiceImpl implements ProductService {
         LambdaQueryWrapper<Product> queryWrapper = new LambdaQueryWrapper<>();
         
         // 添加查询条件
-        if (params.get("name") != null && StringUtils.isNotBlank(params.get("name").toString())) {
-            queryWrapper.like(Product::getProductName, params.get("name").toString());
+        if (params.get("productName") != null && StringUtils.isNotBlank(params.get("productName").toString())) {
+            queryWrapper.like(Product::getProductName, params.get("productName").toString());
         }
         
         if (params.get("category") != null && StringUtils.isNotBlank(params.get("category").toString())) {

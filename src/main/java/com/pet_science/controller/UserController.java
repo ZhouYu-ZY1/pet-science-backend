@@ -3,11 +3,15 @@ package com.pet_science.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pet_science.annotation.RequireAdmin;
+import com.pet_science.annotation.RequireUser;
 import com.pet_science.exception.BaseException;
+import com.pet_science.exception.BusinessException;
+import com.pet_science.pojo.FollowVO;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.pojo.Result;
 import com.pet_science.pojo.User;
 import com.pet_science.service.UserService;
+import com.pet_science.utils.JWTUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -15,6 +19,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -46,7 +51,7 @@ public class UserController {
         if(isSend){
             return Result.successResultData("验证码发送成功");
         }
-        throw new BaseException(400, "验证码发送失败");
+        throw new BusinessException("验证码发送失败");
     }
 
     @PostMapping("/loginByCode")
@@ -59,7 +64,7 @@ public class UserController {
     }
     
     @GetMapping("/list")
-    @RequireAdmin
+    @RequireUser
     @ApiOperation(value = "获取用户列表", notes = "支持按用户名、邮箱、手机号和状态筛选，支持分页查询")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer"),
@@ -69,13 +74,13 @@ public class UserController {
         @ApiImplicitParam(name = "mobile", value = "手机号", dataType = "String"),
         @ApiImplicitParam(name = "status", value = "状态", dataType = "Integer")
     })
-    public Result<PageResult<User>> getUserList(@RequestParam(required = false) Map<String, Object> params) {
+    public Result<PageResult<User>> getUserList(@RequestParam(required = false) Map<String, Object> params,@RequestHeader("Authorization") String token) {
         // 获取分页参数
         Integer pageNum = params.get("pageNum") != null ? Integer.parseInt(params.get("pageNum").toString()) : 1;
         Integer pageSize = params.get("pageSize") != null ? Integer.parseInt(params.get("pageSize").toString()) : 10;
         
         // 调用服务层方法获取分页数据
-        PageResult<User> pageResult = userService.getUserListPage(pageNum, pageSize, params);
+        PageResult<User> pageResult = userService.getUserListPage(pageNum, pageSize, params,token);
         return Result.successResultData(pageResult);
     }
     
@@ -101,6 +106,56 @@ public class UserController {
         if (result) {
             return Result.successResultData("更新用户状态成功");
         }
-        throw new BaseException(400, "更新用户状态失败");
+        throw new BusinessException("更新用户状态失败");
+    }
+    
+    @PutMapping("/update")
+    @RequireUser
+    @ApiOperation(value = "更新用户信息", notes = "更新用户的基本信息")
+    public Result<String> updateUser(@RequestBody User user, @RequestHeader("Authorization") String token) {
+        // 从token中获取用户ID
+        Integer userId = JWTUtil.getUserId(token);
+        user.setUserId(userId);
+        boolean result = userService.updateUser(user);
+        if (result) {
+            return Result.successResultData("用户信息更新成功");
+        }
+        throw new BusinessException("用户信息更新失败");
+    }
+
+    @PostMapping("/followUser")
+    @RequireUser
+    @ApiOperation(value = "关注/取消关注用户", notes = "关注或取消关注指定用户")
+    public Result<String> followUser(@RequestHeader("Authorization") String token, @RequestParam Integer toUserId,@RequestParam boolean isFollow) {
+        Integer fromUserId = JWTUtil.getUserId(token);
+        String type = isFollow ? "关注":"取消关注";
+        FollowVO follow = new FollowVO();
+        follow.setFromUserId(fromUserId);
+        follow.setToUserId(toUserId);
+        boolean result = userService.followUser(follow,isFollow);
+        if (result) {
+            return Result.successResultData(type+"成功");
+        }
+        throw new BusinessException(type+"失败");
+    }
+
+    @GetMapping("/getFollowList")
+    @RequireUser
+    @ApiOperation(value = "获取关注列表", notes = "获取当前用户的关注列表")
+    public Result<List<User>> getFollowList(@RequestHeader("Authorization") String token) {
+        Integer userId = JWTUtil.getUserId(token);
+        PageResult<User> users = userService.getFollowList(1,20,userId);
+        List<User> list = users.getList();
+        return Result.successResultData(list);
+    }
+
+    @GetMapping("/getFansList")
+    @RequireUser
+    @ApiOperation(value = "获取粉丝列表", notes = "获取当前用户的粉丝列表")
+    public Result<List<User>> getFansList(@RequestHeader("Authorization") String token) {
+        Integer userId = JWTUtil.getUserId(token);
+        PageResult<User> users = userService.getFansList(1,20,userId);
+        List<User> list = users.getList();
+        return Result.successResultData(list);
     }
 }

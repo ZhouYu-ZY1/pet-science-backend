@@ -68,6 +68,7 @@ public class EmailService {
         }
         mailSender.send(message);
 
+        System.err.println("验证码已发送：" + verificationCode);
         // 存储验证码
         verificationCodeCache.put(emailCodeCachePrefix + to, verificationCode);
         return verificationCode;

@@ -5,7 +5,7 @@ server:
 spring:
   # 数据库链接配置
   datasource:
-    url:  jdbc:mysql://localhost:3306/pet_science?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    url:  jdbc:mysql://localhost:3307/pet_science?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 123456
@@ -25,6 +25,10 @@ spring:
           ssl:
             enable: true
 
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true # 将日期格式化为时间戳
+
   servlet:
     multipart:
       #上传单个文件的最大值
@@ -41,8 +45,10 @@ spring:
 #      # 最大等待时间
 #      max-wait: 60000
 upload:
-  path: C:/Users/zhouyu/Desktop/Project/pet-science-backend/src/main/resources/statics/images/upload
-  url: /statics/images/upload
+  # 图片上传路径
+  image_upload_path: C:/Users/zhouyu/Desktop/Project/pet-science-backend/src/main/resources/statics/images/upload
+#  image_upload_url: /statics/images/upload
+
 ## mybatis配置
 mybatis:
   #  配置mapper路径

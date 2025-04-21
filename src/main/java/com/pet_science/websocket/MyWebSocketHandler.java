@@ -64,8 +64,6 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(@NotNull WebSocketSession session, TextMessage message) throws Exception {
         // 收到消息时调用
         String payload = message.getPayload();
-        System.err.println(payload);
-
 
         JSONObject jsonObject = JSON.parseObject(payload);
         String receiverId = jsonObject.getString("receiverId"); //接收者ID
@@ -76,19 +74,26 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         jsonObject.put("senderId",senderId);  //获取发送者ID
         jsonObject.put("timestamp",System.currentTimeMillis()); //设置发送时间
 
-        //a
-//        User userInfo = userService.getUserInfo(userId);
-//        jsonObject.put("userInfo",userInfo);
+        User userInfo = userService.findUserById(userId);
+        jsonObject.put("userInfo",userInfo);
 
         try {
             WebSocketSession webSocketSession = sessions.get(receiverId); //获取接收者session
             if(webSocketSession != null){
                 webSocketSession.sendMessage(new TextMessage(jsonObject.toJSONString()));
+                System.out.println("发送消息成功："+jsonObject.toJSONString());
+            }else {
+                System.out.println("对方不在线");
             }
         }catch (Exception e){
+            System.out.println("对方不在线");
             e.printStackTrace();
         }
     }
+
+    /**
+     * 对方不在线，先储存到中，待用户上线后再发送
+     */
 
 
 
