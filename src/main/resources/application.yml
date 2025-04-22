@@ -44,10 +44,12 @@ spring:
 #      min-idle: 1
 #      # 最大等待时间
 #      max-wait: 60000
-upload:
-  # 图片上传路径
-  image_upload_path: C:/Users/zhouyu/Desktop/Project/pet-science-backend/src/main/resources/statics/images/upload
-#  image_upload_url: /statics/images/upload
+
+# 存储服务配置（文件上传）
+minio:
+  endpoint: http://localhost:9000  # MinIO 服务地址
+  accessKey: minioadmin            # 用户名
+  secretKey: minioadmin            # 密码
 
 ## mybatis配置
 mybatis:

@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pet_science.exception.BaseException;
 import com.pet_science.exception.BusinessException;
+import com.pet_science.exception.SystemException;
 import com.pet_science.mapper.CategoryMapper;
 import com.pet_science.pojo.Category;
 import com.pet_science.pojo.PageResult;
@@ -64,7 +65,7 @@ public class CategoryServiceImpl implements CategoryService {
         // 插入数据
         int rows = categoryMapper.insert(category);
         if (rows <= 0) {
-            throw new BaseException(500, "创建分类失败");
+            throw new SystemException("创建分类失败");
         }
         
         return category;
@@ -90,7 +91,7 @@ public class CategoryServiceImpl implements CategoryService {
         // 更新数据
         int rows = categoryMapper.updateById(category);
         if (rows <= 0) {
-            throw new BaseException(500, "更新分类失败");
+            throw new SystemException("更新分类失败");
         }
         
         return categoryMapper.selectById(category.getCategoryId());

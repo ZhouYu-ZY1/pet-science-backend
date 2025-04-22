@@ -32,6 +32,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/list")
+    @RequireUser
     @ApiOperation(value = "获取产品列表", notes = "支持按产品名称、类别、状态等筛选，支持分页查询")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer"),
@@ -52,6 +53,22 @@ public class ProductController {
         // 调用服务层方法获取分页数据
         PageResult<Product> pageResult = productService.getProductListPage(pageNum, pageSize, params);
         return Result.successResultData(pageResult);
+    }
+
+    @GetMapping("/search")
+    @RequireUser
+    @ApiOperation(value = "搜索产品", notes = "根据产品名称、类别等进行模糊搜索")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer"),
+        @ApiImplicitParam(name = "pageSize", value = "每页记录数", dataType = "Integer"),
+        @ApiImplicitParam(name = "keyword", value = "搜索关键字", dataType = "String")
+    })
+    public Result<PageResult<Product>> searchProducts(@RequestParam Map<String, Object> params,@NotNull HttpServletRequest request) {
+        Object keyword = params.get("keyword");
+        if(keyword == null || keyword.toString().isEmpty()){
+            throw new BusinessException("关键字不能为空");
+        }
+        return getProductList(params, request);
     }
     
     @GetMapping("/{id}")

@@ -46,7 +46,14 @@
             <artifactId>spring-messaging</artifactId>
         </dependency>
 
-        <!-- bao -->
+        <!-- MinIO 对象存储服务 -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.5.7</version>
+        </dependency>
+
+        <!-- mybatis-plus 提供基础CURD -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>

@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pet_science.exception.BaseException;
+import com.pet_science.exception.SystemException;
 import com.pet_science.mapper.ProductMapper;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.pojo.Product;
 import com.pet_science.service.FileService;
 import com.pet_science.service.ProductService;
+import com.pet_science.utils.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,18 +41,26 @@ public class ProductServiceImpl implements ProductService {
     public PageResult<Product> getProductListPage(Integer pageNum, Integer pageSize, Map<String, Object> params) {
         // 构建查询条件
         LambdaQueryWrapper<Product> queryWrapper = new LambdaQueryWrapper<>();
-        
-        // 添加查询条件
-        if (params.get("productName") != null && StringUtils.isNotBlank(params.get("productName").toString())) {
-            queryWrapper.like(Product::getProductName, params.get("productName").toString());
-        }
-        
-        if (params.get("category") != null && StringUtils.isNotBlank(params.get("category").toString())) {
-            queryWrapper.eq(Product::getCategory, params.get("category").toString());
-        }
-        
-        if (params.get("status") != null && StringUtils.isNotBlank(params.get("status").toString())) {
-            queryWrapper.eq(Product::getStatus, Integer.parseInt(params.get("status").toString()));
+
+        if(params.get("keyword") != null && StringUtils.isNotBlank(params.get("keyword").toString())){
+            // 添加模糊查询条件
+            queryWrapper.and(wrapper -> wrapper
+                    .like(Product::getProductName, params.get("keyword").toString())
+                    .or()
+                    .like(Product::getCategory, params.get("keyword").toString()));
+        }else {
+            // 添加查询条件
+            if (params.get("productName") != null && StringUtils.isNotBlank(params.get("productName").toString())) {
+                queryWrapper.like(Product::getProductName, params.get("productName").toString());
+            }
+
+            if (params.get("category") != null && StringUtils.isNotBlank(params.get("category").toString())) {
+                queryWrapper.eq(Product::getCategory, params.get("category").toString());
+            }
+
+            if (params.get("status") != null && StringUtils.isNotBlank(params.get("status").toString())) {
+                queryWrapper.eq(Product::getStatus, Integer.parseInt(params.get("status").toString()));
+            }
         }
         
         // 按创建时间降序排序
@@ -87,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
         // 插入数据
         int rows = productMapper.insert(product);
         if (rows <= 0) {
-            throw new BaseException(500, "创建产品失败");
+            throw new SystemException("创建产品失败");
         }
         
         return product;
@@ -101,6 +111,16 @@ public class ProductServiceImpl implements ProductService {
         if (existingProduct == null) {
             throw new BaseException(404, "产品不存在");
         }
+
+        String existMainImage = existingProduct.getMainImage();
+        String newMainImage = product.getMainImage();
+        
+        // 如果图片列表发生变化，清理旧的图片
+        String[] imagesToDelete = FileUtils.findImagesToDelete(existMainImage, newMainImage);
+        boolean b = fileService.cleanupImages(imagesToDelete);
+        if(!b){
+            throw new SystemException("删除产品图片失败");
+        }
         
         // 设置更新时间
         product.setUpdatedAt(new Date());
@@ -108,7 +128,7 @@ public class ProductServiceImpl implements ProductService {
         // 更新数据
         int rows = productMapper.updateById(product);
         if (rows <= 0) {
-            throw new BaseException(500, "更新产品失败");
+            throw new SystemException("更新产品失败");
         }
         
         return productMapper.selectById(product.getProductId());
@@ -129,7 +149,7 @@ public class ProductServiceImpl implements ProductService {
             String[] imageUrls = mainImage.split(";");
             boolean b = fileService.cleanupImages(imageUrls);
             if(!b){
-                throw new BaseException(500, "删除产品图片失败");
+                throw new SystemException("删除产品图片失败");
             }
         }
 

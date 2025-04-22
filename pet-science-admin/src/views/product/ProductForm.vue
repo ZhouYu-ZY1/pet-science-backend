@@ -33,7 +33,7 @@
                 </el-form-item>
 
                 <el-form-item label="产品图片">
-                    <el-upload class="product-uploader" action="/api/upload/image" :headers="uploadHeaders"
+                    <el-upload class="product-uploader" action="/api/upload/product/image" :headers="uploadHeaders"
                         :show-file-list="false" :on-success="handleUploadSuccess" :before-upload="beforeUpload">
                         <el-icon class="product-uploader-icon">
                             <Plus />
@@ -192,15 +192,13 @@ const beforeUpload = (file: File) => {
 // 上传成功回调
 const handleUploadSuccess = (response: any) => {
     ElMessage.success('上传成功')
-    setTimeout(() => {
-        // 如果已经有图片URL，则添加新的URL并用分号分隔
-        if (productForm.mainImage) {
-            productForm.mainImage += ';' + response.data.url
-        } else {
-            productForm.mainImage = response.data.url
-        }
-        imageList.value.push(response.data.url)
-    }, 1000)
+    // 如果已经有图片URL，则添加新的URL并用分号分隔
+    if (productForm.mainImage) {
+      productForm.mainImage += ';' + response.data.url
+    } else {
+      productForm.mainImage = response.data.url
+    }
+    imageList.value.push(response.data.url)
 }
 
 // 图片数组，用于拖拽排序
