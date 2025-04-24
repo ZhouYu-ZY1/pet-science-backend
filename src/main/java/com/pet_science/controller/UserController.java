@@ -91,7 +91,17 @@ public class UserController {
         User user = userService.getUserDetail(id);
         return Result.successResultData(user);
     }
-    
+
+
+    @GetMapping("/getUserInfo")
+    public Result<User> getUserInfo(@RequestParam("id") Integer id, @RequestHeader("Authorization") String token) {
+        if(id == null || id == 0){
+            // 从token中获取用户ID
+            id = JWTUtil.getUserId(token);
+        }
+        return getUserDetail(id);
+    }
+
     @PutMapping("/status")
     @RequireAdmin
     @ApiOperation(value = "更新用户状态", notes = "更新指定用户的状态")

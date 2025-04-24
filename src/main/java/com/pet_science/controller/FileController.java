@@ -3,13 +3,9 @@ package com.pet_science.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pet_science.annotation.RequireUser;
-import com.pet_science.exception.BaseException;
-import com.pet_science.exception.BusinessException;
 import com.pet_science.exception.SystemException;
 import com.pet_science.pojo.Result;
 import com.pet_science.service.FileService;
-import io.minio.*;
-import io.minio.errors.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +14,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.reactive.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
-import java.io.IOException;
 import java.io.InputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @RestController
 public class FileController {
@@ -46,10 +33,10 @@ public class FileController {
     @ApiOperation(value = "上传产品图片", notes = "上传产品相关图片")
     @RequireUser
     public Result<JSONObject> uploadProductImage(@RequestParam("file") MultipartFile file) {
-        return uploadFile(file, "product/image");
+        return uploadImageFile(file, "images/product");
     }
 
-    @GetMapping("/image/**")
+    @GetMapping("/images/**")
     @ApiOperation(value = "获取图片")
     public ResponseEntity<?> getImage(HttpServletRequest request) {
         // 获取图片流
@@ -78,7 +65,7 @@ public class FileController {
     }
 
 
-    public Result<JSONObject> uploadFile(MultipartFile file,String type) {
+    public Result<JSONObject> uploadImageFile(MultipartFile file, String type) {
         JSONObject jsonObject = fileService.uploadImage(file, type);
         return Result.successResultData(jsonObject);
     }

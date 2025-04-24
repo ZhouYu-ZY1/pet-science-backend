@@ -71,6 +71,7 @@ public class UserServiceImpl implements UserService {
             // 设置默认昵称
             String nickname = "用户" + RandomStringUtils.randomAlphanumeric(11); // 随机生成11位字符
             user.setNickname(nickname);
+            user.setGender(2); // 默认性别为保密
             // 设置默认头像URL
             user.setAvatarUrl("/statics/images/defaultAvatar.jpg");
             // 随机生成初始密码
@@ -98,8 +99,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean sendVerificationCode(String email) {
-        String verificationCode = emailService.sendVerificationCode(email);
-        return verificationCode != null && !verificationCode.isEmpty();
+        return emailService.sendVerificationCode(email);
     }
 
     /**
@@ -232,7 +232,7 @@ public class UserServiceImpl implements UserService {
      * @param pageNum  页码
      * @param pageSize 每页记录数
      * @param params   查询参数
-     * @param token
+     * @param token  JWT token
      * @return 分页结果
      */
     @Override
@@ -284,6 +284,12 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new BusinessException("用户不存在");
         }
+
+        // 获取关注和粉丝数量
+        user.setFansCount(userMapper.getFansSize(userId));
+        user.setFollowCount(userMapper.getFollowSize(userId));
+        // 互关数量
+        user.setMutualCount(userMapper.getMutualFollowSize(userId));
         return user;
     }
     

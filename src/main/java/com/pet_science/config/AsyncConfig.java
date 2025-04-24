@@ -14,13 +14,24 @@ import java.util.concurrent.Executor;
 @Configuration
 @EnableAsync
 public class AsyncConfig implements AsyncConfigurer {
-    @Bean(name = "taskExecutor")
-    public Executor taskExecutor() {
+    @Bean(name = "orderTaskExecutor")
+    public Executor orderTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(5);
         executor.setMaxPoolSize(10);
         executor.setQueueCapacity(20);
         executor.setThreadNamePrefix("OrderAsync-");
+        executor.initialize();
+        return executor;
+    }
+
+    @Bean(name = "emailTaskExecutor")
+    public Executor emailTaskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(5);
+        executor.setMaxPoolSize(10);
+        executor.setQueueCapacity(20);
+        executor.setThreadNamePrefix("EmailAsync-");
         executor.initialize();
         return executor;
     }

@@ -23,10 +23,10 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/statics/, '/statics')
       },
-      '/image': {  //用于访问静态资源
+      '/images': {  //用于访问静态资源
         target: 'http://localhost:8888',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/image/, '/image')
+        rewrite: (path) => path.replace(/^\/images/, '/images')
       },
       '/video': {  //用于访问静态资源
         target: 'http://localhost:8888',

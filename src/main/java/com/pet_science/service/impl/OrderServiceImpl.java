@@ -376,7 +376,7 @@ public class OrderServiceImpl implements OrderService {
      * @param minutes 过期时间（分钟）
      */
     @Override
-    @Async("taskExecutor")  // 添加异步注解
+    @Async("orderTaskExecutor")  // 添加异步注解
     public void scheduleOrderExpiration(Integer orderId, int minutes) {
         if (orderId == null || minutes <= 0) {
             return;

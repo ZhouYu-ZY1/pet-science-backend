@@ -130,6 +130,34 @@ public interface UserMapper {
     List<User> getFansList(@Param("userId") Integer userId);
 
     /**
+     * 获取粉丝数
+     */
+    @Select("SELECT COUNT(*) " +
+            "FROM follows " +
+            "WHERE to_user_id = #{userId}")
+    Integer getFansSize(@Param("userId") Integer userId);
+
+    /**
+     * 获取关注数
+     */
+    @Select("SELECT COUNT(*) " +
+            "FROM follows " +
+            "WHERE from_user_id = #{userId}")
+    Integer getFollowSize(@Param("userId") Integer userId);
+
+    /**
+     * 获取互关数量
+     */
+    @Select("SELECT COUNT(*) " +
+            "FROM follows f1 " +
+            "WHERE EXISTS ( " +
+            "   SELECT 1 FROM follows f2 " +
+            "   WHERE f2.from_user_id = f1.to_user_id AND f2.to_user_id = f1.from_user_id " +
+            ") AND f1.from_user_id = #{userId}")
+    Integer getMutualFollowSize(@Param("userId") Integer userId);
+
+
+    /**
      * 获取用户详情
      * @param userId 用户ID
      * @return 用户信息

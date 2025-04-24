@@ -65,4 +65,5 @@ public class User {
     private Date followTime; // 关注时间
     private Integer followCount = 0; // 关注数
     private Integer fansCount = 0; // 粉丝数
+    private Integer mutualCount = 0; // 互相关注数
 }

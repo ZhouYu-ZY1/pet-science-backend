@@ -1,13 +1,15 @@
 package com.pet_science.service.impl;
 
-import com.github.benmanes.caffeine.cache.Cache;
+import com.pet_science.exception.BusinessException;
+import com.pet_science.utils.EmailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import javax.mail.internet.MimeMessage;
-import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 邮箱服务
@@ -18,67 +20,60 @@ public class EmailService {
     private JavaMailSender mailSender;
 
     @Autowired
-    private Cache<String, String> verificationCodeCache; // 邮箱验证码缓存
+    private RedisTemplate<String, Object> redisTemplate; // Redis
 
-    String emailCodeCachePrefix = "email:"; // 邮箱缓存前缀
+    // Redis键前缀
+    private static final String EMAIL_CODE_PREFIX = "email:code:"; // 邮箱验证码前缀
+    private static final String EMAIL_LIMIT_PREFIX = "email:limit:"; // 邮箱发送限制前缀
+    
+    // 验证码有效期（分钟）
+    private static final long CODE_EXPIRE_MINUTES = 5;
+    // 发送限制时间（秒）
+    private static final long SEND_LIMIT_SECONDS = 60;
 
     /**
      * 发送验证码
      */
-    public String sendVerificationCode(String to) {
-        // 生成6位随机验证码
-        String verificationCode = String.format("%06d", new Random().nextInt(999999));
-
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper;
-        try {
-            helper = new MimeMessageHelper(message, true);
-            // 设置发件人昵称和邮箱
-            helper.setFrom("3257249392@qq.com", "萌宠视界");
-            // 收件人
-            helper.setTo(to);
-            // 邮件主题
-            helper.setSubject("Pet Science - 验证码");
-            // 邮件内容使用HTML格式
-            String htmlContent = String.format("""
-                    <div style="background-color: #f7f7f7; padding: 20px;">
-                        <div style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-                            <h2 style="color: #333; text-align: center; margin-bottom: 30px;">萌宠视界验证码</h2>
-                            <div style="font-size: 16px; color: #666; margin-bottom: 20px;">
-                                亲爱的用户：<br/>
-                                您好！您正在进行邮箱验证，验证码为：
-                            </div>
-                            <div style="background-color: #f5f5f5; padding: 15px; text-align: center; margin: 20px 0;">
-                                <span style="color: #e74c3c; font-size: 24px; font-weight: bold; letter-spacing: 5px;">%s</span>
-                            </div>
-                            <div style="font-size: 14px; color: #999; margin-top: 20px;">
-                                <p>验证码有效期为5分钟，请尽快完成验证。</p>
-                                <p>如非本人操作，请忽略此邮件。</p>
-                            </div>
-                            <div style="border-top: 1px solid #eee; margin-top: 30px; padding-top: 20px; text-align: center; color: #999; font-size: 12px;">
-                                © 2025 萌宠视界. All rights reserved.
-                            </div>
-                        </div>
-                    </div>
-                    """, verificationCode);
-            helper.setText(htmlContent, true); // 第二个参数true表示支持HTML格式
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    public Boolean sendVerificationCode(String to) {
+        // 检查是否在限制时间内
+        String limitKey = EMAIL_LIMIT_PREFIX + to;
+        if (Boolean.TRUE.equals(redisTemplate.hasKey(limitKey))) {
+            // 如果在限制时间内，获取剩余时间并抛出异常
+            Long ttl = redisTemplate.getExpire(limitKey, TimeUnit.SECONDS);
+            throw new BusinessException("操作过于频繁，请" + ttl + "秒后再试");
         }
-        mailSender.send(message);
+
+        // 异步发送邮件
+        sendEmailAsync(to);
+
+        // 设置60秒内不能重复发送
+        redisTemplate.opsForValue().set(limitKey, 1, SEND_LIMIT_SECONDS, TimeUnit.SECONDS);
+        return true;
+    }
+
+    /**
+     * 异步发送邮件
+     * @param to 收件人邮箱
+     */
+    @Async("emailTaskExecutor")
+    public void sendEmailAsync(String to) {
+        String verificationCode = EmailUtils.sendLoginCode(to, mailSender);
 
         System.err.println("验证码已发送：" + verificationCode);
-        // 存储验证码
-        verificationCodeCache.put(emailCodeCachePrefix + to, verificationCode);
-        return verificationCode;
+
+        // 存储验证码到Redis，并设置过期时间
+        String codeKey = EMAIL_CODE_PREFIX + to;
+        redisTemplate.opsForValue().set(codeKey, verificationCode, CODE_EXPIRE_MINUTES, TimeUnit.MINUTES);
     }
 
     public String getVerificationCode(String email) {
-        return verificationCodeCache.getIfPresent(emailCodeCachePrefix + email);
+        String key = EMAIL_CODE_PREFIX + email;
+        Object code = redisTemplate.opsForValue().get(key);
+        return code != null ? code.toString() : null;
     }
 
     public void removeVerificationCode(String email) {
-        verificationCodeCache.invalidate(emailCodeCachePrefix + email);
+        String key = EMAIL_CODE_PREFIX + email;
+        redisTemplate.delete(key);
     }
 }

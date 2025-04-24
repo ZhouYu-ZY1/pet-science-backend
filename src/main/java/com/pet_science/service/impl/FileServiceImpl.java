@@ -60,7 +60,7 @@ public class FileServiceImpl implements FileService {
 
             JSONObject jsonObject = new JSONObject();
             // 返回访问唯一标识
-            jsonObject.put("url", "/image/"+path);
+            jsonObject.put("url", "/"+path);
             return jsonObject;
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,10 +71,8 @@ public class FileServiceImpl implements FileService {
     @Override
     public FileController.FileResponse getImage(HttpServletRequest request) {
         try {
-            // 获取完整的路径（例如：/image/product/image/262efb39-0a2d-42e5-ae0f-77a5f7420443）
-            String fullPath = request.getRequestURI();
-            // 提取 /image/ 之后的部分
-            String imagePath = fullPath.substring("/image/".length());
+            // 获取完整的路径（例如：/images/product/262efb39-0a2d-42e5-ae0f-77a5f7420443）
+            String imagePath = request.getRequestURI();
 
             // 确定Content-Type
             MediaType contentType = MediaType.IMAGE_JPEG; // 默认设为JPEG
@@ -105,7 +103,6 @@ public class FileServiceImpl implements FileService {
     public boolean cleanupImages(String[] urls) {
         try {
             for (String url : urls) {
-                url = url.replaceFirst("/image/", ""); // 去除前缀
                 minioClient.removeObject(
                         RemoveObjectArgs.builder()
                                 .bucket(bucketName)
