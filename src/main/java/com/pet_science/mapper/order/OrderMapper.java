@@ -1,6 +1,7 @@
 package com.pet_science.mapper.order;
 
 import com.pet_science.pojo.Order;
+import com.pet_science.pojo.UserAddress;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -108,4 +109,11 @@ public interface OrderMapper {
     @Delete("DELETE FROM orders WHERE order_id = #{orderId}")
     int deleteById(Integer orderId);
 
+    /**
+     * 根据订单编号查询订单
+     * @param orderNo 订单编号
+     * @return 订单信息
+     */
+    @Select("SELECT * FROM orders WHERE order_no = #{orderNo}")
+    Order findByOrderNo(String orderNo);
 }

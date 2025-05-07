@@ -23,6 +23,11 @@ public interface FileService {
     FileController.FileResponse getImage(HttpServletRequest request);
 
     /**
+     * 删除图片
+     */
+    boolean deleteImage(String url);
+
+    /**
      * 清理临时图片
      * @param urls 需要清理的图片URL列表
      * @return 清理结果信息

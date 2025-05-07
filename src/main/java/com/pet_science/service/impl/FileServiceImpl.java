@@ -100,14 +100,25 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public boolean deleteImage(String url) {
+        try {
+            // 删除指定的对象
+            minioClient.removeObject(
+                    RemoveObjectArgs.builder()
+                            .bucket(bucketName)
+                            .object(url) // 直接使用传入的URL
+                            .build());
+            return true;
+        }catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
     public boolean cleanupImages(String[] urls) {
         try {
             for (String url : urls) {
-                minioClient.removeObject(
-                        RemoveObjectArgs.builder()
-                                .bucket(bucketName)
-                                .object(url) // 直接使用传入的URL
-                                .build());
+                deleteImage(url);
             }
             return true;
         }catch (Exception e){

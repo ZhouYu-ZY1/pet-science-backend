@@ -56,7 +56,6 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
             sessions.put(session.getId(), session);
         }
         System.out.println("WebSocket连接已建立，当前用户数：" + sessions.size());
-        System.out.println("WebSocket连接已建立");
     }
 
 
@@ -83,10 +82,10 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
                 webSocketSession.sendMessage(new TextMessage(jsonObject.toJSONString()));
                 System.out.println("发送消息成功："+jsonObject.toJSONString());
             }else {
-                System.out.println("对方不在线");
+                System.out.println("发送消息失败：对方不在线");
             }
         }catch (Exception e){
-            System.out.println("对方不在线");
+            System.out.println("发送消息失败：对方不在线");
             e.printStackTrace();
         }
     }
@@ -119,7 +118,6 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        System.out.println("WebSocket连接已关闭");
         sessions.remove(session.getId());
         System.out.println("WebSocket连接已关闭，当前用户数：" + sessions.size());
     }

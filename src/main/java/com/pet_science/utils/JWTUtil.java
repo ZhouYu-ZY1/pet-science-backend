@@ -67,8 +67,7 @@ public class JWTUtil {
         return user_id_claim.asInt();
     }
 
-    public static int verifyToken(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
+    public static int verifyToken(String token) {
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
         }

@@ -3,16 +3,18 @@ package com.pet_science.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.pet_science.annotation.RequireAdmin;
 import com.pet_science.annotation.RequireUser;
-import com.pet_science.exception.BaseException;
 import com.pet_science.exception.BusinessException;
 import com.pet_science.pojo.Order;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.pojo.Result;
+import com.pet_science.pojo.UserAddress;
 import com.pet_science.service.OrderService;
+import com.pet_science.utils.JWTUtil;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.pet_science.service.impl.OrderServiceImpl.ORDER_EXPIRATION_MINUTES;
@@ -51,9 +53,16 @@ public class OrderController {
     
     @GetMapping("/{id}")
     @ApiOperation(value = "获取订单详情", notes = "根据订单ID获取订单详细信息")
+    @RequireAdmin
     @ApiImplicitParam(name = "id", value = "订单ID", required = true, dataType = "Integer", paramType = "path")
     public Result<Order> getOrderDetail(@PathVariable("id") Integer id) {
-        Order order = orderService.getOrderDetail(id);
+        Order order = orderService.getOrderDetail(id,0,true);
+        return Result.successResultData(order);
+    }
+    @GetMapping("/getOrderDetail")
+    @RequireUser
+    public Result<Order> getOrderDetail(@RequestParam("orderId") Integer orderId, @RequestHeader("Authorization") String token) {
+        Order order = orderService.getOrderDetail(orderId, JWTUtil.getUserId(token),false);
         return Result.successResultData(order);
     }
     
@@ -84,7 +93,8 @@ public class OrderController {
         @ApiImplicitParam(name = "shipping.receiverName", value = "收货人姓名", dataType = "String"),
         @ApiImplicitParam(name = "shipping.receiverMobile", value = "收货人电话", dataType = "String"),
     })
-    public Result<Order> createOrder(@RequestBody Order order) {
+    public Result<Order> createOrder(@RequestBody Order order, @RequestHeader("Authorization") String token) {
+        order.setUserId(JWTUtil.getUserId(token)); // 获取用户ID
         // 创建订单
         Order createdOrder = orderService.createOrder(order);
         // 设置订单过期时间
@@ -94,6 +104,7 @@ public class OrderController {
     
     @GetMapping("/expiration/{id}")
     @ApiOperation(value = "获取订单过期时间", notes = "获取订单剩余支付时间（秒）")
+    @RequireUser
     @ApiImplicitParam(name = "id", value = "订单ID", required = true, dataType = "Integer", paramType = "path")
     public Result<Long> getOrderExpiration(@PathVariable("id") Integer id) {
         Long remainingSeconds = orderService.getOrderRemainingTime(id);

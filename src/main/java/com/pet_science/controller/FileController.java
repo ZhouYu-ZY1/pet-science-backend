@@ -5,9 +5,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.pet_science.annotation.RequireUser;
 import com.pet_science.exception.SystemException;
 import com.pet_science.pojo.Result;
+import com.pet_science.pojo.User;
 import com.pet_science.service.FileService;
+import com.pet_science.service.UserService;
+import com.pet_science.utils.JWTUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.Data;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
@@ -23,6 +27,9 @@ public class FileController {
 
     @Autowired
     private FileService fileService;
+    @Autowired
+    private UserService userService;
+
     @Data
     public static class FileResponse {
         private InputStream stream;
@@ -34,6 +41,26 @@ public class FileController {
     @RequireUser
     public Result<JSONObject> uploadProductImage(@RequestParam("file") MultipartFile file) {
         return uploadImageFile(file, "images/product");
+    }
+
+    @PostMapping("/upload/userAvatar")
+    @ApiOperation(value = "上传用户头像", notes = "上传用户头像")
+    @RequireUser
+    public Result<JSONObject> uploadUserAvatar(@RequestParam("file") MultipartFile file, @RequestHeader("Authorization") String token) {
+        Result<JSONObject> result = uploadImageFile(file, "images/userAvatar");
+        // 更新用户头像
+        String url = result.getData().getString("url");
+        Integer userId = JWTUtil.getUserId(token);
+        User user = userService.findUserById(userId);
+        String avatarUrl = user.getAvatarUrl();
+        if (avatarUrl != null && !avatarUrl.isEmpty()) {
+            // 清理旧头像
+            fileService.deleteImage(avatarUrl);
+        }
+        // 设置新头像
+        user.setAvatarUrl(url);
+        userService.updateUser(user);
+        return result;
     }
 
     @GetMapping("/images/**")

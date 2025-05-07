@@ -25,35 +25,35 @@ public class AuthInterceptor implements HandlerInterceptor {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
 
-        // 获取token
-        String token = request.getHeader("Authorization");
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-        }
-
-        // 检查是否需要管理员权限
-        if (method.isAnnotationPresent(RequireAdmin.class) || handlerMethod.getBeanType().isAnnotationPresent(RequireAdmin.class)) {
-            if (token == null) {
-                throw new BaseException(401, "未登录或token已过期");
-            }
-
-            // 验证token并检查是否为管理员
-            if (!JWTUtil.verifyAdmin(token)) {
-                throw new BaseException(403, "无管理员权限");
-            }
-        }
-
-        // 检查是否需要用户权限
-        if (method.isAnnotationPresent(RequireUser.class) || handlerMethod.getBeanType().isAnnotationPresent(RequireUser.class)) {
-            if (token == null) {
-                throw new BaseException(401, "未登录或token已过期");
-            }
-            
-            // 验证token
-            if (!JWTUtil.verifyUser(token)) {
-                throw new BaseException(401, "未登录或token已过期");
-            }
-        }
+//        // 获取token
+//        String token = request.getHeader("Authorization");
+//        if (token != null && token.startsWith("Bearer ")) {
+//            token = token.substring(7);
+//        }
+//
+//        // 检查是否需要管理员权限
+//        if (method.isAnnotationPresent(RequireAdmin.class) || handlerMethod.getBeanType().isAnnotationPresent(RequireAdmin.class)) {
+//            if (token == null) {
+//                throw new BaseException(401, "未登录或token已过期");
+//            }
+//
+//            // 验证token并检查是否为管理员
+//            if (!JWTUtil.verifyAdmin(token)) {
+//                throw new BaseException(403, "无管理员权限");
+//            }
+//        }
+//
+//        // 检查是否需要用户权限
+//        if (method.isAnnotationPresent(RequireUser.class) || handlerMethod.getBeanType().isAnnotationPresent(RequireUser.class)) {
+//            if (token == null) {
+//                throw new BaseException(401, "未登录或token已过期");
+//            }
+//
+//            // 验证token
+//            if (!JWTUtil.verifyUser(token)) {
+//                throw new BaseException(401, "未登录或token已过期");
+//            }
+//        }
 
         return true;
     }

@@ -41,8 +41,8 @@ public class ProductController {
         @ApiImplicitParam(name = "category", value = "产品类别", dataType = "String"),
         @ApiImplicitParam(name = "status", value = "状态", dataType = "Integer")
     })
-    public Result<PageResult<Product>> getProductList(@RequestParam(required = false) Map<String, Object> params,@NotNull HttpServletRequest request) {
-        int verify = JWTUtil.verifyToken(request);
+    public Result<PageResult<Product>> getProductList(@RequestParam(required = false) Map<String, Object> params,@RequestHeader("Authorization") String token) {
+        int verify = JWTUtil.verifyToken(token);
         if (verify != 1) { // 如果不是管理员，则只显示上架的产品
             params.put("status", 1);
         }
@@ -63,12 +63,12 @@ public class ProductController {
         @ApiImplicitParam(name = "pageSize", value = "每页记录数", dataType = "Integer"),
         @ApiImplicitParam(name = "keyword", value = "搜索关键字", dataType = "String")
     })
-    public Result<PageResult<Product>> searchProducts(@RequestParam Map<String, Object> params,@NotNull HttpServletRequest request) {
+    public Result<PageResult<Product>> searchProducts(@RequestParam Map<String, Object> params,@RequestHeader("Authorization") String token) {
         Object keyword = params.get("keyword");
         if(keyword == null || keyword.toString().isEmpty()){
             throw new BusinessException("关键字不能为空");
         }
-        return getProductList(params, request);
+        return getProductList(params, token);
     }
     
     @GetMapping("/{id}")

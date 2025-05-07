@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -76,12 +75,12 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 获取订单详情
-     * 
+     *
      * @param orderId 订单ID
      * @return 订单信息（包含订单项、支付信息和物流信息）
      */
     @Override
-    public Order getOrderDetail(Integer orderId) {
+    public Order getOrderDetail(Integer orderId,Integer userId,boolean isAdmin) {
         if (orderId == null) {
             throw new BusinessException("订单ID不能为空");
         }
@@ -90,6 +89,11 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderMapper.findById(orderId);
         if (order == null) {
             throw new BusinessException("订单不存在");
+        }
+
+        // 检查订单是否属于当前用户
+        if(!isAdmin && !order.getUserId().equals(userId)){
+            throw new BusinessException("订单不属于该用户");
         }
 
         // 查询订单项 - 修改为获取单个订单项
@@ -112,7 +116,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 更新订单状态
-     * 
+     *
      * @param orderId 订单ID
      * @param status  状态值
      * @return 是否更新成功
@@ -126,7 +130,7 @@ public class OrderServiceImpl implements OrderService {
             throw new BusinessException("订单状态不能为空");
         }
         // 检查订单是否存在
-        Order order = getOrderDetail(orderId);
+        Order order = orderMapper.findById(orderId);
         if (order == null) {
             throw new BusinessException("订单不存在");
         }
@@ -172,6 +176,12 @@ public class OrderServiceImpl implements OrderService {
             throw new BusinessException("商品不存在");
         }
 
+        // 检查商品库存
+        Integer quantity = orderItem.getQuantity(); // 购买数量
+        if(quantity == null || product.getStock() < quantity){
+            throw new BusinessException("商品库存不足");
+        }
+
         // 获取商品单价
         BigDecimal price = product.getPrice();
         // 设置订单项的商品信息
@@ -180,8 +190,7 @@ public class OrderServiceImpl implements OrderService {
         orderItem.setPrice(price);
         
         // 计算订单总金额
-        Integer quantity = orderItem.getQuantity(); // 购买数量
-        if (price != null && quantity != null) {
+        if (price != null) {
             BigDecimal subtotal = price.multiply(new BigDecimal(quantity));
             orderItem.setSubtotal(subtotal);
             order.setTotalAmount(subtotal); // 设置订单总金额
@@ -210,7 +219,7 @@ public class OrderServiceImpl implements OrderService {
         shipping.setUpdatedAt(now);
         orderShippingMapper.insert(shipping);
 
-        return getOrderDetail(order.getOrderId());
+        return getOrderDetail(order.getOrderId(),order.getUserId(),false);
     }
 
     /**

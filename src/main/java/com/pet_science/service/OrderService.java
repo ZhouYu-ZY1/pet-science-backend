@@ -2,7 +2,9 @@ package com.pet_science.service;
 
 import com.pet_science.pojo.Order;
 import com.pet_science.pojo.PageResult;
+import com.pet_science.pojo.UserAddress;
 
+import java.util.List;
 import java.util.Map;
 
 public interface OrderService {
@@ -20,8 +22,8 @@ public interface OrderService {
      * @param orderId 订单ID
      * @return 订单信息（包含订单项、支付信息和物流信息）
      */
-    Order getOrderDetail(Integer orderId);
-    
+    Order getOrderDetail(Integer orderId,Integer userId,boolean isAdmin);
+
     /**
      * 更新订单状态
      * @param orderId 订单ID
