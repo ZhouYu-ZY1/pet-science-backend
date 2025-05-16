@@ -30,4 +30,8 @@ public class Order {
     private OrderPayment payment;
     // 关联的物流信息（非数据库字段，用于数据传输）
     private OrderShipping shipping;
+
+    public void setRemark(String remark) {
+        this.remark = remark.replace("user:"," 用户备注：");
+    }
 }

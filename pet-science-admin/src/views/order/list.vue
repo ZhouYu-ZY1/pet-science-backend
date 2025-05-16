@@ -10,16 +10,16 @@
       <!-- 搜索区域 -->
       <el-form :inline="true" :model="queryParams" class="search-form">
         <el-form-item label="订单编号">
-          <el-input v-model="queryParams.orderNo" placeholder="请输入订单编号" clearable />
+          <el-input v-model="queryParams.orderNo" placeholder="请输入订单编号" />
         </el-form-item>
         <el-form-item label="收货人">
-          <el-input v-model="queryParams.consignee" placeholder="请输入收货人" clearable />
+          <el-input v-model="queryParams.consignee" placeholder="请输入收货人" />
         </el-form-item>
         <el-form-item label="手机号">
-          <el-input v-model="queryParams.mobile" placeholder="请输入手机号" clearable />
+          <el-input v-model="queryParams.mobile" placeholder="请输入手机号" />
         </el-form-item>
         <el-form-item label="订单状态" >
-          <el-select v-model="queryParams.status" placeholder="请选择状态" clearable style="width: 150px">
+          <el-select v-model="queryParams.status" placeholder="请选择状态" style="width: 150px">
             <el-option label="待付款" value="pending" />
             <el-option label="已付款" value="paid" />
             <el-option label="已发货" value="shipped" />

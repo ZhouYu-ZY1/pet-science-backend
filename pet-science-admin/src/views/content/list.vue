@@ -11,17 +11,17 @@
       <!-- 搜索区域 -->
       <el-form :inline="true" :model="queryParams" class="search-form">
         <el-form-item label="标题">
-          <el-input v-model="queryParams.title" placeholder="请输入标题" clearable />
+          <el-input v-model="queryParams.title" placeholder="请输入标题" />
         </el-form-item>
         <el-form-item label="类型">
-          <el-select v-model="queryParams.type" placeholder="请选择类型" clearable>
+          <el-select v-model="queryParams.type" placeholder="请选择类型">
             <el-option label="文章" value="article" />
             <el-option label="视频" value="video" />
             <el-option label="活动" value="event" />
           </el-select>
         </el-form-item>
         <el-form-item label="状态">
-          <el-select v-model="queryParams.status" placeholder="请选择状态" clearable>
+          <el-select v-model="queryParams.status" placeholder="请选择状态">
             <el-option label="已发布" value="published" />
             <el-option label="草稿" value="draft" />
           </el-select>

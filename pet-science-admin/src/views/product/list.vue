@@ -11,15 +11,15 @@
       <!-- 搜索区域 -->
       <el-form :inline="true" :model="queryParams" class="search-form">
         <el-form-item label="产品名称">
-          <el-input v-model="queryParams.productName" placeholder="请输入产品名称" clearable />
+          <el-input v-model="queryParams.productName" placeholder="请输入产品名称" />
         </el-form-item>
         <el-form-item label="分类" min-width="200">
-          <el-select v-model="queryParams.category" placeholder="请选择分类" clearable style="width: 200px">
+          <el-select v-model="queryParams.category" placeholder="请选择分类" style="width: 200px">
             <el-option v-for="item in categoryList" :key="item.categoryId" :label="item.categoryName" :value="item.categoryCode" />
           </el-select>
         </el-form-item>
         <el-form-item label="状态">
-          <el-select v-model="queryParams.status" placeholder="请选择状态" clearable style="width: 200px">
+          <el-select v-model="queryParams.status" placeholder="请选择状态" style="width: 200px">
             <el-option label="上架" value="1" />
             <el-option label="下架" value="0" />
           </el-select>

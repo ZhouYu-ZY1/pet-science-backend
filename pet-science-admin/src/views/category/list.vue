@@ -11,7 +11,7 @@
       <!-- 搜索区域 -->
       <el-form :inline="true" :model="queryParams" class="search-form">
         <el-form-item label="分类名称">
-          <el-input v-model="queryParams.categoryName" placeholder="请输入分类名称" clearable />
+          <el-input v-model="queryParams.categoryName" placeholder="请输入分类名称" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleQuery">查询</el-button>

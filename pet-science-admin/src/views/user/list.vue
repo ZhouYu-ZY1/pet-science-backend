@@ -10,13 +10,13 @@
       <!-- 搜索区域 -->
       <el-form :inline="true" :model="queryParams" class="search-form">
         <el-form-item label="用户名">
-          <el-input v-model="queryParams.username" placeholder="请输入用户名" clearable />
+          <el-input v-model="queryParams.username" placeholder="请输入用户名" />
         </el-form-item>
         <el-form-item label="邮箱">
-          <el-input v-model="queryParams.email" placeholder="请输入邮箱" clearable />
+          <el-input v-model="queryParams.email" placeholder="请输入邮箱" />
         </el-form-item>
         <el-form-item label="手机号">
-          <el-input v-model="queryParams.mobile" placeholder="请输入手机号" clearable />
+          <el-input v-model="queryParams.mobile" placeholder="请输入手机号" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleQuery">查询</el-button>

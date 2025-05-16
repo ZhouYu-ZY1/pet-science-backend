@@ -1,8 +1,8 @@
 package com.pet_science.mapper.order;
 
-import com.pet_science.pojo.Order;
-import com.pet_science.pojo.UserAddress;
+import com.pet_science.pojo.*;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Result;
 
 import java.util.List;
 import java.util.Map;
@@ -16,15 +16,28 @@ public interface OrderMapper {
      */
     @SelectProvider(type = OrderSqlProvider.class, method = "getOrderList")
     @Results({
-        @Result(property = "shipping.receiverName", column = "receiver_name"),
-        @Result(property = "shipping.receiverMobile", column = "receiver_mobile"),
-        @Result(property = "shipping.address", column = "shipping_address"),
-        @Result(property = "shipping.trackingNumber", column = "tracking_number"),
-        @Result(property = "shipping.shippingTime", column = "shipping_time"),
-        @Result(property = "shipping.completionTime", column = "completion_time"),
-        @Result(property = "payment.paymentTime", column = "payment_time")
+            @Result(property = "orderId", column = "order_id"),
+            @Result(property = "orderItem", javaType = OrderItem.class, one = @One(select = "mapOrderItem"), column = "order_id"),
+            @Result(property = "shipping", javaType = OrderShipping.class, one = @One(select = "mapShipping"), column = "order_id"),
+            @Result(property = "payment", javaType = OrderPayment.class, one = @One(select = "mapPayment"), column = "order_id")
     })
     List<Order> getOrderList(Map<String, Object> params);
+    /**
+     * 根据订单ID查询订单项
+     */
+    @Select("SELECT * FROM order_items WHERE order_id = #{orderId}")
+    OrderItem mapOrderItem(Integer orderId);
+    /**
+     * 根据订单ID查询物流信息
+     */
+    @Select("SELECT * FROM order_shipping WHERE order_id = #{orderId}")
+    OrderShipping mapShipping(Integer orderId);
+    /**
+     * 根据订单ID查询支付信息
+     */
+    @Select("SELECT * FROM order_payment WHERE order_id = #{orderId}")
+    OrderPayment mapPayment(Integer orderId);
+
     
     /**
      * 根据订单ID查询订单
@@ -49,9 +62,10 @@ public interface OrderMapper {
     class OrderSqlProvider {
         public String getOrderList(Map<String, Object> params) {
             StringBuilder sql = new StringBuilder();
-            sql.append("SELECT o.*, s.*, p.* FROM orders o ");
-            sql.append("LEFT JOIN order_shipping s ON o.order_id = s.order_id ");
-            sql.append("LEFT JOIN order_payment p ON o.order_id = p.order_id ");
+            sql.append("SELECT o.* FROM orders o ");
+//            sql.append("LEFT JOIN order_shipping s ON o.order_id = s.order_id ");
+//            sql.append("LEFT JOIN order_payment p ON o.order_id = p.order_id ");
+//            sql.append("LEFT JOIN order_items i ON o.order_id = i.order_id ");
             sql.append("WHERE 1=1 ");
 
             if (params.containsKey("orderNo") && params.get("orderNo") != null && !params.get("orderNo").toString().trim().isEmpty()) {
