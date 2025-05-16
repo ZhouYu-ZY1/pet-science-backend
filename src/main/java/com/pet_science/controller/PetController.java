@@ -24,8 +24,11 @@ public class PetController {
     
     @GetMapping("/list")
     @ApiOperation(value = "获取用户的所有宠物", notes = "获取当前用户的所有宠物")
-    public Result<List<Pet>> getUserPets(@RequestHeader("Authorization") String token) {
-        Integer userId = JWTUtil.getUserId(token);
+    public Result<List<Pet>> getUserPets(@RequestParam("userId") Integer userId,@RequestHeader("Authorization") String token) {
+        if(userId == null || userId == 0){
+            // 从token中获取用户ID
+            userId = JWTUtil.getUserId(token);
+        }
         List<Pet> pets = petService.getUserPets(userId);
         return Result.successResultData(pets);
     }

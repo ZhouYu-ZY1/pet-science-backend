@@ -8,6 +8,7 @@ import com.pet_science.exception.SystemException;
 import com.pet_science.mapper.PetMapper;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.pojo.Pet;
+import com.pet_science.service.FileService;
 import com.pet_science.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class PetServiceImpl implements PetService {
 
     @Autowired
     private PetMapper petMapper;
+
+    @Autowired
+    private FileService fileService;
 
     @Override
     @Transactional
@@ -110,7 +114,16 @@ public class PetServiceImpl implements PetService {
         if (!existingPet.getUserId().equals(userId)) {
             throw new BusinessException("无权删除该宠物");
         }
-        
+
+        String avatarUrl = existingPet.getAvatarUrl();
+        if (avatarUrl != null && !avatarUrl.isEmpty() && !avatarUrl.startsWith("/images/default/")) {
+            // 清理宠物头像
+            boolean b = fileService.deleteImage(avatarUrl);
+            if(!b){
+                throw new SystemException("删除宠物头像失败");
+            }
+        }
+
         // 删除宠物
         int result = petMapper.deletePet(id, userId);
         return result > 0;

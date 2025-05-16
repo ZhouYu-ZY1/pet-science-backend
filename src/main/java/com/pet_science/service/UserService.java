@@ -81,10 +81,11 @@ public interface UserService {
     
     /**
      * 获取用户详情
+     *
      * @param userId 用户ID
      * @return 用户信息
      */
-    User getUserDetail(Integer userId);
+    User getUserDetail(Integer userId, Integer queryId);
     
     /**
      * 更新用户状态

@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pet_science.annotation.RequireUser;
 import com.pet_science.exception.SystemException;
+import com.pet_science.pojo.Pet;
 import com.pet_science.pojo.Result;
 import com.pet_science.pojo.User;
 import com.pet_science.service.FileService;
+import com.pet_science.service.PetService;
 import com.pet_science.service.UserService;
 import com.pet_science.utils.JWTUtil;
 import io.swagger.annotations.ApiOperation;
@@ -29,6 +31,8 @@ public class FileController {
     private FileService fileService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private PetService petService;
 
     @Data
     public static class FileResponse {
@@ -53,13 +57,33 @@ public class FileController {
         Integer userId = JWTUtil.getUserId(token);
         User user = userService.findUserById(userId);
         String avatarUrl = user.getAvatarUrl();
-        if (avatarUrl != null && !avatarUrl.isEmpty()) {
+        if (avatarUrl != null && !avatarUrl.isEmpty() && !avatarUrl.startsWith("/images/default/")) {
             // 清理旧头像
             fileService.deleteImage(avatarUrl);
         }
         // 设置新头像
         user.setAvatarUrl(url);
         userService.updateUser(user);
+        return result;
+    }
+
+    @PostMapping("/upload/petAvatar")
+    @ApiOperation(value = "上传宠物头像", notes = "上传宠物头像")
+    @RequireUser
+    public Result<JSONObject> uploadPetAvatar(@RequestParam("file") MultipartFile file,@RequestParam("petId") Long petId, @RequestHeader("Authorization") String token) {
+        Result<JSONObject> result = uploadImageFile(file, "images/petAvatar");
+        // 更新用户头像
+        String url = result.getData().getString("url");
+        Integer userId = JWTUtil.getUserId(token);
+        Pet pet = petService.getPetDetail(petId,userId);
+        String avatarUrl = pet.getAvatarUrl();
+        if (avatarUrl != null && !avatarUrl.isEmpty() && !avatarUrl.startsWith("/images/default/")) {
+            // 清理旧头像
+            fileService.deleteImage(avatarUrl);
+        }
+        // 设置新头像
+        pet.setAvatarUrl(url);
+        petService.updatePet(pet);
         return result;
     }
 

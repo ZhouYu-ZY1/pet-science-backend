@@ -87,8 +87,12 @@ public class UserController {
     @GetMapping("/{id}")
     @ApiOperation(value = "获取用户详情", notes = "根据用户ID获取用户详细信息")
     @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Integer", paramType = "path")
-    public Result<User> getUserDetail(@PathVariable("id") Integer id) {
-        User user = userService.getUserDetail(id);
+    public Result<User> getUserDetail(@PathVariable("id") Integer id, @RequestHeader("Authorization") String token) {
+        Integer queryId = null;
+        if(!JWTUtil.verifyAdmin(token)){ // 如果不是管理员，则获取当前查询用户ID
+            queryId = JWTUtil.getUserId(token);
+        }
+        User user = userService.getUserDetail(id,queryId);
         return Result.successResultData(user);
     }
 
@@ -99,7 +103,8 @@ public class UserController {
             // 从token中获取用户ID
             id = JWTUtil.getUserId(token);
         }
-        return getUserDetail(id);
+        Result<User> userDetail = getUserDetail(id,token);
+        return userDetail;
     }
 
     @PutMapping("/status")

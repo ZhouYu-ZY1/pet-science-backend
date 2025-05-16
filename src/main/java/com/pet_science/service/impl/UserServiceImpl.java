@@ -1,7 +1,6 @@
 package com.pet_science.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.Constant;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -73,7 +72,7 @@ public class UserServiceImpl implements UserService {
             user.setNickname(nickname);
             user.setGender(2); // 默认性别为保密
             // 设置默认头像URL
-            user.setAvatarUrl("/statics/images/defaultAvatar.jpg");
+            user.setAvatarUrl("/images/default/defaultAvatar.jpg");
             // 随机生成初始密码
             String password = UUID.randomUUID().toString().substring(0, 8);
             user.setPassword(passwordEncoder.encode(password));
@@ -272,11 +271,12 @@ public class UserServiceImpl implements UserService {
     
     /**
      * 获取用户详情
+     *
      * @param userId 用户ID
      * @return 用户信息
      */
     @Override
-    public User getUserDetail(Integer userId) {
+    public User getUserDetail(Integer userId, Integer queryId) {
         if (userId == null) {
             throw new BusinessException("用户ID不能为空");
         }
@@ -290,6 +290,12 @@ public class UserServiceImpl implements UserService {
         user.setFollowCount(userMapper.getFollowSize(userId));
         // 互关数量
         user.setMutualCount(userMapper.getMutualFollowSize(userId));
+
+        if(queryId != null && !queryId.equals(userId)){
+            // 如果不是查询自己的信息，则查询是否已关注
+            boolean isFollowed = userMapper.isFollowing(queryId, userId);
+            user.setIsFollowed(isFollowed);
+        }
         return user;
     }
     
@@ -308,7 +314,7 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException("状态值不能为空");
         }
         // 检查用户是否存在
-        User user = getUserDetail(userId);
+        User user = getUserDetail(userId, null);
         if (user == null) {
             throw new BusinessException("用户不存在");
         }
