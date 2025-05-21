@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>桃子数据大屏</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+
+    <div class="main">
+
+        <!--头部-->
+        <div class="header">
+            <div class="header-left" id="time"></div>
+            <div class="header-cen">
+                <h1>数据中台</h1>
+            </div>
+            <div class="header-right"></div>
+        </div>
+
+        <!--中间-->
+        <div class="content">
+            <!--左边-->
+            <div class="content-left fl">
+                <!--左上-->
+                <div class="left-top">
+                    <div class="title">
+                        <span>芯云学院简介</span>
+                    </div>
+                    <div class="list">
+                        <p id="main1_introduction1">
+                            
+                        </p>
+                        <ul>
+                            <li>注册用户：<span id="main1_introduction2"></span></li>
+                            <li>宠物总数：<span id="main1_introduction3"></span></li>
+                            <li>订单总数：<span id="main1_introduction4"></span></li>
+                            <li>年交易额：<span id="main1_introduction5"></span></li>
+                            <li>日活跃用户：<span id="main1_introduction6"></span></li>
+                            <li>周活跃用户：<span id="main1_introduction7"></span></li>
+                            <!-- <li>月活跃用户：<span id="main1_introduction8"></span></li> -->
+                        </ul>
+                    </div>
+                </div>
+                <!--左中-->
+                <div class="left-center">
+                    <div class="title">
+                        <span>22级各专业新生</span>
+                    </div>
+                    <div class="allnav" id="main2_newcomer"></div>
+                </div>
+                <!--左下-->
+                <div class="left-bottom">
+                    <div class="title">
+                        <span>我是左下标题</span>
+                    </div>
+                    <div class="allnav"></div>
+                </div>
+            </div>
+            <!--中间-->
+            <div class="content-center fl">
+                <!--头部-->
+                <div class="center-top">
+                    <div class="top-title">
+                        <ul>
+                        </ul>
+                    </div>
+                    <div class="top-bottom">
+
+                    </div>
+
+                </div>
+                <!--底部-->
+                <div class="center-bottom">
+                    <div class="bottom-left fl">
+                        <div class="allnav"></div>
+                    </div>
+                    <div class="bottom-right fr">
+                        <div class="allnav" id="main7_newcomer" style="width: 100%;height: 100%;"></div>
+                        <!-- <div class="allnav" style="width: 100%;height: 100%;"></div> -->
+                    </div>
+                </div>
+            </div>
+            <!--右边-->
+            <div class="content-right fr">
+                <!--右上-->
+                <div class="right-top">
+                    <!--选项卡内容-->
+                    <div id="tab_header">
+                        <ul>
+                            <li class="selected">开发资源</li>
+                            <li>基地信息</li>
+                        </ul>
+                    </div>
+                    <!--内容-->
+                    <div id="tab_content">
+                        <div class="dom" style="display: block">
+                            <ul id="main8_baseResource_top">
+
+                            </ul>
+                            <div class="list-t">
+                                <ul id="main8_baseResource_bottom">
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="dom" style="display: none">
+                            <div class="listStyle" id="main9_baseInfo">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--选项卡内容-->
+                </div>
+                <!--右中-->
+                <div class="right-center">
+                    <div class="title">
+                        <span>我是右下标题</span>
+                    </div>
+
+                    <div class="echart wenzi">
+                        <div class="gun">
+                        </div>
+                        <div id="FontScroll" class="myscroll">
+                            <ul id="main10_salary">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--右下-->
+                <div class="right-bottom">
+                    <div class="title">
+                        <span>全国新生报到</span>
+                    </div>
+                    <!-- <div class="right-bottom-t">
+                        <div class="b-left">我是内容1</div>
+                        <div class="b-cent">我是内容2</div>
+                        <div class="b-right">我是内容3</div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/echarts.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/fontscroll.js"></script>
+    <script src="js/china.js"></script>
+
+    <script src="js/main.js"></script> <!-- 调用所有函数 -->
+    <script src="js/main1.js"></script> <!-- 左1 芯云学院介绍-->
+    <script src="js/main2.js"></script> <!-- 左中 22级各专业新生 -->
+    <script src="js/main7.js"></script> <!-- 中间底部2-右 全国新生报到 -->
+    <script src="js/main8.js"></script> <!-- 右上内容1-右 开发资源-->
+    <script src="js/main9.js"></script><!-- 右上内容2-右 基地信息-->
+    <script src="js/main10.js"></script> <!-- 右中内容-右 学生就业薪资-->
+
+    <script src="js/main_config.js"></script><!-- 其他内容 -->
+
+
+</body>
+
+</html>

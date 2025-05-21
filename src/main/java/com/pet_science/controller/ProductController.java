@@ -10,6 +10,7 @@ import com.pet_science.pojo.Product;
 import com.pet_science.pojo.Result;
 import com.pet_science.service.ProductService;
 import com.pet_science.utils.JWTUtil;
+import com.pet_science.utils.UserActivityTracker;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -17,10 +18,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +34,9 @@ import java.util.Map;
 public class ProductController {
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private UserActivityTracker trackUserActivity; // 用户活跃信息记录
 
     @GetMapping("/list")
     @RequireUser
@@ -45,6 +52,8 @@ public class ProductController {
         int verify = JWTUtil.verifyToken(token);
         if (verify != 1) { // 如果不是管理员，则只显示上架的产品
             params.put("status", 1);
+             // 统计用户活跃信息
+            trackUserActivity.trackUserActivity(token);
         }
         // 获取分页参数
         Integer pageNum = params.get("pageNum") != null ? Integer.parseInt(params.get("pageNum").toString()) : 1;

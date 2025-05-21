@@ -1,0 +1,382 @@
+{
+  "list": [
+    {
+      "id": 1,
+      "collegeName": "成都工业职业学院",
+      "majorsName": "大数据",
+      "numberOfStudents": 150
+    },
+    {
+      "id": 2,
+      "collegeName": "成都工业职业学院",
+      "majorsName": "云计算",
+      "numberOfStudents": 135
+    },
+    {
+      "id": 3,
+      "collegeName": "成都工业职业学院",
+      "majorsName": "软件技术",
+      "numberOfStudents": 120
+    },
+    {
+      "id": 4,
+      "collegeName": "成都工业职业学院",
+      "majorsName": "移动应用",
+      "numberOfStudents": 280
+    },
+    {
+      "id": 5,
+      "collegeName": "成都工业职业学院",
+      "majorsName": "人工智能",
+      "numberOfStudents": 125
+    },
+    {
+      "id": 6,
+      "collegeName": "成都工业职业学院",
+      "majorsName": "现代通信",
+      "numberOfStudents": 142
+    },
+    {
+      "id": 7,
+      "collegeName": "成都工业职业学院",
+      "majorsName": "信息安全",
+      "numberOfStudents": 226
+    },
+    {
+      "id": 8,
+      "collegeName": "成都工业职业学院",
+      "majorsName": "物联网",
+      "numberOfStudents": 245
+    },
+    {
+      "id": 9,
+      "collegeName": "浙江安防",
+      "majorsName": "大数据",
+      "numberOfStudents": 100
+    },
+    {
+      "id": 10,
+      "collegeName": "浙江安防",
+      "majorsName": "云计算",
+      "numberOfStudents": 80
+    },
+    {
+      "id": 11,
+      "collegeName": "浙江安防",
+      "majorsName": "软件技术",
+      "numberOfStudents": 200
+    },
+    {
+      "id": 12,
+      "collegeName": "浙江安防",
+      "majorsName": "移动应用",
+      "numberOfStudents": 0
+    },
+    {
+      "id": 13,
+      "collegeName": "浙江安防",
+      "majorsName": "人工智能",
+      "numberOfStudents": 0
+    },
+    {
+      "id": 14,
+      "collegeName": "浙江安防",
+      "majorsName": "现代通信",
+      "numberOfStudents": 0
+    },
+    {
+      "id": 15,
+      "collegeName": "浙江安防",
+      "majorsName": "信息安全",
+      "numberOfStudents": 360
+    },
+    {
+      "id": 16,
+      "collegeName": "浙江安防",
+      "majorsName": "物联网",
+      "numberOfStudents": 120
+    },
+    {
+      "id": 17,
+      "collegeName": "贵州芯云",
+      "majorsName": "大数据",
+      "numberOfStudents": 120
+    },
+    {
+      "id": 18,
+      "collegeName": "贵州芯云",
+      "majorsName": "云计算",
+      "numberOfStudents": 120
+    },
+    {
+      "id": 19,
+      "collegeName": "贵州芯云",
+      "majorsName": "软件技术",
+      "numberOfStudents": 160
+    },
+    {
+      "id": 20,
+      "collegeName": "贵州芯云",
+      "majorsName": "移动应用",
+      "numberOfStudents": 80
+    },
+    {
+      "id": 21,
+      "collegeName": "贵州芯云",
+      "majorsName": "人工智能",
+      "numberOfStudents": 120
+    },
+    {
+      "id": 22,
+      "collegeName": "贵州芯云",
+      "majorsName": "现代通信",
+      "numberOfStudents": 200
+    },
+    {
+      "id": 23,
+      "collegeName": "贵州芯云",
+      "majorsName": "信息安全",
+      "numberOfStudents": 80
+    },
+    {
+      "id": 24,
+      "collegeName": "贵州芯云",
+      "majorsName": "物联网",
+      "numberOfStudents": 268
+    },
+    {
+      "id": 25,
+      "collegeName": "重庆芯云",
+      "majorsName": "大数据",
+      "numberOfStudents": 120
+    },
+    {
+      "id": 26,
+      "collegeName": "重庆芯云",
+      "majorsName": "云计算",
+      "numberOfStudents": 60
+    },
+    {
+      "id": 27,
+      "collegeName": "重庆芯云",
+      "majorsName": "软件技术",
+      "numberOfStudents": 100
+    },
+    {
+      "id": 28,
+      "collegeName": "重庆芯云",
+      "majorsName": "移动应用",
+      "numberOfStudents": 200
+    },
+    {
+      "id": 29,
+      "collegeName": "重庆芯云",
+      "majorsName": "人工智能",
+      "numberOfStudents": 50
+    },
+    {
+      "id": 30,
+      "collegeName": "重庆芯云",
+      "majorsName": "现代通信",
+      "numberOfStudents": 326
+    },
+    {
+      "id": 31,
+      "collegeName": "重庆芯云",
+      "majorsName": "信息安全",
+      "numberOfStudents": 126
+    },
+    {
+      "id": 32,
+      "collegeName": "重庆芯云",
+      "majorsName": "物联网",
+      "numberOfStudents": 86
+    },
+    {
+      "id": 33,
+      "collegeName": "安徽芯云",
+      "majorsName": "大数据",
+      "numberOfStudents": 90
+    },
+    {
+      "id": 34,
+      "collegeName": "安徽芯云",
+      "majorsName": "云计算",
+      "numberOfStudents": 68
+    },
+    {
+      "id": 35,
+      "collegeName": "安徽芯云",
+      "majorsName": "软件技术",
+      "numberOfStudents": 125
+    },
+    {
+      "id": 36,
+      "collegeName": "安徽芯云",
+      "majorsName": "移动应用",
+      "numberOfStudents": 80
+    },
+    {
+      "id": 37,
+      "collegeName": "安徽芯云",
+      "majorsName": "人工智能",
+      "numberOfStudents": 120
+    },
+    {
+      "id": 38,
+      "collegeName": "安徽芯云",
+      "majorsName": "现代通信",
+      "numberOfStudents": 89
+    },
+    {
+      "id": 39,
+      "collegeName": "安徽芯云",
+      "majorsName": "信息安全",
+      "numberOfStudents": 62
+    },
+    {
+      "id": 40,
+      "collegeName": "安徽芯云",
+      "majorsName": "物联网",
+      "numberOfStudents": 142
+    },
+    {
+      "id": 41,
+      "collegeName": "上海芯云",
+      "majorsName": "大数据",
+      "numberOfStudents": 116
+    },
+    {
+      "id": 42,
+      "collegeName": "上海芯云",
+      "majorsName": "云计算",
+      "numberOfStudents": 60
+    },
+    {
+      "id": 43,
+      "collegeName": "上海芯云",
+      "majorsName": "软件技术",
+      "numberOfStudents": 248
+    },
+    {
+      "id": 44,
+      "collegeName": "上海芯云",
+      "majorsName": "移动应用",
+      "numberOfStudents": 80
+    },
+    {
+      "id": 45,
+      "collegeName": "上海芯云",
+      "majorsName": "人工智能",
+      "numberOfStudents": 265
+    },
+    {
+      "id": 46,
+      "collegeName": "上海芯云",
+      "majorsName": "现代通信",
+      "numberOfStudents": 186
+    },
+    {
+      "id": 47,
+      "collegeName": "上海芯云",
+      "majorsName": "信息安全",
+      "numberOfStudents": 110
+    },
+    {
+      "id": 48,
+      "collegeName": "上海芯云",
+      "majorsName": "物联网",
+      "numberOfStudents": 242
+    },
+    {
+      "id": 49,
+      "collegeName": "昭通芯云",
+      "majorsName": "大数据",
+      "numberOfStudents": 400
+    },
+    {
+      "id": 50,
+      "collegeName": "昭通芯云",
+      "majorsName": "云计算",
+      "numberOfStudents": 55
+    },
+    {
+      "id": 51,
+      "collegeName": "昭通芯云",
+      "majorsName": "软件技术",
+      "numberOfStudents": 60
+    },
+    {
+      "id": 52,
+      "collegeName": "昭通芯云",
+      "majorsName": "移动应用",
+      "numberOfStudents": 50
+    },
+    {
+      "id": 53,
+      "collegeName": "昭通芯云",
+      "majorsName": "人工智能",
+      "numberOfStudents": 50
+    },
+    {
+      "id": 54,
+      "collegeName": "昭通芯云",
+      "majorsName": "现代通信",
+      "numberOfStudents": 100
+    },
+    {
+      "id": 55,
+      "collegeName": "昭通芯云",
+      "majorsName": "信息安全",
+      "numberOfStudents": 600
+    },
+    {
+      "id": 56,
+      "collegeName": "昭通芯云",
+      "majorsName": "物联网",
+      "numberOfStudents": 50
+    },
+    {
+      "id": 57,
+      "collegeName": "六盘水芯云",
+      "majorsName": "大数据",
+      "numberOfStudents": 430
+    },
+    {
+      "id": 58,
+      "collegeName": "六盘水芯云",
+      "majorsName": "云计算",
+      "numberOfStudents": 50
+    },
+    {
+      "id": 59,
+      "collegeName": "六盘水芯云",
+      "majorsName": "软件技术",
+      "numberOfStudents": 79
+    },
+    {
+      "id": 60,
+      "collegeName": "六盘水芯云",
+      "majorsName": "人工智能",
+      "numberOfStudents": 60
+    },
+    {
+      "id": 61,
+      "collegeName": "六盘水芯云",
+      "majorsName": "现代通信",
+      "numberOfStudents": 120
+    },
+    {
+      "id": 62,
+      "collegeName": "六盘水芯云",
+      "majorsName": "信息安全",
+      "numberOfStudents": 220
+    },
+    {
+      "id": 63,
+      "collegeName": "六盘水芯云",
+      "majorsName": "物联网",
+      "numberOfStudents": 120
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+    "list": [
+        {
+            "id": 1,
+            "collegeName": "成都工职院",
+            "majorsName": "大数据",
+            "dateOfGraduation": "2022-7",
+            "name": "琴",
+            "salary": "15.6k",
+            "company": "勤智数据",
+            "city": "四川"
+        },
+        {
+            "id": 2,
+            "collegeName": "成都工职院",
+            "majorsName": "大数据",
+            "dateOfGraduation": "2022-7",
+            "name": "安柏",
+            "salary": "14.5k",
+            "company": "勤智数据",
+            "city": "四川"
+        },
+        {
+            "id": 3,
+            "collegeName": "成都工职院",
+            "majorsName": "大数据",
+            "dateOfGraduation": "2022-7",
+            "name": "丽莎",
+            "salary": "13.5k",
+            "company": "讯飞科技",
+            "city": "四川"
+        },
+        {
+            "id": 4,
+            "collegeName": "成都工职院",
+            "majorsName": "物联网",
+            "dateOfGraduation": "2022-7",
+            "name": "凯亚",
+            "salary": "13.5k",
+            "company": "民通科技",
+            "city": "四川"
+        },
+        {
+            "id": 5,
+            "collegeName": "成都工职院",
+            "majorsName": "现代通信",
+            "dateOfGraduation": "2022-7",
+            "name": "芭芭拉",
+            "salary": "14k",
+            "company": "远方国际",
+            "city": "深圳"
+        },
+        {
+            "id": 6,
+            "collegeName": "浙江安防",
+            "majorsName": "人工智能",
+            "dateOfGraduation": "2022-7",
+            "name": "迪卢克",
+            "salary": "12k",
+            "company": "夏星科技",
+            "city": "江苏"
+        },
+        {
+            "id": 7,
+            "collegeName": "浙江安防",
+            "majorsName": "大数据",
+            "dateOfGraduation": "2022-7",
+            "name": "班尼特",
+            "salary": "16k",
+            "company": "远通科技",
+            "city": "深圳"
+        },
+        {
+            "id": 8,
+            "collegeName": "广元芯云",
+            "majorsName": "大数据",
+            "dateOfGraduation": "2022-7",
+            "name": "温迪",
+            "salary": "12k",
+            "company": "讯飞科技",
+            "city": "四川"
+        },
+        {
+            "id": 9,
+            "collegeName": "广元芯云",
+            "majorsName": "云计算",
+            "dateOfGraduation": "2022-7",
+            "name": "可莉",
+            "salary": "11.5k",
+            "company": "民通科技",
+            "city": "江苏"
+        },
+        {
+            "id": 10,
+            "collegeName": "浙江安防",
+            "majorsName": "云计算",
+            "dateOfGraduation": "2022-7",
+            "name": "雷泽",
+            "salary": "11k",
+            "company": "民通科技",
+            "city": "江苏"
+        },
+        {
+            "id": 11,
+            "collegeName": "成都工职院",
+            "majorsName": "云计算",
+            "dateOfGraduation": "2022-7",
+            "name": "莫娜",
+            "salary": "8k",
+            "company": "讯飞科技",
+            "city": "四川"
+        },
+        {
+            "id": 12,
+            "collegeName": "浙江安防",
+            "majorsName": "现代通信",
+            "dateOfGraduation": "2021-7",
+            "name": "砂糖",
+            "salary": "7.5k",
+            "company": "远方国际",
+            "city": "深圳"
+        },
+        {
+            "id": 13,
+            "collegeName": "浙江安防",
+            "majorsName": "信息安全",
+            "dateOfGraduation": "2021-7",
+            "name": "菲谢尔",
+            "salary": "8k",
+            "company": "中铁信安",
+            "city": "北京"
+        },
+        {
+            "id": 14,
+            "collegeName": "成都工职院",
+            "majorsName": "信息安全",
+            "dateOfGraduation": "2021-7",
+            "name": "诺艾尔",
+            "salary": "7k",
+            "company": "中铁信安",
+            "city": "北京"
+        },
+        {
+            "id": 15,
+            "collegeName": "重庆芯云",
+            "majorsName": "大数据",
+            "dateOfGraduation": "2021-7",
+            "name": "迪奥娜",
+            "salary": "14k",
+            "company": "勤智数据",
+            "city": "四川"
+        },
+        {
+            "id": 16,
+            "collegeName": "重庆芯云",
+            "majorsName": "现代通信",
+            "dateOfGraduation": "2021-7",
+            "name": "阿贝多",
+            "salary": "7.5k",
+            "company": "远方国际",
+            "city": "深圳"
+        },
+        {
+            "id": 17,
+            "collegeName": "成都工职院",
+            "majorsName": "移动应用",
+            "dateOfGraduation": "2021-7",
+            "name": "优菈",
+            "salary": "9.5k",
+            "company": "斯塔科科技",
+            "city": "四川"
+        }
+    ],
+    "pageTotal": 17
+}
