@@ -20,7 +20,7 @@
 /**
 * 右内中容 - 产品销售额和占比
 */
-function index10() {
+function loadProductCategorySales() {
     $.ajax({
         url: '/api/dataVisual/productCategorySales',
         type: 'GET',
@@ -33,11 +33,11 @@ function index10() {
                 
                 // 添加表头
                 $("#main10_salary").append('<li class="header"><div class="fontInner clearfix"></div></li>');
-                $("#main10_salary").children('li.header').children("div").append("<span><b>产品类别</b></span>");
-                $("#main10_salary").children('li.header').children("div").append("<span><b>销售额(元)</b></span>");
-                $("#main10_salary").children('li.header').children("div").append("<span><b>订单数量</b></span>");
-                $("#main10_salary").children('li.header').children("div").append("<span><b>占比</b></span>");
-                
+                $("#main10_salary").children('li.header').children("div").append("<span>产品类别</span>");
+                $("#main10_salary").children('li.header').children("div").append("<span>销售额(元)</span>");
+                $("#main10_salary").children('li.header').children("div").append("<span>订单数量</span>");
+                $("#main10_salary").children('li.header').children("div").append("<span>占比</span>");
+
                 // 添加数据行
                 $.each(data, function (index, item) {
                     $("#main10_salary").append('<li><div class="fontInner clearfix"></div></li>');

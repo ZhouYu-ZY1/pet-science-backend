@@ -41,4 +41,56 @@ public interface DataVisualMapper {
      */
     @Select("SELECT type, COUNT(*) as count FROM pets GROUP BY `type`")
     List<Map<String, Object>> getPetTypeCounts();
+    
+    /**
+     * 获取各类产品销售额和占比
+     */
+    @Select("SELECT pc.category_name, IFNULL(SUM(oi.subtotal), 0) as sales_amount, " +
+            "COUNT(DISTINCT oi.order_id) as order_count " +
+            "FROM product_category pc " +
+            "LEFT JOIN products p ON pc.category_id = p.category " +
+            "LEFT JOIN order_items oi ON p.product_id = oi.product_id " +
+            "GROUP BY pc.category_id, pc.category_name")
+    List<Map<String, Object>> getProductCategorySales();
+
+    /**
+     * 获取总销售额
+     */
+    @Select("SELECT IFNULL(SUM(subtotal), 0) FROM order_items")
+    double getTotalSalesAmount();
+    
+    /**
+     * 获取订单收货地区分布
+     */
+    @Select("SELECT " +
+            "SUBSTRING_INDEX(os.address, '省', 1) as address, " +
+            "SUM(oi.quantity) as count " +
+            "FROM order_shipping os " +
+            "JOIN orders o ON os.order_id = o.order_id " +
+            "JOIN order_items oi ON o.order_id = oi.order_id " +
+            "WHERE os.address REGEXP '^[^省]+省' " +  // 匹配以省结尾的地址
+            "GROUP BY SUBSTRING_INDEX(os.address, '省', 1) " +
+            "UNION ALL " +
+            "SELECT " +
+            "SUBSTRING_INDEX(os.address, '市', 1) as address, " +
+            "SUM(oi.quantity) as count " +
+            "FROM order_shipping os " +
+            "JOIN orders o ON os.order_id = o.order_id " +
+            "JOIN order_items oi ON o.order_id = oi.order_id " +
+            "WHERE os.address REGEXP '^[^市]+市' " +  // 匹配直辖市
+            "AND os.address NOT REGEXP '^[^省]+省' " +  // 排除省份地址
+            "GROUP BY SUBSTRING_INDEX(os.address, '市', 1)")
+    List<Map<String, Object>> getOrderRegionDistribution();
+    
+    /**
+     * 获取销量最高的商品TOP10
+     */
+    @Select("SELECT p.product_id, p.product_name, p.main_image, " +
+            "SUM(oi.quantity) as total_sales " +
+            "FROM order_items oi " +
+            "JOIN products p ON oi.product_id = p.product_id " +
+            "GROUP BY p.product_id, p.product_name, p.main_image " +
+            "ORDER BY total_sales DESC " +
+            "LIMIT 10")
+    List<Map<String, Object>> getTopSellingProducts();
 }

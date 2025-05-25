@@ -11,7 +11,7 @@
  Target Server Version : 80042
  File Encoding         : 65001
 
- Date: 21/05/2025 14:20:04
+ Date: 23/05/2025 22:27:59
 */
 
 SET NAMES utf8mb4;
@@ -118,7 +118,7 @@ CREATE TABLE `follows`  (
   INDEX `idx_to_user_id`(`to_user_id`) USING BTREE,
   CONSTRAINT `fk_follow_from_user` FOREIGN KEY (`from_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_follow_to_user` FOREIGN KEY (`to_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '关注记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '关注记录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of follows
@@ -130,10 +130,10 @@ INSERT INTO `follows` VALUES (8, 8, 7, '2025-04-22 15:31:25');
 INSERT INTO `follows` VALUES (17, 9, 7, '2025-04-27 16:07:01');
 INSERT INTO `follows` VALUES (24, 7, 8, '2025-05-16 20:33:00');
 INSERT INTO `follows` VALUES (26, 7, 3, '2025-05-16 20:37:18');
-INSERT INTO `follows` VALUES (27, 7, 4, '2025-05-16 20:39:43');
 INSERT INTO `follows` VALUES (28, 12, 7, '2025-05-19 16:05:31');
 INSERT INTO `follows` VALUES (31, 12, 4, '2025-05-19 16:08:22');
 INSERT INTO `follows` VALUES (32, 12, 3, '2025-05-19 16:08:27');
+INSERT INTO `follows` VALUES (34, 7, 4, '2025-05-22 08:59:16');
 
 -- ----------------------------
 -- Table structure for order_items
@@ -155,7 +155,7 @@ CREATE TABLE `order_items`  (
   INDEX `idx_product_id`(`product_id`) USING BTREE,
   CONSTRAINT `fk_order_items_order_id` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 67 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '订单商品表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 78 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '订单商品表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of order_items
@@ -210,6 +210,17 @@ INSERT INTO `order_items` VALUES (61, 61, 20, '狗狗毛绒发声飞盘玩具自
 INSERT INTO `order_items` VALUES (62, 62, 6, '幼犬专用狗粮 3kg装', '/images/product/0dc5a953-2703-44d5-b6e4-ff24a45867e5.jpg;/images/product/b2111937-8bce-412c-bf6f-0831d4cc683e.jpg;/images/product/364b92ab-370d-42d8-b1c7-9ac78640cc17.jpg', 2, 100.00, 200.00, '2025-05-12 10:44:55', '2025-05-12 10:44:55');
 INSERT INTO `order_items` VALUES (63, 63, 15, '麦德氏小分子鲨鱼软骨素狗狗专用泰迪金毛宠物狗狗关节补钙软骨素', '/images/product/7f029bec-9283-4b9b-ba5b-01c33125abf3.jpg;/images/product/7632354d-23fb-41ee-9c86-41e69393dd8f.jpg;/images/product/59cf41f1-bc5c-4a91-a9cb-74dc41a65100.jpg;/images/product/6d0c3e51-5245-4082-a0cd-a8bf77428bb8.jpg', 3, 128.00, 384.00, '2025-05-12 15:24:00', '2025-05-12 15:24:00');
 INSERT INTO `order_items` VALUES (65, 65, 16, '星宴猫粮全价风干粮成猫幼猫小猫营养高蛋白蓝猫布偶猫专用国产', '/images/product/2b0f61bb-568b-4619-b58e-00c053b7ac55.jpg', 2, 158.00, 316.00, '2025-05-15 09:11:29', '2025-05-15 09:11:29');
+INSERT INTO `order_items` VALUES (67, 67, 17, '狗粮40斤装成犬幼型犬专用金毛拉布拉多边牧通用全价', '/images/product/9d1d2d74-0a56-4532-9052-ded624225f94.jpg', 1, 115.00, 115.00, '2025-05-21 19:19:30', '2025-05-21 19:19:30');
+INSERT INTO `order_items` VALUES (68, 68, 19, '全犬通用狗粮10斤装冻干小型犬农村土狗专用成犬幼犬中大型犬', '/images/product/93b71c2e-ade3-40ed-b1f9-d5073ca5f579.jpg;/images/product/d216cc3b-8c05-4e8e-bb18-ddd8c9152c62.jpg', 4, 45.00, 180.00, '2025-05-22 09:14:41', '2025-05-22 09:14:41');
+INSERT INTO `order_items` VALUES (69, 69, 19, '全犬通用狗粮10斤装冻干小型犬农村土狗专用成犬幼犬中大型犬', '/images/product/93b71c2e-ade3-40ed-b1f9-d5073ca5f579.jpg;/images/product/d216cc3b-8c05-4e8e-bb18-ddd8c9152c62.jpg', 5, 45.00, 225.00, '2025-05-22 13:52:03', '2025-05-22 13:52:03');
+INSERT INTO `order_items` VALUES (70, 70, 22, '小佩自动喂食器SOLO猫咪定时自动投食机猫粮狗粮智能宠物喂食机', '/images/product/ff8af37d-ffee-4d64-9af8-6df06510b5ac.jpg;/images/product/5816a9a4-a3ea-4159-884e-99dfa25b9c4f.jpg', 1, 269.00, 269.00, '2025-05-22 14:36:01', '2025-05-22 14:36:01');
+INSERT INTO `order_items` VALUES (71, 71, 17, '狗粮40斤装成犬幼型犬专用金毛拉布拉多边牧通用全价', '/images/product/9d1d2d74-0a56-4532-9052-ded624225f94.jpg', 10, 115.00, 1150.00, '2025-05-23 08:55:45', '2025-05-23 08:55:45');
+INSERT INTO `order_items` VALUES (72, 72, 15, '麦德氏小分子鲨鱼软骨素狗狗专用泰迪金毛宠物狗狗关节补钙软骨素', '/images/product/7f029bec-9283-4b9b-ba5b-01c33125abf3.jpg;/images/product/7632354d-23fb-41ee-9c86-41e69393dd8f.jpg;/images/product/59cf41f1-bc5c-4a91-a9cb-74dc41a65100.jpg;/images/product/6d0c3e51-5245-4082-a0cd-a8bf77428bb8.jpg', 3, 128.00, 384.00, '2025-05-23 22:04:34', '2025-05-23 22:04:34');
+INSERT INTO `order_items` VALUES (73, 73, 15, '麦德氏小分子鲨鱼软骨素狗狗专用泰迪金毛宠物狗狗关节补钙软骨素', '/images/product/7f029bec-9283-4b9b-ba5b-01c33125abf3.jpg;/images/product/7632354d-23fb-41ee-9c86-41e69393dd8f.jpg;/images/product/59cf41f1-bc5c-4a91-a9cb-74dc41a65100.jpg;/images/product/6d0c3e51-5245-4082-a0cd-a8bf77428bb8.jpg', 1, 128.00, 128.00, '2025-05-23 22:21:58', '2025-05-23 22:21:58');
+INSERT INTO `order_items` VALUES (74, 74, 22, '小佩自动喂食器SOLO猫咪定时自动投食机猫粮狗粮智能宠物喂食机', '/images/product/ff8af37d-ffee-4d64-9af8-6df06510b5ac.jpg;/images/product/5816a9a4-a3ea-4159-884e-99dfa25b9c4f.jpg', 11, 269.00, 2959.00, '2025-05-23 22:22:26', '2025-05-23 22:22:26');
+INSERT INTO `order_items` VALUES (75, 75, 2, '猫咪玩具车自动逗猫棒自嗨解闷电动充电智能激光灯红外线宠物用品', '/images/product/f55c9269-586e-4f4d-a124-d6deca6c6b3c.jpg;/images/product/308df7f8-41eb-49d4-96fa-3485f2def905.jpg', 56, 38.00, 2128.00, '2025-05-23 22:24:06', '2025-05-23 22:24:06');
+INSERT INTO `order_items` VALUES (76, 76, 1, '优质天然猫粮 2kg装', '/images/product/7ddf05d9-c91b-4203-8844-3758273a8a1c.jpg;/images/product/12ffdd31-ba9a-41e7-a417-0e3af7df7dfa.jpg', 12, 150.00, 1800.00, '2025-05-23 22:24:53', '2025-05-23 22:24:53');
+INSERT INTO `order_items` VALUES (77, 77, 1, '优质天然猫粮 2kg装', '/images/product/7ddf05d9-c91b-4203-8844-3758273a8a1c.jpg;/images/product/12ffdd31-ba9a-41e7-a417-0e3af7df7dfa.jpg', 7, 150.00, 1050.00, '2025-05-23 22:25:55', '2025-05-23 22:25:55');
 
 -- ----------------------------
 -- Table structure for order_payment
@@ -230,7 +241,7 @@ CREATE TABLE `order_payment`  (
   INDEX `idx_payment_status`(`payment_status`) USING BTREE,
   INDEX `idx_payment_time`(`payment_time`) USING BTREE,
   CONSTRAINT `fk_order_payment_order_id` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '订单支付表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '订单支付表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of order_payment
@@ -259,6 +270,17 @@ INSERT INTO `order_payment` VALUES (23, 59, 'wx', 49.99, 'success', NULL, '2025-
 INSERT INTO `order_payment` VALUES (24, 61, 'wx', 236.40, 'success', NULL, '2025-05-09 11:32:31', '2025-05-09 11:32:31', '2025-05-09 11:32:31');
 INSERT INTO `order_payment` VALUES (25, 62, 'zfb', 200.00, 'success', NULL, '2025-05-12 10:45:07', '2025-05-12 10:45:07', '2025-05-12 10:45:07');
 INSERT INTO `order_payment` VALUES (28, 63, 'wx', 384.00, 'success', NULL, '2025-05-13 11:26:33', '2025-05-13 11:26:33', '2025-05-13 11:26:33');
+INSERT INTO `order_payment` VALUES (30, 67, 'wx', 115.00, 'success', NULL, '2025-05-21 19:19:52', '2025-05-21 19:19:52', '2025-05-21 19:19:52');
+INSERT INTO `order_payment` VALUES (31, 68, 'wx', 180.00, 'success', NULL, '2025-05-22 09:15:05', '2025-05-22 09:15:05', '2025-05-22 09:15:05');
+INSERT INTO `order_payment` VALUES (32, 69, 'wx', 225.00, 'success', NULL, '2025-05-22 13:52:35', '2025-05-22 13:52:35', '2025-05-22 13:52:35');
+INSERT INTO `order_payment` VALUES (33, 70, 'wx', 269.00, 'success', NULL, '2025-05-22 14:36:48', '2025-05-22 14:36:48', '2025-05-22 14:36:48');
+INSERT INTO `order_payment` VALUES (34, 71, 'zfb', 1150.00, 'success', NULL, '2025-05-23 08:56:00', '2025-05-23 08:56:00', '2025-05-23 08:56:00');
+INSERT INTO `order_payment` VALUES (35, 72, 'zfb', 384.00, 'success', NULL, '2025-05-23 22:04:49', '2025-05-23 22:04:49', '2025-05-23 22:04:49');
+INSERT INTO `order_payment` VALUES (36, 74, 'zfb', 2959.00, 'success', NULL, '2025-05-23 22:22:31', '2025-05-23 22:22:31', '2025-05-23 22:22:31');
+INSERT INTO `order_payment` VALUES (37, 73, 'wx', 128.00, 'success', NULL, '2025-05-23 22:22:44', '2025-05-23 22:22:44', '2025-05-23 22:22:44');
+INSERT INTO `order_payment` VALUES (38, 75, 'wx', 2128.00, 'success', NULL, '2025-05-23 22:24:18', '2025-05-23 22:24:18', '2025-05-23 22:24:18');
+INSERT INTO `order_payment` VALUES (39, 76, 'wx', 1800.00, 'success', NULL, '2025-05-23 22:25:00', '2025-05-23 22:25:00', '2025-05-23 22:25:00');
+INSERT INTO `order_payment` VALUES (40, 77, 'wx', 1050.00, 'success', NULL, '2025-05-23 22:25:59', '2025-05-23 22:25:59', '2025-05-23 22:25:59');
 
 -- ----------------------------
 -- Table structure for order_shipping
@@ -282,17 +304,17 @@ CREATE TABLE `order_shipping`  (
   INDEX `idx_shipping_status`(`shipping_status`) USING BTREE,
   INDEX `idx_tracking_number`(`tracking_number`) USING BTREE,
   CONSTRAINT `fk_order_shipping_order_id` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 67 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '订单物流表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 78 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '订单物流表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of order_shipping
 -- ----------------------------
-INSERT INTO `order_shipping` VALUES (2, 2, '四川成都金堂县白果街道', '李四', '18957390912', 'pending', '', NULL, NULL, '', '2025-04-06 20:16:50', '2025-04-06 20:16:50');
-INSERT INTO `order_shipping` VALUES (3, 3, '四川成都金堂县白果街道', '李四', '18957390912', 'pending', '', NULL, NULL, '', '2025-04-10 10:08:34', '2025-04-10 10:08:34');
-INSERT INTO `order_shipping` VALUES (6, 6, '四川成都金堂县白果街道', '李四', '18957390912', 'pending', '', NULL, NULL, '', '2025-04-10 10:17:19', '2025-04-10 10:17:19');
-INSERT INTO `order_shipping` VALUES (7, 7, '四川成都金堂县白果街道', '李四', '18957390912', 'pending', '', NULL, NULL, '', '2025-04-10 10:19:06', '2025-04-10 10:19:06');
-INSERT INTO `order_shipping` VALUES (14, 14, '四川成都金堂县白果街道', '李四', '18957390912', 'pending', '', NULL, NULL, '', '2025-04-10 11:18:27', '2025-04-10 11:18:27');
-INSERT INTO `order_shipping` VALUES (15, 15, '四川成都金堂县白果街道', '李四', '18957390912', 'pending', NULL, NULL, NULL, NULL, '2025-04-29 16:07:21', '2025-04-29 16:07:21');
+INSERT INTO `order_shipping` VALUES (2, 2, '四川省成都市金堂县白果街道', '李四', '18957390912', 'shipped', 'YTO73429587349', '2025-05-22 20:27:04', NULL, 'YTO', '2025-04-06 20:16:50', '2025-05-22 20:27:03');
+INSERT INTO `order_shipping` VALUES (3, 3, '四川省成都市金堂县白果街道', '李四', '18957390912', 'pending', '', NULL, NULL, '', '2025-04-10 10:08:34', '2025-04-10 10:08:34');
+INSERT INTO `order_shipping` VALUES (6, 6, '四川省成都市金堂县白果街道', '李四', '18957390912', 'pending', '', NULL, NULL, '', '2025-04-10 10:17:19', '2025-04-10 10:17:19');
+INSERT INTO `order_shipping` VALUES (7, 7, '四川省成都市金堂县白果街道', '李四', '18957390912', 'pending', '', NULL, NULL, '', '2025-04-10 10:19:06', '2025-04-10 10:19:06');
+INSERT INTO `order_shipping` VALUES (14, 14, '四川省成都市金堂县白果街道', '李四', '18957390912', 'pending', '', NULL, NULL, '', '2025-04-10 11:18:27', '2025-04-10 11:18:27');
+INSERT INTO `order_shipping` VALUES (15, 15, '四川省成都市金堂县白果街道', '李四', '18957390912', 'pending', NULL, NULL, NULL, NULL, '2025-04-29 16:07:21', '2025-04-29 16:07:21');
 INSERT INTO `order_shipping` VALUES (18, 18, '四川省成都市金堂县', '测试用户', '18890908888', 'pending', NULL, NULL, NULL, NULL, '2025-04-30 18:08:11', '2025-04-30 18:08:11');
 INSERT INTO `order_shipping` VALUES (19, 19, '四川省成都市金堂县', '测试用户', '18890908888', 'pending', NULL, NULL, NULL, NULL, '2025-04-30 18:09:12', '2025-04-30 18:09:12');
 INSERT INTO `order_shipping` VALUES (20, 20, '四川省成都市金堂县', '测试用户', '18890908888', 'pending', NULL, NULL, NULL, NULL, '2025-04-30 18:09:52', '2025-04-30 18:09:52');
@@ -337,6 +359,17 @@ INSERT INTO `order_shipping` VALUES (61, 61, '四川省成都市金堂县 白果
 INSERT INTO `order_shipping` VALUES (62, 62, '北京市北京市石景山区 xx景区', '王五', '18966666666', 'pending', NULL, NULL, NULL, NULL, '2025-05-12 10:44:55', '2025-05-12 10:44:55');
 INSERT INTO `order_shipping` VALUES (63, 63, '四川省成都市金堂县 白果街道', '张三', '18958648888', 'shipped', 'SF777777777', '2025-05-16 10:02:44', NULL, 'SF', '2025-05-12 15:24:00', '2025-05-16 10:02:44');
 INSERT INTO `order_shipping` VALUES (65, 65, '四川省成都市金堂县 白果街道', '张三', '18958648888', 'pending', NULL, NULL, NULL, NULL, '2025-05-15 09:11:29', '2025-05-15 09:11:29');
+INSERT INTO `order_shipping` VALUES (67, 67, '北京市北京市石景山区 xx景区', '王五', '18966666666', 'delivered', 'ZT777777777777', '2025-05-21 19:22:26', '2025-05-21 19:24:06', 'ZTO', '2025-05-21 19:19:30', '2025-05-21 19:24:06');
+INSERT INTO `order_shipping` VALUES (68, 68, '四川省成都市双流区 九江街道', '李四', '18966666666', 'delivered', 'SF88888888', '2025-05-22 09:15:25', '2025-05-22 09:15:55', 'SF', '2025-05-22 09:14:41', '2025-05-22 09:15:54');
+INSERT INTO `order_shipping` VALUES (69, 69, '北京市北京市石景山区 xx景区', '王五', '18966666666', 'delivered', 'SF999999999', '2025-05-22 13:53:09', '2025-05-22 13:53:41', 'SF', '2025-05-22 13:52:03', '2025-05-22 13:53:41');
+INSERT INTO `order_shipping` VALUES (70, 70, '四川省成都市锦江区 xx街道', '小周', '18956567878', 'shipped', 'JD3452345', '2025-05-22 20:21:56', NULL, 'JD', '2025-05-22 14:36:01', '2025-05-22 20:21:55');
+INSERT INTO `order_shipping` VALUES (71, 71, '青海省海西蒙古族藏族自治州都兰县 宗加镇', '张三', '18166666666', 'pending', NULL, NULL, NULL, NULL, '2025-05-23 08:55:45', '2025-05-23 08:55:45');
+INSERT INTO `order_shipping` VALUES (72, 72, '四川省成都市金堂县 白果街道', '张三', '18958648888', 'pending', NULL, NULL, NULL, NULL, '2025-05-23 22:04:34', '2025-05-23 22:04:34');
+INSERT INTO `order_shipping` VALUES (73, 73, '重庆市重庆市江北区 五里店街道渝鲁大道', '张三', '18166666666', 'pending', NULL, NULL, NULL, NULL, '2025-05-23 22:21:58', '2025-05-23 22:21:58');
+INSERT INTO `order_shipping` VALUES (74, 74, '重庆市重庆市江北区 五里店街道渝鲁大道', '张三', '18166666666', 'pending', NULL, NULL, NULL, NULL, '2025-05-23 22:22:26', '2025-05-23 22:22:26');
+INSERT INTO `order_shipping` VALUES (75, 75, '广东省韶关市新丰县 马头镇', '张三', '18166666666', 'pending', NULL, NULL, NULL, NULL, '2025-05-23 22:24:06', '2025-05-23 22:24:06');
+INSERT INTO `order_shipping` VALUES (76, 76, '河南省平顶山市叶县 遵化店镇', '张三', '18166666666', 'pending', NULL, NULL, NULL, NULL, '2025-05-23 22:24:53', '2025-05-23 22:24:53');
+INSERT INTO `order_shipping` VALUES (77, 77, '湖北省武汉市江岸区 一元街道胜利街200号人民政府', '张三', '18166666666', 'pending', NULL, NULL, NULL, NULL, '2025-05-23 22:25:55', '2025-05-23 22:25:55');
 
 -- ----------------------------
 -- Table structure for orders
@@ -357,12 +390,12 @@ CREATE TABLE `orders`  (
   INDEX `idx_status`(`status`) USING BTREE,
   INDEX `idx_created_at`(`created_at`) USING BTREE,
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 67 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '订单主表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 78 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '订单主表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES (2, 4, 'ORD202504067928b9', 1000.00, 'paid', '10份猫粮', '2025-04-06 20:16:50', '2025-04-10 10:59:28');
+INSERT INTO `orders` VALUES (2, 4, 'ORD202504067928b9', 1000.00, 'shipped', '10份猫粮', '2025-04-06 20:16:50', '2025-05-22 20:27:03');
 INSERT INTO `orders` VALUES (3, 4, 'ORD20250410034c62', 1000.00, 'cancelled', '10份猫粮', '2025-04-10 10:08:34', '2025-04-10 10:09:34');
 INSERT INTO `orders` VALUES (6, 4, 'ORD20250410cc682f', 1000.00, 'cancelled', '10份猫粮', '2025-04-10 10:17:19', '2025-04-10 10:18:19');
 INSERT INTO `orders` VALUES (7, 4, 'ORD20250410f92650', 1000.00, 'cancelled', '10份猫粮', '2025-04-10 10:19:06', '2025-04-10 10:20:06');
@@ -412,6 +445,17 @@ INSERT INTO `orders` VALUES (61, 7, 'ORD202505099ae07d', 236.40, 'paid', '2.5L �
 INSERT INTO `orders` VALUES (62, 7, 'ORD20250512cec0dc', 200.00, 'paid', '2.5L 白色 user:备注信息', '2025-05-12 10:44:55', '2025-05-12 10:45:07');
 INSERT INTO `orders` VALUES (63, 7, 'ORD20250512d5c5c3', 384.00, 'shipped', '2.5L 粉色  用户备注：备注信息', '2025-05-12 15:24:00', '2025-05-16 10:02:44');
 INSERT INTO `orders` VALUES (65, 7, 'ORD2025051549e6d4', 316.00, 'cancelled', '2.5L 白色  用户备注：备注信息', '2025-05-15 09:11:29', '2025-05-15 09:12:29');
+INSERT INTO `orders` VALUES (67, 7, 'ORD20250521b8a801', 115.00, 'completed', '2.5L 粉色  用户备注：备注信息', '2025-05-21 19:19:30', '2025-05-21 19:24:06');
+INSERT INTO `orders` VALUES (68, 7, 'ORD20250522ac6613', 180.00, 'completed', '2.5L 白色  用户备注：备注信息', '2025-05-22 09:14:41', '2025-05-22 09:15:54');
+INSERT INTO `orders` VALUES (69, 7, 'ORD20250522a0bc4a', 225.00, 'completed', '2.5L 白色  用户备注：备注信息', '2025-05-22 13:52:03', '2025-05-22 13:53:41');
+INSERT INTO `orders` VALUES (70, 7, 'ORD20250522ac19d5', 269.00, 'shipped', '2.5L 白色  用户备注：备注信息', '2025-05-22 14:36:01', '2025-05-22 20:21:55');
+INSERT INTO `orders` VALUES (71, 7, 'ORD2025052389cce5', 1150.00, 'paid', '2.5L 白色  用户备注：备注信息', '2025-05-23 08:55:45', '2025-05-23 08:55:59');
+INSERT INTO `orders` VALUES (72, 7, 'ORD20250523b5732e', 384.00, 'paid', '2.5L 白色  用户备注：备注信息', '2025-05-23 22:04:34', '2025-05-23 22:04:48');
+INSERT INTO `orders` VALUES (73, 7, 'ORD2025052354b535', 128.00, 'paid', '2.5L 白色  用户备注：备注信息', '2025-05-23 22:21:58', '2025-05-23 22:22:43');
+INSERT INTO `orders` VALUES (74, 7, 'ORD20250523e6ff22', 2959.00, 'paid', '2.5L 白色  用户备注：备注信息', '2025-05-23 22:22:26', '2025-05-23 22:22:31');
+INSERT INTO `orders` VALUES (75, 7, 'ORD2025052356d0c2', 2128.00, 'paid', '2.5L 白色  用户备注：备注信息', '2025-05-23 22:24:06', '2025-05-23 22:24:17');
+INSERT INTO `orders` VALUES (76, 7, 'ORD2025052331e4dd', 1800.00, 'paid', '2.5L 白色  用户备注：备注信息', '2025-05-23 22:24:53', '2025-05-23 22:25:00');
+INSERT INTO `orders` VALUES (77, 7, 'ORD20250523601386', 1050.00, 'paid', '2.5L 白色  用户备注：备注信息', '2025-05-23 22:25:55', '2025-05-23 22:25:59');
 
 -- ----------------------------
 -- Table structure for pets
@@ -430,7 +474,7 @@ CREATE TABLE `pets`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_user_id`(`user_id`) USING BTREE COMMENT '用户ID索引',
   CONSTRAINT `pets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '宠物信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 426 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '宠物信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pets
@@ -737,15 +781,16 @@ CREATE TABLE `user_addresses`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_user_id`(`user_id`) USING BTREE,
   INDEX `idx_is_default`(`is_default`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户收货地址表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户收货地址表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of user_addresses
 -- ----------------------------
-INSERT INTO `user_addresses` VALUES (1, 7, '张三', '18958648888', '四川省', '成都市', '金堂县', '白果街道', '学校', 1, '2025-05-07 10:44:43', '2025-05-07 13:27:25');
+INSERT INTO `user_addresses` VALUES (1, 7, '张三', '18958648888', '四川省', '成都市', '金堂县', '白果街道', '学校', 0, '2025-05-07 10:44:43', '2025-05-23 22:22:09');
 INSERT INTO `user_addresses` VALUES (3, 7, '李四', '18966666666', '四川省', '成都市', '双流区', '九江街道', '学校', 0, '2025-05-07 10:53:35', '2025-05-07 12:55:47');
 INSERT INTO `user_addresses` VALUES (4, 7, '王五', '18966666666', '北京市', '北京市', '石景山区', 'xx景区', '景区', 0, '2025-05-07 12:56:04', '2025-05-08 08:54:58');
 INSERT INTO `user_addresses` VALUES (5, 7, '小周', '18956567878', '四川省', '成都市', '锦江区', 'xx街道', '家', 0, '2025-05-07 13:26:57', '2025-05-08 08:54:11');
+INSERT INTO `user_addresses` VALUES (6, 7, '张三', '18166666666', '湖北省', '武汉市', '江岸区', '一元街道胜利街200号人民政府', '家', 1, '2025-05-23 08:55:23', '2025-05-23 22:25:48');
 
 -- ----------------------------
 -- Table structure for users
@@ -773,7 +818,7 @@ CREATE TABLE `users`  (
   INDEX `idx_username`(`username`) USING BTREE,
   INDEX `idx_email`(`email`) USING BTREE,
   INDEX `user_id`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户基本信息表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 114 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户基本信息表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of users
@@ -829,7 +874,7 @@ INSERT INTO `users` VALUES (52, 'meng_723398', '$2a$10$fakehashedpassword', 'men
 INSERT INTO `users` VALUES (53, 'meng_850981', '$2a$10$fakehashedpassword', 'meng_850981@example.com', '15049105351', '/images/default/defaultAvatar.jpg', 'meng_850981', 1, '1969-10-29', '江苏省瑜县', '宠物医院护士，照顾生病的小天使们', '2024-02-26 17:27:47', '2025-05-20 18:26:20', 1);
 INSERT INTO `users` VALUES (54, 'meng_579434', '$2a$10$fakehashedpassword', 'meng_579434@example.com', '15021881152', '/images/default/defaultAvatar.jpg', 'meng_579434', 1, '1987-01-28', '山东省上海县', '收养了3只流浪猫的爱心妈妈', '2025-02-04 11:39:06', '2025-05-20 18:26:20', 1);
 INSERT INTO `users` VALUES (55, 'meng_630458', '$2a$10$fakehashedpassword', 'meng_630458@example.com', '14631706718', '/images/default/defaultAvatar.jpg', 'meng_630458', 0, '1997-06-22', '山西省玉珍市', '鱼缸造景师，打造水下乐园', '2023-03-09 03:58:21', '2025-05-20 18:26:20', 1);
-INSERT INTO `users` VALUES (56, 'meng_559469', '$2a$10$fakehashedpassword', 'meng_559469@example.com', '18399005956', '/images/default/defaultAvatar.jpg', 'meng_559469', 2, '1975-07-15', '上海市兴安盟市', '家有两只喵主子的幸福铲屎官🐱', '2025-05-15 10:57:07', '2025-05-20 18:26:20', 1);
+INSERT INTO `users` VALUES (56, 'meng_559469', '$2a$10$fakehashedpassword', 'meng_559469@example.com', '18399005956', '/images/default/defaultAvatar.jpg', 'meng_559469', 2, '1975-07-15', '上海市兴安盟市', '家有两只喵主子的幸福铲屎官🐱', '2025-05-15 10:57:07', '2025-05-22 09:21:53', 1);
 INSERT INTO `users` VALUES (57, 'meng_413921', '$2a$10$fakehashedpassword', 'meng_413921@example.com', '18926973200', '/images/default/defaultAvatar.jpg', 'meng_413921', 1, '1999-06-26', '山东省辉市', '柯基的短腿守护者', '2024-08-27 02:47:42', '2025-05-20 18:26:20', 1);
 INSERT INTO `users` VALUES (58, 'meng_262998', '$2a$10$fakehashedpassword', 'meng_262998@example.com', '14756164450', '/images/default/defaultAvatar.jpg', 'meng_262998', 2, '1994-09-24', '浙江省彬县', '异宠爱好者，蜘蛛蝎子都是宝贝', '2024-12-13 18:29:58', '2025-05-20 18:26:20', 1);
 INSERT INTO `users` VALUES (59, 'meng_994343', '$2a$10$fakehashedpassword', 'meng_994343@example.com', '14692809004', '/images/default/defaultAvatar.jpg', 'meng_994343', 1, '1997-03-10', '台湾省红梅县', '动物沟通师，懂毛孩子的语言', '2020-10-31 12:02:43', '2025-05-20 18:26:20', 1);

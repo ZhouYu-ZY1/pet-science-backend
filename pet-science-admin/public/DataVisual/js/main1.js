@@ -1,7 +1,7 @@
 /**
  * 左中 宠物类型占比
  */
-function index02() {
+function loadPetType() {
     $.ajax({
         url: '/api/dataVisual/petTypeProportion', // 修改为新的接口地址
         type: 'GET',
@@ -10,12 +10,19 @@ function index02() {
             if (result.code === 200) {
                 let data = result.data; // 获取真实数据
 
+                // 更新数据展示
+                $('#totalPets').text(data.totalPets);
+                $('#catCount').text(data.catCount);
+                $('#dogCount').text(data.dogCount);
+                $('#otherCount').text(data.otherCount);
+
                 // 基于准备好的dom，初始化echarts实例
-                let myChart = echarts.init(document.getElementById('main2_newcomer'));
+                let myChart = echarts.init(document.getElementById('petTypeChart'));
 
                 // 构造数据
-                let ydata = data;
-                let color = ["#8d7fec", "#5085f2", "#e75fc3", "#009432", "#ff6b6b", "#fca4bb", "#833471", "#fdb301"];
+                let ydata = data.list;
+
+                let color = ["#36a2eb", "#97e3ff", "#5ad8a6", "#ffcd56", "#ff9f40", "#ff6384", "#c9cbcf", "#9966ff"];
                 // 指定图表的配置项和数据
                 let option = {
                     // 更新颜色配置 (保留上一步的颜色)
@@ -38,8 +45,8 @@ function index02() {
                     series: [{
                         name: '宠物数量', // 修改名称
                         type: 'pie',
-                        radius: '50%',
-                        center: ['30%', '50%'],
+                        radius: '80%',
+                        center: ['20%', '50%'],
                         data: ydata,
                         emphasis: {
 
