@@ -1,6 +1,6 @@
 package com.pet_science.config;
 import com.pet_science.service.UserService;
-import com.pet_science.websocket.MyWebSocketHandler;
+import com.pet_science.utils.MyWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
