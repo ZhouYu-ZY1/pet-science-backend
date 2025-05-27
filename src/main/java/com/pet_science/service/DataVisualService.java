@@ -22,6 +22,12 @@ public interface DataVisualService {
     JSONObject getPetTypeProportion();
 
     /**
+     * 获取用户地区分布数量
+     * @return 包含用户地区分布数量的JSON对象
+     */
+    List<JSONObject> getUserRegionNumber();
+
+    /**
      * 获取各类产品销售额和占比
      * @return 包含产品类别销售额和占比的JSON列表
      */

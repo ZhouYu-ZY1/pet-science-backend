@@ -126,37 +126,95 @@ public class DataVisualServiceImpl implements DataVisualService {
         return result;
     }
 
+
+    /**
+     * 获取各地区用户数量
+     */
+    @Override
+    public List<JSONObject> getUserRegionNumber() {
+//        List<Map<String, Object>> categorySales = dataVisualMapper.getProductCategorySales();
+//        double totalSales = dataVisualMapper.getTotalSalesAmount();
+
+        List<JSONObject> resultList = new ArrayList<>();
+        JSONArray jsonArray;
+        try {
+            String filePath = "src/main/resources/data/userRegionNumber.json";
+            String jsonContent = new String(Files.readAllBytes(Paths.get(filePath)));
+            jsonArray = JSON.parseArray(jsonContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // 处理文件读取异常，可以返回空列表或记录错误
+            return resultList;
+        }
+//        DecimalFormat df = new DecimalFormat("0.00%");
+//        DecimalFormat moneyFormat = new DecimalFormat("#,##0.00");
+        for (Object object : jsonArray) {
+            JSONObject jsonObject = (JSONObject) object;
+//            JSONObject jsonObject = new JSONObject();
+//            String category = (String) salesData.get("category_name");
+//
+//            Double salesAmount = ((Number) salesData.get("sales_amount")).doubleValue();
+//            Long orderCount = ((Number) salesData.get("order_count")).longValue();
+//
+//            jsonObject.put("name", category);
+//            jsonObject.put("value", moneyFormat.format(salesAmount));
+//            jsonObject.put("orderCount", orderCount);
+//
+//            // 计算占比
+//            if (totalSales > 0) {
+//                double proportion = salesAmount / totalSales;
+//                jsonObject.put("proportion", df.format(proportion));
+//            } else {
+//                jsonObject.put("proportion", "0.00%");
+//            }
+            resultList.add(jsonObject);
+        }
+
+        return resultList;
+    }
+
+
     /**
      * 获取各类产品销售额和占比
      */
     @Override
     public List<JSONObject> getProductCategorySales() {
-        List<Map<String, Object>> categorySales = dataVisualMapper.getProductCategorySales();
-        double totalSales = dataVisualMapper.getTotalSalesAmount();
+//        List<Map<String, Object>> categorySales = dataVisualMapper.getProductCategorySales();
+//        double totalSales = dataVisualMapper.getTotalSalesAmount();
 
         List<JSONObject> resultList = new ArrayList<>();
-        DecimalFormat df = new DecimalFormat("0.00%");
-        DecimalFormat moneyFormat = new DecimalFormat("#,##0.00");
-
-        for (Map<String, Object> salesData : categorySales) {
-            JSONObject jsonObject = new JSONObject();
-            String category = (String) salesData.get("category_name");
-            
-            Double salesAmount = ((Number) salesData.get("sales_amount")).doubleValue();
-            Long orderCount = ((Number) salesData.get("order_count")).longValue();
-            
-            jsonObject.put("name", category);
-            jsonObject.put("value", moneyFormat.format(salesAmount));
-            jsonObject.put("orderCount", orderCount);
-            
-            // 计算占比
-            if (totalSales > 0) {
-                double proportion = salesAmount / totalSales;
-                jsonObject.put("proportion", df.format(proportion));
-            } else {
-                jsonObject.put("proportion", "0.00%");
-            }
-            
+        JSONArray jsonArray;
+        try {
+            // 从文件中读取地图数据
+            String filePath = "src/main/resources/data/productTypeProportion.json";
+            String jsonContent = new String(Files.readAllBytes(Paths.get(filePath)));
+            jsonArray = JSON.parseArray(jsonContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // 处理文件读取异常，可以返回空列表或记录错误
+            return resultList;
+        }
+//        DecimalFormat df = new DecimalFormat("0.00%");
+//        DecimalFormat moneyFormat = new DecimalFormat("#,##0.00");
+        for (Object object : jsonArray) {
+            JSONObject jsonObject = (JSONObject) object;
+//            JSONObject jsonObject = new JSONObject();
+//            String category = (String) salesData.get("category_name");
+//
+//            Double salesAmount = ((Number) salesData.get("sales_amount")).doubleValue();
+//            Long orderCount = ((Number) salesData.get("order_count")).longValue();
+//
+//            jsonObject.put("name", category);
+//            jsonObject.put("value", moneyFormat.format(salesAmount));
+//            jsonObject.put("orderCount", orderCount);
+//
+//            // 计算占比
+//            if (totalSales > 0) {
+//                double proportion = salesAmount / totalSales;
+//                jsonObject.put("proportion", df.format(proportion));
+//            } else {
+//                jsonObject.put("proportion", "0.00%");
+//            }
             resultList.add(jsonObject);
         }
 
@@ -175,7 +233,7 @@ public class DataVisualServiceImpl implements DataVisualService {
         JSONArray jsonArray;
         try {
             // 从文件中读取地图数据
-            String filePath = "src/main/resources/data/orderRegionDistribution.json"; // JSON文件路径
+            String filePath = "src/main/resources/data/orderRegionDistribution.json";
             String jsonContent = new String(Files.readAllBytes(Paths.get(filePath)));
             jsonArray = JSON.parseArray(jsonContent);
         } catch (IOException e) {

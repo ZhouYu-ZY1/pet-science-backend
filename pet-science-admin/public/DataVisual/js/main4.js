@@ -1,9 +1,9 @@
 /**
- * 中间顶部 中国地图订单分布
+ * 中间顶部 中国地图各地区用户分布情况
  */
 function loadOrderMap() {
     $.ajax({
-        url: '/api/dataVisual/orderRegionDistribution',
+        url: '/api/dataVisual/userRegionNumber',
         type: 'GET',
         dataType: 'json',
         success: function(result) {
@@ -13,7 +13,7 @@ function loadOrderMap() {
 
                 let option = {
                     title: {
-                        text: '用户地区分布情况',
+                        text: '各地区用户分布情况',
                         top: 80,
                         left: 0,
                         textStyle: {
@@ -85,9 +85,7 @@ function loadOrderMap() {
                 
                 myChart.setOption(option);
                 
-                // 添加地图区域自动高亮动画
-                mapAnimation(myChart, data);
-                
+
                 window.addEventListener('resize', function() {
                     myChart.resize();
                 });
@@ -110,56 +108,5 @@ function loadOrderMap() {
             //     {name: '湖北', value: 1000}
             // ];
         }
-    });
-}
-
-/**
- * 地图区域自动高亮动画
- * @param {echarts Dom 对象} myChart
- * @param {地图数据} data
- */
-function mapAnimation(myChart, data) {
-    // 过滤掉没有值的数据
-    let validData = data.filter(item => item.value && item.value > 0);
-    
-    // 如果没有有效数据，则不执行动画
-    if (validData.length === 0) return;
-    
-    // 按销量排序，优先显示销量高的地区
-    validData.sort((a, b) => b.value - a.value);
-    
-    let currentIndex = -1;
-    let animationInterval = setInterval(function() {
-        // 取消之前高亮的区域
-        myChart.dispatchAction({
-            type: 'downplay',
-            seriesIndex: 0,
-            dataIndex: currentIndex
-        });
-        
-        // 更新索引，循环显示所有区域
-        currentIndex = (currentIndex + 1) % validData.length;
-        
-        // 找到当前区域在原始数据中的索引
-        let dataIndex = data.findIndex(item => item.name === validData[currentIndex].name);
-        
-        // 高亮当前区域
-        myChart.dispatchAction({
-            type: 'highlight',
-            seriesIndex: 0,
-            dataIndex: dataIndex
-        });
-        
-        // 显示tooltip
-        myChart.dispatchAction({
-            type: 'showTip',
-            seriesIndex: 0,
-            dataIndex: dataIndex
-        });
-    }, 2000); // 每2秒切换一次，可以根据需要调整
-    
-    // 为了防止内存泄漏，在页面切换时清除定时器
-    window.addEventListener('beforeunload', function() {
-        clearInterval(animationInterval);
     });
 }

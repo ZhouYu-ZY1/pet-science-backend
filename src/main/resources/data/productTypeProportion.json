@@ -1,0 +1,56 @@
+[
+  {
+    "proportion": "52.18%",
+    "name": "食物",
+    "orderCount": 127,
+    "value": "23,415.00"
+  },
+  {
+    "proportion": "15.73%",
+    "name": "玩具",
+    "orderCount": 42,
+    "value": "7,058.50"
+  },
+  {
+    "proportion": "3.21%",
+    "name": "服饰",
+    "orderCount": 8,
+    "value": "1,442.00"
+  },
+  {
+    "proportion": "5.89%",
+    "name": "健康",
+    "orderCount": 15,
+    "value": "2,645.00"
+  },
+  {
+    "proportion": "12.64%",
+    "name": "清洁",
+    "orderCount": 31,
+    "value": "5,675.00"
+  },
+  {
+    "proportion": "4.32%",
+    "name": "出行",
+    "orderCount": 11,
+    "value": "1,940.00"
+  },
+  {
+    "proportion": "2.15%",
+    "name": "智能",
+    "orderCount": 5,
+    "value": "965.50"
+  },
+  {
+    "proportion": "2.88%",
+    "name": "居住",
+    "orderCount": 7,
+    "value": "1,295.00"
+  },
+  {
+    "proportion": "1.00%",
+    "name": "训导",
+    "orderCount": 3,
+    "value": "449.00"
+  }
+]

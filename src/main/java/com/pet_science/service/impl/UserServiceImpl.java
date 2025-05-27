@@ -236,37 +236,32 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public PageResult<User> getUserListPage(Integer pageNum, Integer pageSize, Map<String, Object> params, String token) {
-        try {
-            // 设置分页参数
-            PageHelper.startPage(pageNum, pageSize);
-            // 查询数据
-            List<User> userList = userMapper.getUserList(params);
+        // 设置分页参数
+        PageHelper.startPage(pageNum, pageSize);
+        // 查询数据
+        List<User> userList = userMapper.getUserList(params);
 
-            if(!JWTUtil.verifyAdmin(token)){
-                // 不是管理员
-                Integer userId = JWTUtil.getUserId(token);
-                Iterator<User> iterator = userList.iterator();
-                while (iterator.hasNext()) {
-                    User user = iterator.next();
-                    //移除自己
-                    if (user.getUserId().equals(userId)) {
-                        iterator.remove();
-                    } else {
-                        // 遍历用户列表，为每个用户添加是否被当前用户关注的信息
-                        boolean isFollowed = userMapper.isFollowing(userId, user.getUserId());
-                        user.setIsFollowed(isFollowed);
-                    }
+        if(!JWTUtil.verifyAdmin(token)){
+            // 不是管理员
+            Integer userId = JWTUtil.getUserId(token);
+            Iterator<User> iterator = userList.iterator();
+            while (iterator.hasNext()) {
+                User user = iterator.next();
+                //移除自己
+                if (user.getUserId().equals(userId)) {
+                    iterator.remove();
+                } else {
+                    // 遍历用户列表，为每个用户添加是否被当前用户关注的信息
+                    boolean isFollowed = userMapper.isFollowing(userId, user.getUserId());
+                    user.setIsFollowed(isFollowed);
                 }
             }
-
-            // 获取分页信息
-            PageInfo<User> pageInfo = new PageInfo<>(userList);
-            // 返回分页结果
-            return PageResult.restPage(pageInfo);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new SystemException("获取用户列表失败");
         }
+
+        // 获取分页信息
+        PageInfo<User> pageInfo = new PageInfo<>(userList);
+        // 返回分页结果
+        return PageResult.restPage(pageInfo);
     }
     
     /**

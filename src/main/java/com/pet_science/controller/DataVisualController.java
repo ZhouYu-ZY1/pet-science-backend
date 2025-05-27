@@ -48,6 +48,17 @@ public class DataVisualController {
     /**
      * 获取各类产品销售额和占比
      */
+    @GetMapping("/userRegionNumber")
+    @ApiOperation(value = "获取各类产品销售额和占比", notes = "展示各类产品的销售额和占比")
+    public Result<List<JSONObject>> getUserRegionNumber() {
+        List<JSONObject> userRegionNumber = dataVisualService.getUserRegionNumber();
+        return Result.successResultData(userRegionNumber);
+    }
+
+
+    /**
+     * 获取各类产品销售额和占比
+     */
     @GetMapping("/productCategorySales")
     @ApiOperation(value = "获取各类产品销售额和占比", notes = "展示各类产品的销售额和占比")
     public Result<List<JSONObject>> getProductCategorySales() {

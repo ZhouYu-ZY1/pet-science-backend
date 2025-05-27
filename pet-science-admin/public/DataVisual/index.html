@@ -98,19 +98,30 @@
                             <div class="map2"><img src="picture/jt.png"></div>
                             <div class="map3"><img src="picture/map.png"></div>
                             <div class="map4" id="main4_china_map"></div>
-                           
+
                         </div>
                     </div>
                 </div>
                 <div class="model-container2">
                     <div class="model-container2-bg"></div>
                     <div class="model-container2-item">
-                        <div id="3d-map-container" class="map-container-3d">
-                            
+                        <div id="model-load-text" style="left: 50%;transform: translateX(-50%);bottom: 20px;position: absolute; font-size: 14px; color: white;"></div>
+                        <div class="model-container-3d">
+                            <div id="3d-model1-container" style="width: 100%; height: 100%;"></div>
+                        </div>
+
+                        <div class="model-container-3d">
+                            <div id="3d-model2-container" style="width: 100%; height: 100%;"></div>
                         </div>
                     </div>
-                    <div class="model-container2-item">
-
+                   
+                    <div class="model-container2-item">    
+                        <div class="model-container-3d">
+                            <div id="3d-model3-container" style="width: 100%; height: 100%;"></div>
+                        </div>
+                        <div class="model-container-3d">
+                            <div id="3d-model4-container" style="width: 100%; height: 100%;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -171,9 +182,6 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/fontscroll.js"></script>
     <script src="js/china.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js"></script>
 
     <script src="js/flexible.js"></script>
     <script src="js/main.js"></script>
@@ -185,7 +193,13 @@
 
     <script src="js/main7.js"></script>
     <script src="js/main_config.js"></script>
-     <script src="js/3dmap.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- <script src="js/3dmap.js"></script> -->
+    <!-- <script src="js/3ddog.js"></script> -->
+    <!-- <script src="js/3ddog2.js"></script> -->
+    <script src="js/3dmodel.js"></script>
 </body>
 </html>

@@ -4,6 +4,18 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Microsoft YaHei", sans-serif;
+    /* 禁止选中文字和图片 */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* IE/Edge */
+    user-select: none;        /* Standard syntax */
+}
+/* 禁止图片被拖动 */
+img {
+    -webkit-user-drag: none;
+    -moz-user-drag: none;
+    -ms-user-drag: none;
+    user-drag: none;
 }
 
 body {
@@ -401,8 +413,16 @@ body {
 .model-container2-item{
     flex: 1;
     height: 100%;
+    display: flex;
     z-index: 1;
 }
+
+.model-container-3d{
+    flex: 1;
+    height: 100%;
+    z-index: 1;
+}
+
 .model-container2-item .item_chart{
     height: 100%;
 }

@@ -82,12 +82,13 @@ function echart_map() {
                     };
                 });
 
+                var planePath = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
                 let option = {
                     tooltip: {
                         trigger: 'item',
                         formatter: function(params) {
-                            if(params.name === local){
-                                return params.name + '<br/>销量: ' + localSales;
+                            if(params.value[2] != undefined){
+                                return params.name + '<br/>销量: ' + params.value[2];
                             }
                             return params.name + '<br/>销量: ' + (params.value || 0);
                         },
@@ -115,19 +116,22 @@ function echart_map() {
                     geo: {
                         map: 'china',
                         roam: true,
-                        zoom: 1.2,
-                        center: [104, 36],
+                        zoom: 2,
+                        center: [104, 31],
                         aspectScale: 0.75,
                         label: {
+                            formatter: function(params) {
+                                return params.name;
+                            },
                             emphasis: {
                                 show: false
                             }
                         },
                         itemStyle: {
                             normal: {
-                                areaColor: '#00d7fa',
-                                borderColor: '#fff',
-                                borderWidth: 0.5
+                                areaColor: '#0252bb',
+                                borderColor: '#000',
+                                borderWidth: 1
                             },
                             emphasis: {
                                 areaColor: '#013a70'
@@ -143,17 +147,18 @@ function echart_map() {
                             zlevel: 2,
                             effect: {
                                 show: true,
-                                period: 4,
-                                trailLength: 0.02,
-                                symbol: 'arrow',
-                                symbolSize: 5,
+                                period: 6, // 动画周期
+                                trailLength: 0.02, // 拖尾长度
+                                // symbol: 'arrow', // 箭头形状
+                                symbol: planePath, // 飞机样式
+                                symbolSize: 15, // 箭头大小
                             },
                             lineStyle: {
                                 normal: {
                                     color: '#ffde00', // 修改为黄色，与蓝色背景形成鲜明对比
-                                    width: 1.5,       // 增加线宽，使线条更明显
-                                    opacity: 0.8,     // 增加不透明度
-                                    curveness: 0.3
+                                    width: 1,       // 增加线宽，使线条更明显
+                                    opacity: 1,     // 增加不透明度
+                                    curveness: 0.4 // 增加曲率，使线条更流畅
                                 }
                             },
                             data: linesData

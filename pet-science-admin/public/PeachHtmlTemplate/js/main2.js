@@ -8,7 +8,7 @@ function index02() {
         dataType: 'json',
         success: function(result) {
             if (result.code === 200) {
-                let data = result.data; // 获取真实数据
+                let data = result.data.list; // 获取真实数据
 
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = echarts.init(document.getElementById('main2_newcomer'));
