@@ -1,8 +1,7 @@
 package com.pet_science.service;
 
 import com.pet_science.pojo.PageResult;
-import com.pet_science.pojo.Product;
-import org.springframework.web.multipart.MultipartFile;
+import com.pet_science.pojo.product.Product;
 
 import java.util.Map;
 

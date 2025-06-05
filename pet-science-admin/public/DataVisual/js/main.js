@@ -1,5 +1,20 @@
 // 初始化函数
 function init() {
+
+    echarts.registerTheme('myTheme', {
+        tooltip: {
+            // 文字样式（白色）
+            textStyle: {
+                color: '#fff',
+                fontSize: 14
+            },
+            // 背景样式（透明黑）
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            extraCssText: 'box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);' // 阴影效果
+        }
+    });
+
+
     // 加载宠物类型
     loadPetType()
     // 加载产品类别销售数据

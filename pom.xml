@@ -197,6 +197,15 @@
             <version>3.1.5</version>
         </dependency>
 
+        <!-- 视频处理 -->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv-platform</artifactId>
+            <version>1.5.7</version>
+        </dependency>
+
+
+
         <!--测试依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

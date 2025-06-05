@@ -85,4 +85,14 @@ public class DataVisualController {
         List<JSONObject> topProducts = dataVisualService.getTopSellingProducts();
         return Result.successResultData(topProducts);
     }
+
+    /**
+     * 获取视频标题关键词及点赞量
+     */
+    @GetMapping("/videoKeywords")
+    @ApiOperation(value = "获取视频标题关键词及点赞量", notes = "提取视频标题中的高频关键词并统计点赞量")
+    public Result<List<JSONObject>> getVideoKeywords() {
+        List<JSONObject> keywordData = dataVisualService.getVideoKeywords();
+        return Result.successResultData(keywordData);
+    }
 }

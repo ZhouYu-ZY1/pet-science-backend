@@ -4,17 +4,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.pet_science.annotation.RequireAdmin;
 import com.pet_science.annotation.RequireUser;
 import com.pet_science.exception.BusinessException;
-import com.pet_science.pojo.Order;
+import com.pet_science.pojo.order.Order;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.pojo.Result;
-import com.pet_science.pojo.UserAddress;
 import com.pet_science.service.OrderService;
 import com.pet_science.utils.JWTUtil;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 import static com.pet_science.service.impl.OrderServiceImpl.ORDER_EXPIRATION_MINUTES;
@@ -65,22 +63,7 @@ public class OrderController {
         Order order = orderService.getOrderDetail(orderId, JWTUtil.getUserId(token),false);
         return Result.successResultData(order);
     }
-    
-    @PutMapping("/status")
-    @ApiOperation(value = "更新订单状态", notes = "更新指定订单的状态")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "orderId", value = "订单ID", required = true, dataType = "Integer"),
-        @ApiImplicitParam(name = "status", value = "状态值", required = true, dataType = "String")
-    })
-    public Result<String> updateOrderStatus(@RequestBody JSONObject jsonObject) {
-        Integer orderId = jsonObject.getInteger("orderId");
-        String status = jsonObject.getString("status");
-        boolean result = orderService.updateOrderStatus(orderId, status);
-        if (result) {
-            return Result.successResultData("更新订单状态成功");
-        }
-        throw new BusinessException("更新订单状态失败");
-    }
+
     
     @PostMapping("/create")
     @ApiOperation(value = "创建订单", notes = "创建新订单，只需提供必要的订单信息，订单将在30分钟内未支付自动取消")
@@ -120,8 +103,8 @@ public class OrderController {
     @PutMapping("/pay")
     @ApiOperation(value = "支付订单", notes = "更新订单为已支付状态")
     public Result<String> payOrder(@RequestBody JSONObject jsonObject) {
-        Integer orderId = jsonObject.getInteger("orderId");
-        String paymentMethod = jsonObject.getString("paymentMethod");
+        Integer orderId = jsonObject.getInteger("orderId"); // 订单ID
+        String paymentMethod = jsonObject.getString("paymentMethod"); //支付方式
         boolean result = orderService.payOrder(orderId, paymentMethod);
         if (result) {
             // 订单支付成功，移除订单过期时间
@@ -129,6 +112,26 @@ public class OrderController {
             return Result.successResultData("订单支付成功");
         }
         throw new BusinessException("订单支付失败");
+    }
+
+    @PutMapping("/status")
+    @ApiOperation(value = "更新订单状态", notes = "更新指定订单的状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "orderId", value = "订单ID", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "status", value = "状态值", required = true, dataType = "String")
+    })
+    public Result<String> updateOrderStatus(@RequestBody JSONObject jsonObject) {
+        Integer orderId = jsonObject.getInteger("orderId");
+        String status = jsonObject.getString("status");
+        //pending,paid,shipped,completed,cancelled
+        if(status.equals("paid") || status.equals("shipped") || status.equals("completed")) {
+            throw new BusinessException("请使用特定接口完成订单操作");
+        }
+        boolean result = orderService.updateOrderStatus(orderId, status);
+        if (result) {
+            return Result.successResultData("更新订单状态成功");
+        }
+        throw new BusinessException("更新订单状态失败");
     }
     
     @PutMapping("/ship")
@@ -148,6 +151,7 @@ public class OrderController {
         }
         throw new BusinessException("订单发货失败");
     }
+
     
     @PutMapping("/complete")
     @ApiOperation(value = "完成订单", notes = "更新订单为已完成状态")

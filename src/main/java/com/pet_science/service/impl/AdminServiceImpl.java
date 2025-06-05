@@ -3,7 +3,7 @@ package com.pet_science.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.pet_science.exception.BusinessException;
 import com.pet_science.mapper.AdminMapper;
-import com.pet_science.pojo.Admin;
+import com.pet_science.pojo.user.Admin;
 import com.pet_science.service.AdminService;
 import com.pet_science.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;

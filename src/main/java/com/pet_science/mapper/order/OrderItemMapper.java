@@ -1,6 +1,6 @@
 package com.pet_science.mapper.order;
 
-import com.pet_science.pojo.OrderItem;
+import com.pet_science.pojo.order.OrderItem;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

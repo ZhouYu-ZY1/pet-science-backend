@@ -1,0 +1,194 @@
+<template>
+    <div class="app-container">
+        <div class="page-header">
+            <el-button @click="$router.back()">
+                <el-icon><ArrowLeft /></el-icon> &ensp;
+                返回
+            </el-button>
+            <h2>订单详情</h2>
+        </div>
+        <el-row :gutter="20" v-loading="loading">
+            <!-- 订单基本信息 -->
+            <el-col :span="24">
+                <el-card class="box-card">
+                    <template #header>
+                        <div class="card-header">
+                            <span>订单信息</span>
+                            <div class="order-status">
+                                <el-tag :type="getOrderStatusType(orderDetail.status)" size="large">
+                                    {{ getOrderStatusText(orderDetail.status) }}
+                                </el-tag>
+                                <!-- 添加倒计时显示 -->
+                                <span v-if="orderDetail.status === 'pending'" class="countdown-timer">
+                                    支付剩余时间：{{ formatCountdown(countdown) }}
+                                </span>
+                            </div>
+                        </div>
+                    </template>
+                    <el-descriptions :column="3" border>
+                        <el-descriptions-item label="订单编号">{{ orderDetail.orderNo }}</el-descriptions-item>
+                        <el-descriptions-item label="下单时间">{{ $formatDate(orderDetail.createdAt)
+                            }}</el-descriptions-item>
+                        <el-descriptions-item label="支付时间">{{ $formatDate(orderDetail.payment?.paymentTime) || '未支付'
+                            }}</el-descriptions-item>
+                        <el-descriptions-item label="支付方式">{{ getPaymentMethodText(orderDetail.payment?.paymentMethod)
+                || '未支付'
+                            }}</el-descriptions-item>
+                        <el-descriptions-item label="订单金额">¥{{ orderDetail.totalAmount }}</el-descriptions-item>
+                        <el-descriptions-item label="支付流水号">{{ orderDetail.payment?.transactionNo || '无'
+                            }}</el-descriptions-item>
+                    </el-descriptions>
+
+                    <div class="action-buttons" v-if="orderDetail.status">
+                        <el-button v-if="orderDetail.status === 'paid'" type="primary" @click="handleShip">
+                            发货
+                        </el-button>
+                        <el-button v-if="orderDetail.status === 'pending'" type="danger" @click="handleCancel">
+                            取消订单
+                        </el-button>
+                    </div>
+                </el-card>
+            </el-col>
+            <!-- 收货信息 -->
+            <el-col :span="12">
+                <el-card class="box-card">
+                    <template #header>
+                        <div class="card-header">
+                            <span>收货信息</span>
+                        </div>
+                    </template>
+                    <el-descriptions :column="1" border>
+                        <el-descriptions-item label="收货人">{{ orderDetail.shipping?.receiverName
+                            }}</el-descriptions-item>
+                        <el-descriptions-item label="联系电话">{{ orderDetail.shipping?.receiverMobile
+                            }}</el-descriptions-item>
+                        <el-descriptions-item label="收货地址">{{ orderDetail.shipping?.address }}</el-descriptions-item>
+                        <el-descriptions-item label="备注">{{ orderDetail.remark || '无' }}</el-descriptions-item>
+                    </el-descriptions>
+                </el-card>
+            </el-col>
+            <!-- 物流信息 -->
+            <el-col :span="12">
+                <el-card class="box-card">
+                    <template #header>
+                        <div class="card-header">
+                            <span>物流信息</span>
+                        </div>
+                    </template>
+                    <div v-if="orderDetail.shipping?.trackingNumber && orderDetail.shipping?.shippingCompany">
+                        <el-descriptions :column="1" border>
+                            <el-descriptions-item label="物流公司">{{
+                getLogisticsCompanyName(orderDetail.shipping.shippingCompany)
+            }}</el-descriptions-item>
+                            <el-descriptions-item label="物流单号">{{ orderDetail.shipping.trackingNumber
+                                }}</el-descriptions-item>
+                            <el-descriptions-item label="发货时间">{{ $formatDate(orderDetail.shipping.shippingTime)
+                                }}</el-descriptions-item>
+                        </el-descriptions>
+                    </div>
+                    <div v-else class="empty-data">
+                        <el-empty description="暂无物流信息" />
+                    </div>
+                </el-card>
+            </el-col>
+            <!-- 订单商品 -->
+            <el-col :span="24">
+                <el-card class="box-card">
+                    <template #header>
+                        <div class="card-header">
+                            <span>商品信息</span>
+                        </div>
+                    </template>
+                    <el-table :data="orderItems" border style="width: 100%">
+                        <el-table-column type="index" width="50" />
+                        <el-table-column label="商品图片" width="150" align="center">
+                            <template #default="scope">
+                                <el-image style="width: 60px; height: 60px" :src="getFirstImage(scope.row.productImage)"
+                                    fit="cover" :preview-src-list="getImageList(scope.row.productImage)" />
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="productName" label="商品名称" min-width="200" align="center" />
+                        <el-table-column prop="productId" label="商品编码" width="120" align="center"/>
+                        <el-table-column prop="price" label="单价" width="100" align="center">
+                            <template #default="scope">
+                                ¥{{ scope.row.price }}
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="quantity" label="数量" width="80" align="center" />
+                        <el-table-column prop="subtotal" label="小计" width="100" align="center">
+                            <template #default="scope">
+                                ¥{{ scope.row.subtotal }}
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <div class="order-summary">
+                        <div class="summary-item">
+                            <span>商品总价：</span>
+                            <span>¥{{ orderDetail.totalAmount }}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>运费：</span>
+                            <span>¥0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>优惠金额：</span>
+                            <span>-¥0</span>
+                        </div>
+                        <div class="summary-item total">
+                            <span>实付金额：</span>
+                            <span>¥{{ orderDetail.totalAmount }}</span>
+                        </div>
+                    </div>
+                </el-card>
+            </el-col>
+            <!-- 订单日志 -->
+            <el-col :span="24">
+                <el-card class="box-card">
+                    <template #header>
+                        <div class="card-header">
+                            <span>订单日志</span>
+                        </div>
+                    </template>
+                    <el-timeline>
+                        <el-timeline-item v-for="(activity, index) in orderDetail.logs || []" :key="index"
+                            :timestamp="activity.time" :type="getTimelineItemType(activity.action)">
+                            {{ activity.content }}
+                        </el-timeline-item>
+                    </el-timeline>
+                </el-card>
+            </el-col>
+        </el-row>
+        <!-- 发货对话框 -->
+        <el-dialog v-model="shipDialogVisible" title="订单发货" width="500px">
+            <el-form :model="shipForm" label-width="100px">
+                <el-form-item label="订单编号">
+                    <span>{{ shipForm.orderNo }}</span>
+                </el-form-item>
+                <el-form-item label="物流公司" prop="logisticsCompany">
+                    <el-select v-model="shipForm.logisticsCompany" placeholder="请选择物流公司" style="width: 100%">
+                        <el-option label="顺丰速运" value="SF" />
+                        <el-option label="中通快递" value="ZTO" />
+                        <el-option label="圆通速递" value="YTO" />
+                        <el-option label="韵达快递" value="YD" />
+                        <el-option label="申通快递" value="STO" />
+                        <el-option label="京东物流" value="JD" />
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="物流单号" prop="trackingNumber">
+                    <div style="display: flex; align-items: center;width: 100%;">
+                        <div class="tracking-prefix" v-if="shipForm.logisticsCompany">
+                            {{ shipForm.logisticsCompany }}
+                        </div>
+                        <el-input v-model="shipForm.trackingNumber" placeholder="请输入物流单号" />
+                    </div>
+                </el-form-item>
+            </el-form>
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="shipDialogVisible = false">取消</el-button>
+                    <el-button type="primary" @click="confirmShip" :loading="shipLoading">确认发货</el-button>
+                </span>
+            </template>
+        </el-dialog>
+    </div>
+</template>

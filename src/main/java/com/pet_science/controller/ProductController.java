@@ -1,12 +1,10 @@
 package com.pet_science.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.pet_science.annotation.RequireAdmin;
 import com.pet_science.annotation.RequireUser;
-import com.pet_science.exception.BaseException;
 import com.pet_science.exception.BusinessException;
 import com.pet_science.pojo.PageResult;
-import com.pet_science.pojo.Product;
+import com.pet_science.pojo.product.Product;
 import com.pet_science.pojo.Result;
 import com.pet_science.service.ProductService;
 import com.pet_science.utils.JWTUtil;
@@ -15,17 +13,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import lombok.val;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 @RestController

@@ -1,6 +1,6 @@
 package com.pet_science.mapper.order;
 
-import com.pet_science.pojo.OrderShipping;
+import com.pet_science.pojo.order.OrderShipping;
 import org.apache.ibatis.annotations.*;
 
 import java.util.Date;

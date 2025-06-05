@@ -1,6 +1,9 @@
 package com.pet_science.mapper.order;
 
-import com.pet_science.pojo.*;
+import com.pet_science.pojo.order.Order;
+import com.pet_science.pojo.order.OrderItem;
+import com.pet_science.pojo.order.OrderPayment;
+import com.pet_science.pojo.order.OrderShipping;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.annotations.Result;
 

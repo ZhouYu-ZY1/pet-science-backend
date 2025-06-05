@@ -1,11 +1,8 @@
 package com.pet_science.service;
 
-import com.pet_science.pojo.Order;
-import com.pet_science.pojo.PageResult;
-import com.pet_science.pojo.UserAddress;
+import com.pet_science.pojo.user.UserAddress;
 
 import java.util.List;
-import java.util.Map;
 
 public interface AddressService {
     /**

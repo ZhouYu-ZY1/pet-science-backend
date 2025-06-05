@@ -148,7 +148,12 @@
           </el-select>
         </el-form-item>
         <el-form-item label="物流单号" prop="trackingNumber">
-          <el-input v-model="shipForm.trackingNumber" placeholder="请输入物流单号" />
+          <div style="display: flex; align-items: center;width: 100%;">
+            <div class="tracking-prefix" v-if="shipForm.logisticsCompany">
+              {{ shipForm.logisticsCompany }}
+            </div>
+            <el-input v-model="shipForm.trackingNumber" placeholder="请输入物流单号" />
+          </div>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -293,11 +298,13 @@ const confirmShip = async () => {
   
   shipLoading.value = true
   try {
-    // 修改为调用shipOrder接口
+    // 合并物流公司代码和物流单号
+    const fullTrackingNumber = `${shipForm.logisticsCompany}${shipForm.trackingNumber}`
+    
     await shipOrder({
       orderId: shipForm.orderId,
       shippingCompany: shipForm.logisticsCompany,
-      trackingNumber: shipForm.trackingNumber
+      trackingNumber: fullTrackingNumber
     })
     ElMessage.success('发货成功')
     shipDialogVisible.value = false
@@ -379,5 +386,17 @@ onMounted(() => {
 .pagination-container {
   margin-top: 20px;
   text-align: right;
+}
+
+.tracking-prefix {
+  background-color: #f5f7fa;
+  padding: 0 10px;
+  height: 30px;
+  line-height: 30px;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  margin-right: 5px;
+  color: #606266;
+  font-weight: bold;
 }
 </style>

@@ -15,37 +15,37 @@ document.addEventListener('DOMContentLoaded', function() {
             cameraPosition: [0,1,5],
             light: 1.5,
             modelName: 'dog.glb',
-            modelSize: [2,2,2],
+            modelSize: [2.2,2.2,2.2],
             modelPosition: -1.5,
-            autoRotate: true
-        },
-        {
-            containerId: '3d-model2-container',
-            cameraPosition: [3,2,5],
-            light: 1,
-            modelName: 'cat.glb',
-            modelSize: [9,9,9],
-            modelPosition: -1.5,
-            autoRotate: false
-        },
-        {
-            containerId: '3d-model3-container',
-            cameraPosition: [-4,2,5],
-            light: 1.5,
-            modelName: 'parrot.glb',
-            modelSize: [13,13,13],
-            modelPosition: -1.6,
-            autoRotate: false
-        },
-        {
-            containerId: '3d-model4-container',
-            cameraPosition: [0,1,5],
-            light: 1.5,
-            modelName: 'dog2.glb',
-            modelSize: [0.6,0.6,0.6],
-            modelPosition: 0.5,
             autoRotate: true
         }
+        // {
+        //     containerId: '3d-model2-container',
+        //     cameraPosition: [3,2,5],
+        //     light: 1,
+        //     modelName: 'cat.glb',
+        //     modelSize: [9,9,9],
+        //     modelPosition: -1.5,
+        //     autoRotate: false
+        // },
+        // {
+        //     containerId: '3d-model3-container',
+        //     cameraPosition: [-4,2,5],
+        //     light: 1.5,
+        //     modelName: 'parrot.glb',
+        //     modelSize: [13,13,13],
+        //     modelPosition: -1.6,
+        //     autoRotate: false
+        // },
+        // {
+        //     containerId: '3d-model4-container',
+        //     cameraPosition: [0,1,5],
+        //     light: 1.5,
+        //     modelName: 'dog2.glb',
+        //     modelSize: [0.6,0.6,0.6],
+        //     modelPosition: 0.5,
+        //     autoRotate: true
+        // }
     ];
     
     // 设置总模型数量
@@ -82,24 +82,27 @@ function loadModelsSequentially(modelConfigs, index) {
 }
 
 function loadModel(containerId, cameraPosition, light, modelName, modelSize, modelPosition, autoRotate, onComplete) {
-    const loadingElem = document.getElementById("model-load-text");
-    loadingElem.textContent = `正在加载3D模型：${loadedModels}/${totalModels}`;
-
-    // 创建场景
-    const scene = new THREE.Scene();
-    // 移除背景色，使场景背景透明
-    scene.background = null;
-
     // 获取容器元素
     const container = document.getElementById(containerId);
     if (!container) {
         if (onComplete) onComplete();
         return;
     }
+    container.style.opacity = 0; // 初始隐藏容器
+    container.innerHTML = ''; // 清空容器内容
 
     // 获取容器尺寸
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
+
+    const loadingElem = document.getElementById("model-load-text");
+    // loadingElem.textContent = `正在加载3D模型：${loadedModels}/${totalModels}`;
+
+    // 创建场景
+    const scene = new THREE.Scene();
+    // 移除背景色，使场景背景透明
+    scene.background = null;
+
 
     // 创建相机
     const camera = new THREE.PerspectiveCamera(75, containerWidth / containerHeight, 0.1, 1000);
@@ -109,9 +112,9 @@ function loadModel(containerId, cameraPosition, light, modelName, modelSize, mod
     camera.lookAt(0, 0, 0);
 
     // 创建渲染器，设置为透明
-    const renderer = new THREE.WebGLRenderer({ 
-        antialias: true, 
-        alpha: true 
+    const renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true
     });
     renderer.setSize(containerWidth, containerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -195,23 +198,28 @@ function loadModel(containerId, cameraPosition, light, modelName, modelSize, mod
             
             // 模型加载完成，更新计数并调用完成回调
             loadedModels += 1;
-            loadingElem.textContent = `正在加载3D模型：${loadedModels}/${totalModels}`;
+            // loadingElem.textContent = `正在加载3D模型：${loadedModels}/${totalModels}`;
             if(loadedModels >= totalModels){
                 loadingElem.style.display = 'none';
             }
             
             // 调用完成回调，触发下一个模型的加载
             if (onComplete) onComplete();
-            
+
+            setTimeout(function() {
+                container.style.opacity = 1; // 显示容器
+            },300)
         }, function(xhr) {
             // 加载进度
-            // const percent = Math.round(xhr.loaded / xhr.total * 100);
+            const percent = Math.round(xhr.loaded / xhr.total * 100);
+            // loadingElem.textContent = `正在加载3D模型：${loadedModels}/${totalModels} (${percent}%)`;
+            loadingElem.textContent = `正在加载3D模型： ${percent}%`;
         }, function(error) {
             console.error('加载模型失败:', error);
             
             // 即使加载失败也调用完成回调，确保下一个模型能够加载
             loadedModels += 1;
-            loadingElem.textContent = `正在加载3D模型：${loadedModels}/${totalModels}`;
+            // loadingElem.textContent = `正在加载3D模型：${loadedModels}/${totalModels}`;
             if(loadedModels >= totalModels){
                 loadingElem.style.display = 'none';
             }

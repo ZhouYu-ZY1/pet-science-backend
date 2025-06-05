@@ -10,9 +10,11 @@ import io.minio.errors.ErrorResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import io.minio.StatObjectArgs;
+import io.minio.StatObjectResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +30,7 @@ public class FileServiceImpl implements FileService {
     private final String bucketName = "pet"; // MinIO存储桶名
 
     @Override
-    public JSONObject uploadImage(MultipartFile file,String type) {
+    public JSONObject uploadFile(MultipartFile file,String type) {
         if (file.isEmpty()) {
             throw new BusinessException("上传文件不能为空");
         }
@@ -97,6 +99,93 @@ public class FileServiceImpl implements FileService {
             e.printStackTrace();
             throw new BusinessException("图片获取失败");
         }
+    }
+
+    @Override
+    public FileController.FileResponse getVideo(HttpServletRequest request) {
+        try {
+            String videoPath = request.getRequestURI();
+            
+            // 获取Range请求头
+            String rangeHeader = request.getHeader("Range");
+            
+            // 从MinIO获取对象信息
+            StatObjectResponse objectStat = minioClient.statObject(
+                    StatObjectArgs.builder()
+                            .bucket(bucketName)
+                            .object(videoPath)
+                            .build());
+            
+            long fileSize = objectStat.size();
+            long start = 0;
+            long end = fileSize - 1;
+            
+            // 解析Range请求头
+            if (rangeHeader != null && rangeHeader.startsWith("bytes=")) {
+                String[] ranges = rangeHeader.substring(6).split("-");
+                try {
+                    if (ranges.length > 0 && !ranges[0].isEmpty()) {
+                        start = Long.parseLong(ranges[0]);
+                    }
+                    if (ranges.length > 1 && !ranges[1].isEmpty()) {
+                        end = Long.parseLong(ranges[1]);
+                    }
+                } catch (NumberFormatException e) {
+                    // 忽略解析错误，使用默认范围
+                }
+            }
+            
+            // 确保范围有效
+            if (start > end || start >= fileSize) {
+                start = 0;
+                end = fileSize - 1;
+            }
+            if (end >= fileSize) {
+                end = fileSize - 1;
+            }
+            
+            // 从MinIO获取指定范围的文件流
+            InputStream stream = minioClient.getObject(
+                    GetObjectArgs.builder()
+                            .bucket(bucketName)
+                            .object(videoPath)
+                            .offset(start)
+                            .length(end - start + 1)
+                            .build());
+            
+            // 确定Content-Type
+            MediaType contentType = getVideoContentType(videoPath);
+            
+            FileController.FileResponse fileResponse = new FileController.FileResponse();
+            fileResponse.setStream(stream);
+            fileResponse.setContentType(contentType);
+            fileResponse.setFileSize(fileSize);
+            fileResponse.setStart(start);
+            fileResponse.setEnd(end);
+            fileResponse.setRangeRequest(rangeHeader != null);
+            
+            return fileResponse;
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new BusinessException("视频获取失败");
+        }
+    }
+
+    private MediaType getVideoContentType(String videoPath) {
+        if (videoPath.endsWith(".mp4")) {
+            return MediaType.valueOf("video/mp4");
+        } else if (videoPath.endsWith(".avi")) {
+            return MediaType.valueOf("video/x-msvideo");
+        } else if (videoPath.endsWith(".mov")) {
+            return MediaType.valueOf("video/quicktime");
+        } else if (videoPath.endsWith(".wmv")) {
+            return MediaType.valueOf("video/x-ms-wmv");
+        } else if (videoPath.endsWith(".flv")) {
+            return MediaType.valueOf("video/x-flv");
+        } else if (videoPath.endsWith(".webm")) {
+            return MediaType.valueOf("video/webm");
+        }
+        return MediaType.APPLICATION_OCTET_STREAM;
     }
 
     @Override

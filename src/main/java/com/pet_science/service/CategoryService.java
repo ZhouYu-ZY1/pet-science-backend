@@ -1,6 +1,6 @@
 package com.pet_science.service;
 
-import com.pet_science.pojo.Category;
+import com.pet_science.pojo.product.Category;
 import com.pet_science.pojo.PageResult;
 
 import java.util.List;

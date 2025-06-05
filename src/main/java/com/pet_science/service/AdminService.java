@@ -1,7 +1,7 @@
 package com.pet_science.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.pet_science.pojo.Admin;
+import com.pet_science.pojo.user.Admin;
 
 public interface AdminService {
     

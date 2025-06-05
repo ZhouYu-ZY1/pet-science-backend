@@ -1,9 +1,7 @@
 package com.pet_science.mapper.order;
 
-import com.pet_science.pojo.OrderPayment;
+import com.pet_science.pojo.order.OrderPayment;
 import org.apache.ibatis.annotations.*;
-
-import java.util.Date;
 
 @Mapper
 public interface OrderPaymentMapper {

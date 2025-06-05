@@ -1,6 +1,6 @@
 package com.pet_science.mapper;
 
-import com.pet_science.pojo.User;
+import com.pet_science.pojo.user.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

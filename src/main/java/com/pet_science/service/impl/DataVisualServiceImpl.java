@@ -289,4 +289,34 @@ public class DataVisualServiceImpl implements DataVisualService {
         
         return resultList;
     }
+    /**
+     * 获取视频标题关键词及互动数据
+     */
+    @Override
+    public List<JSONObject> getVideoKeywords() {
+        List<Map<String, Object>> keywordData = dataVisualMapper.getVideoKeywords();
+        List<JSONObject> resultList = new ArrayList<>();
+        
+        for (Map<String, Object> data : keywordData) {
+            JSONObject jsonObject = new JSONObject();
+            String keyword = (String) data.get("keyword");
+            Long diggCount = ((Number) data.get("total_digg_count")).longValue();
+            Long shareCount = ((Number) data.get("total_share_count")).longValue();
+            Long commentCount = ((Number) data.get("total_comment_count")).longValue();
+            Long videoCount = ((Number) data.get("video_count")).longValue();
+            
+            // 过滤掉一些无意义的标点符号和特殊字符
+            if (keyword != null && !keyword.isEmpty() && 
+                !keyword.matches("^[,.?!;:'\"\\/\\\\\\\\[\\\\]{}()\\\\-_=+*&^%$#@!~`|<>]+$")) {
+                jsonObject.put("name", keyword);
+                jsonObject.put("diggCount", diggCount);
+                jsonObject.put("shareCount", shareCount);
+                jsonObject.put("commentCount", commentCount);
+                jsonObject.put("videoCount", videoCount);
+                resultList.add(jsonObject);
+            }
+        }
+        
+        return resultList;
+    }
 }

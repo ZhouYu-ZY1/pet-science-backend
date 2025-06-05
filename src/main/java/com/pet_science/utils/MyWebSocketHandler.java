@@ -2,7 +2,7 @@ package com.pet_science.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.pet_science.pojo.User;
+import com.pet_science.pojo.user.User;
 import com.pet_science.service.UserService;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;

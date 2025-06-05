@@ -3,7 +3,7 @@ package com.pet_science.controller;
 import com.pet_science.annotation.RequireUser;
 import com.pet_science.exception.BusinessException;
 import com.pet_science.pojo.Result;
-import com.pet_science.pojo.UserAddress;
+import com.pet_science.pojo.user.UserAddress;
 import com.pet_science.service.AddressService;
 import com.pet_science.utils.JWTUtil;
 import io.swagger.annotations.*;

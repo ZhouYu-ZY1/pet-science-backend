@@ -42,4 +42,9 @@ public interface DataVisualService {
      * 获取销量最高的商品TOP10
      */
     List<JSONObject> getTopSellingProducts();
+
+    /**
+     * 获取视频标题关键词及点赞量
+     */
+    List<JSONObject> getVideoKeywords();
 }

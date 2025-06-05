@@ -2,13 +2,11 @@ package com.pet_science.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.pet_science.exception.BaseException;
 import com.pet_science.exception.BusinessException;
 import com.pet_science.exception.SystemException;
 import com.pet_science.mapper.CategoryMapper;
-import com.pet_science.pojo.Category;
+import com.pet_science.pojo.product.Category;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.service.CategoryService;
 import org.apache.commons.lang3.StringUtils;

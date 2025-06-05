@@ -1,10 +1,8 @@
 package com.pet_science.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.pet_science.annotation.RequireUser;
-import com.pet_science.exception.BaseException;
 import com.pet_science.exception.BusinessException;
-import com.pet_science.pojo.Category;
+import com.pet_science.pojo.product.Category;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.pojo.Result;
 import com.pet_science.service.CategoryService;

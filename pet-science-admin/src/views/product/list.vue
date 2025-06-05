@@ -46,7 +46,8 @@
               v-if="scope.row.mainImage" 
               :src="getFirstImage(scope.row.mainImage)" 
               style="width: 80px; height: 80px; object-fit: cover;"
-              :preview-src-list="[getFirstImage(scope.row.mainImage)]"
+              :preview-src-list="getImageList(scope.row.mainImage)"
+              :preview-teleported="true"
             />
             <el-icon v-else style="width: 80px; height: 80px; "><Picture /></el-icon>
           </template>
@@ -138,6 +139,12 @@ const loading = ref(false)
 const total = ref(0)
 const productList = ref([])
 const categoryList = ref([])
+
+// 获取所有图片列表
+const getImageList = (imageStr: string) => {
+  if (!imageStr) return []
+  return imageStr.split(';').filter(img => img.trim() !== '')
+}
 
 // 获取产品列表
 const getList = async () => {

@@ -1,9 +1,9 @@
 package com.pet_science.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.pet_science.pojo.FollowVO;
+import com.pet_science.pojo.user.FollowVO;
 import com.pet_science.pojo.PageResult;
-import com.pet_science.pojo.User;
+import com.pet_science.pojo.user.User;
 
 import java.util.Map;
 

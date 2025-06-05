@@ -1,6 +1,6 @@
 package com.pet_science.mapper;
 
-import com.pet_science.pojo.Admin;
+import com.pet_science.pojo.user.Admin;
 import org.apache.ibatis.annotations.*;
 
 import java.util.Date;

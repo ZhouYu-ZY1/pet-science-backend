@@ -1,31 +1,22 @@
 package com.pet_science.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.pet_science.exception.BaseException;
 import com.pet_science.exception.SystemException;
 import com.pet_science.mapper.ProductMapper;
 import com.pet_science.pojo.PageResult;
-import com.pet_science.pojo.Product;
+import com.pet_science.pojo.product.Product;
 import com.pet_science.service.FileService;
 import com.pet_science.service.ProductService;
 import com.pet_science.utils.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {

@@ -7,7 +7,6 @@
             </el-button>
             <h2>订单详情</h2>
         </div>
-
         <el-row :gutter="20" v-loading="loading">
             <!-- 订单基本信息 -->
             <el-col :span="24">

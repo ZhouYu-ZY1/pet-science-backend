@@ -3,7 +3,7 @@ package com.pet_science.service.impl;
 import com.pet_science.exception.BusinessException;
 import com.pet_science.exception.SystemException;
 import com.pet_science.mapper.AddressMapper;
-import com.pet_science.pojo.*;
+import com.pet_science.pojo.user.UserAddress;
 import com.pet_science.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

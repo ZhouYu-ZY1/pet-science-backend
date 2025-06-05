@@ -60,7 +60,7 @@ DROP TABLE IF EXISTS `content_media`;
 CREATE TABLE `content_media`  (
   `media_id` int NOT NULL AUTO_INCREMENT COMMENT '媒体文件ID',
   `content_id` int NOT NULL COMMENT '关联内容ID',
-  `media_type` enum('video','image') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '媒体类型',
+  `media_type` enum('content','image') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '媒体类型',
   `media_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文件存储路径',
   `duration` int NULL DEFAULT NULL COMMENT '视频时长（秒）',
   `sort_order` tinyint NULL DEFAULT 1 COMMENT '多图/视频排序序号',
@@ -76,7 +76,7 @@ DROP TABLE IF EXISTS `contents`;
 CREATE TABLE `contents`  (
   `content_id` int NOT NULL AUTO_INCREMENT COMMENT '内容唯一ID',
   `user_id` int NOT NULL COMMENT '发布者ID',
-  `content_type` enum('video','image','text') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '内容类型',
+  `content_type` enum('content','image','text') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '内容类型',
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '内容标题',
   `content_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '正文内容',
   `location` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '地理位置信息',

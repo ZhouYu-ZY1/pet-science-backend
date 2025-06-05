@@ -1,7 +1,7 @@
 package com.pet_science.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.pet_science.pojo.Product;
+import com.pet_science.pojo.product.Product;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

@@ -31,7 +31,7 @@ export default defineConfig({
       '/video': {  //用于访问静态资源
         target: 'http://localhost:8888',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/video/, '/video')
+        rewrite: (path) => path.replace(/^\/content/, '/content')
       },
     }
   }

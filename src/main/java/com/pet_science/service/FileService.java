@@ -8,19 +8,24 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface FileService {
     /**
-     * 上传产品图片
-     *
+     * 上传文件
      * @param file 上传的文件
-     * @param type 图片类型（如产品、用户等）
-     * @return 包含图片URL的JSON对象
+     * @param type 文件类型（如产品、用户等）
+     * @return 包含文件URL的JSON对象
      */
-    JSONObject uploadImage(MultipartFile file, String type);
+    JSONObject uploadFile(MultipartFile file, String type);
 
     /**
      * 获取图片
      * @param request HTTP请求对象
      */
     FileController.FileResponse getImage(HttpServletRequest request);
+
+    /**
+     * 获取视频
+     * @param request HTTP请求对象
+     */
+    FileController.FileResponse getVideo(HttpServletRequest request);
 
     /**
      * 删除图片

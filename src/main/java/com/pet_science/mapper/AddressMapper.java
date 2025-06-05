@@ -1,11 +1,9 @@
 package com.pet_science.mapper;
 
-import com.pet_science.pojo.Order;
-import com.pet_science.pojo.UserAddress;
+import com.pet_science.pojo.user.UserAddress;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface AddressMapper {

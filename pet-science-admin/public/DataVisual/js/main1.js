@@ -29,7 +29,15 @@ function loadPetType() {
                     color: color,
                     tooltip: {
                         trigger: 'item',
-                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                        formatter: '{a} <br/>{b} : {c} ({d}%)',
+                        // 文字样式（白色）
+                        textStyle: {
+                            color: '#fff',
+                            fontSize: 14
+                        },
+                        top: 0,
+                        // 背景样式（透明黑）
+                        backgroundColor: 'rgba(0, 0, 0, 0.6)',
                     },
                     legend: {
                         orient: 'vertical', // 纵向排布

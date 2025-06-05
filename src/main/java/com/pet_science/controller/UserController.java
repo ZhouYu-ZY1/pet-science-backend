@@ -4,12 +4,11 @@ package com.pet_science.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.pet_science.annotation.RequireAdmin;
 import com.pet_science.annotation.RequireUser;
-import com.pet_science.exception.BaseException;
 import com.pet_science.exception.BusinessException;
-import com.pet_science.pojo.FollowVO;
+import com.pet_science.pojo.user.FollowVO;
 import com.pet_science.pojo.PageResult;
 import com.pet_science.pojo.Result;
-import com.pet_science.pojo.User;
+import com.pet_science.pojo.user.User;
 import com.pet_science.service.UserService;
 import com.pet_science.utils.JWTUtil;
 import io.swagger.annotations.Api;
@@ -39,6 +38,7 @@ public class UserController {
     public Result<JSONObject> login(
             @RequestParam String account,
             @RequestParam String password) {
+//        account = "test01";
         JSONObject data = userService.login(account, password);
         return Result.successResultData(data);
     }

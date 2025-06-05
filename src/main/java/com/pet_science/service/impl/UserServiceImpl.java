@@ -5,9 +5,9 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pet_science.mapper.UserMapper;
-import com.pet_science.pojo.FollowVO;
+import com.pet_science.pojo.user.FollowVO;
 import com.pet_science.pojo.PageResult;
-import com.pet_science.pojo.User;
+import com.pet_science.pojo.user.User;
 import com.pet_science.service.UserService;
 import com.pet_science.utils.JWTUtil;
 

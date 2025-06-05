@@ -52,6 +52,10 @@ spring:
 #      # 最大等待时间
 #      max-wait: 60000
 
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+
 # 存储服务配置（文件上传）
 minio:
   endpoint: http://localhost:9000  # MinIO 服务地址

@@ -93,4 +93,21 @@ public interface DataVisualMapper {
             "ORDER BY total_sales DESC " +
             "LIMIT 10")
     List<Map<String, Object>> getTopSellingProducts();
+    
+    /**
+     * 获取视频标题中的关键词及其互动数据
+     * 提取description中的#标签并统计点赞数、分享数、评论数和视频数量
+     */
+    @Select("SELECT " +
+            "    REGEXP_SUBSTR(description, '#([^\\\\s#]+)') AS keyword, " +
+            "    SUM(digg_count) AS total_digg_count, " +
+            "    SUM(share_count) AS total_share_count, " +
+            "    SUM(comment_count) AS total_comment_count, " +
+            "    COUNT(*) AS video_count " +
+            "FROM content " +
+            "WHERE description REGEXP '#[^\\\\s#]+' " +
+            "GROUP BY keyword " +
+            "ORDER BY total_digg_count DESC " +
+            "LIMIT 20")
+    List<Map<String, Object>> getVideoKeywords();
 }
