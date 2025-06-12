@@ -66,12 +66,15 @@ public class OrderController {
 
     
     @PostMapping("/create")
-    @ApiOperation(value = "创建订单", notes = "创建新订单，只需提供必要的订单信息，订单将在30分钟内未支付自动取消")
+    @ApiOperation(value = "创建订单", notes = "创建新订单，支持单商品和多商品订单。订单将在30分钟内未支付自动取消。" +
+            "可以使用 orderItem（单商品）或 orderItems（多商品）字段")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "Integer"),
         @ApiImplicitParam(name = "remark", value = "订单备注", dataType = "String"),
-        @ApiImplicitParam(name = "orderItem.productId", value = "商品ID", required = true, dataType = "Integer"),
-        @ApiImplicitParam(name = "orderItem.quantity", value = "购买数量", required = true, dataType = "Integer"),
+        @ApiImplicitParam(name = "orderItem.productId", value = "商品ID（单商品订单）", dataType = "Integer"),
+        @ApiImplicitParam(name = "orderItem.quantity", value = "购买数量（单商品订单）", dataType = "Integer"),
+        @ApiImplicitParam(name = "orderItems[].productId", value = "商品ID（多商品订单）", dataType = "Integer"),
+        @ApiImplicitParam(name = "orderItems[].quantity", value = "购买数量（多商品订单）", dataType = "Integer"),
         @ApiImplicitParam(name = "shipping.address", value = "收货地址", dataType = "String"),
         @ApiImplicitParam(name = "shipping.receiverName", value = "收货人姓名", dataType = "String"),
         @ApiImplicitParam(name = "shipping.receiverMobile", value = "收货人电话", dataType = "String"),

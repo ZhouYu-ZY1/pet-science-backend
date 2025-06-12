@@ -11,10 +11,10 @@ function loadPetType() {
                 let data = result.data; // 获取真实数据
 
                 // 更新数据展示
-                $('#totalPets').text(data.totalPets);
-                $('#catCount').text(data.catCount);
-                $('#dogCount').text(data.dogCount);
-                $('#otherCount').text(data.otherCount);
+                $('#totalPets').text(formatNumber(data.totalPets));
+                $('#catCount').text(formatNumber(data.catCount));
+                $('#dogCount').text(formatNumber(data.dogCount));
+                $('#otherCount').text(formatNumber(data.otherCount));
 
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = echarts.init(document.getElementById('petTypeChart'));

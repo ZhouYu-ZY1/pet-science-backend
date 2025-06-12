@@ -44,9 +44,9 @@ function loadProductCategorySales() {
                     $("#main10_salary").children('li').eq(index + 1).children("div").append("<span><b>"
                         + item.name + "</b></span>");
                     $("#main10_salary").children('li').eq(index + 1).children("div").append("<span>"
-                        + item.value + "</span>");
+                        + formatCurrency(item.value) + "</span>");
                     $("#main10_salary").children('li').eq(index + 1).children("div").append("<span>"
-                        + item.orderCount + "</span>");
+                        + formatNumber(item.orderCount) + "</span>");
                     $("#main10_salary").children('li').eq(index + 1).children("div").append("<span>"
                         + item.proportion + "</span>");
                 });

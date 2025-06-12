@@ -102,7 +102,7 @@ function loadInteractionChart() {
                             type: 'log',
                             name: '互动量',
                             position: 'left',
-                            min: 1,
+                            min: 2000,
                             nameTextStyle: {
                                 color: '#64b5f6',
                                 fontSize: 12,

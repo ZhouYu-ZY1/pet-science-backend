@@ -31,6 +31,10 @@
                             }}</el-descriptions-item>
                         <el-descriptions-item label="支付时间">{{ $formatDate(orderDetail.payment?.paymentTime) || '未支付'
                             }}</el-descriptions-item>
+                        <el-descriptions-item label="商品信息">
+                            <span>{{ orderItems.length }}种商品，共{{ getTotalQuantity() }}件</span>
+                            <el-tag v-if="orderItems.length > 1" type="success" size="small" style="margin-left: 8px;">多商品</el-tag>
+                        </el-descriptions-item>
                         <el-descriptions-item label="支付方式">{{ getPaymentMethodText(orderDetail.payment?.paymentMethod)
                 || '未支付'
                             }}</el-descriptions-item>
@@ -99,33 +103,47 @@
                 <el-card class="box-card">
                     <template #header>
                         <div class="card-header">
-                            <span>商品信息</span>
+                            <span>商品信息 ({{ orderItems.length }}件商品)</span>
+                            <el-tag v-if="orderItems.length > 1" type="success" size="small">多商品订单</el-tag>
                         </div>
                     </template>
-                    <el-table :data="orderItems" border style="width: 100%">
-                        <el-table-column type="index" width="50" />
-                        <el-table-column label="商品图片" width="150" align="center">
-                            <template #default="scope">
-                                <el-image style="width: 60px; height: 60px" :src="getFirstImage(scope.row.productImage)"
-                                    fit="cover" :preview-src-list="getImageList(scope.row.productImage)" />
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="productName" label="商品名称" min-width="200" align="center" />
-                        <el-table-column prop="productId" label="商品编码" width="120" align="center"/>
-                        <el-table-column prop="price" label="单价" width="100" align="center">
-                            <template #default="scope">
-                                ¥{{ scope.row.price }}
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="quantity" label="数量" width="80" align="center" />
-                        <el-table-column prop="subtotal" label="小计" width="100" align="center">
-                            <template #default="scope">
-                                ¥{{ scope.row.subtotal }}
-                            </template>
-                        </el-table-column>
-                    </el-table>
+                    <div v-if="orderItems.length > 0">
+                        <el-table :data="orderItems" border style="width: 100%">
+                            <el-table-column type="index" width="50" />
+                            <el-table-column label="商品图片" width="150" align="center">
+                                <template #default="scope">
+                                    <el-image style="width: 60px; height: 60px" :src="getFirstImage(scope.row.productImage)"
+                                        fit="cover" :preview-src-list="getImageList(scope.row.productImage)" />
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="productName" label="商品名称" min-width="200" align="center" />
+                            <el-table-column prop="productId" label="商品编码" width="120" align="center"/>
+                            <el-table-column prop="price" label="单价" width="100" align="center">
+                                <template #default="scope">
+                                    ¥{{ scope.row.price }}
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="quantity" label="数量" width="80" align="center" />
+                            <el-table-column prop="subtotal" label="小计" width="100" align="center">
+                                <template #default="scope">
+                                    ¥{{ scope.row.subtotal }}
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </div>
+                    <div v-else class="empty-data">
+                        <el-empty description="暂无商品信息" />
+                    </div>
 
                     <div class="order-summary">
+                        <div class="summary-item">
+                            <span>商品种类：</span>
+                            <span>{{ orderItems.length }}种</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>商品总数：</span>
+                            <span>{{ getTotalQuantity() }}件</span>
+                        </div>
                         <div class="summary-item">
                             <span>商品总价：</span>
                             <span>¥{{ orderDetail.totalAmount }}</span>
@@ -236,15 +254,10 @@ const fetchOrderDetail = async () => {
         const res = await getOrderDetail(Number(orderId))
         if (res.code === 200 && res.data) {
             orderDetail.value = res.data
-            orderItems = computed(() => {
-                // 如果orderItem存在且不是数组，将其包装为数组
-                if (orderDetail.value.orderItem && !Array.isArray(orderDetail.value.orderItem)) {
-                    return [orderDetail.value.orderItem];
-                }
-                // 如果orderItem是数组或不存在，直接返回
-                return Array.isArray(orderDetail.value.orderItem) ? orderDetail.value.orderItem : [];
-            })
-            
+
+            // 处理订单项数据，支持多商品和单商品订单
+            orderItems.value = getOrderItemsFromResponse(res.data)
+
             // 如果是待支付状态，获取剩余支付时间
             if (orderDetail.value.status === 'pending') {
                 fetchRemainingTime()
@@ -258,6 +271,27 @@ const fetchOrderDetail = async () => {
     } finally {
         loading.value = false
     }
+}
+
+// 从响应数据中获取订单项列表
+const getOrderItemsFromResponse = (orderData: any) => {
+    // 优先使用 orderItems 数组（多商品订单）
+    if (orderData.orderItems && Array.isArray(orderData.orderItems) && orderData.orderItems.length > 0) {
+        return orderData.orderItems
+    }
+    // 如果没有 orderItems，使用单个 orderItem（向后兼容）
+    else if (orderData.orderItem) {
+        return [orderData.orderItem]
+    }
+    // 如果都没有，返回空数组
+    return []
+}
+
+// 计算商品总数量
+const getTotalQuantity = () => {
+    return orderItems.value.reduce((total: number, item: any) => {
+        return total + (item.quantity || 0)
+    }, 0)
 }
 
 // 获取剩余支付时间
@@ -512,5 +546,28 @@ onActivated(() => {
     margin-right: 5px;
     color: #606266;
     font-weight: bold;
+}
+
+/* 多商品订单样式 */
+.order-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.countdown-timer {
+    color: #f56c6c;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* 商品表格样式优化 */
+.el-table .el-table__row:hover > td {
+    background-color: #f5f7fa !important;
+}
+
+/* 商品信息卡片头部样式 */
+.card-header .el-tag {
+    margin-left: 8px;
 }
 </style>

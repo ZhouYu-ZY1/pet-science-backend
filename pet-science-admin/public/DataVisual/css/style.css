@@ -116,6 +116,13 @@ body {
     flex-direction: column;
     gap: 0.1rem; 
 }
+.left-panel {
+    animation: slide-in-left  ease-out 0.6s both;
+}
+
+.right-panel {
+    animation: slide-in-right  ease-out 0.8s both;
+}
 
 .center-panel {
     width: 50%;
@@ -123,17 +130,149 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 0.1rem; 
+    gap: 0.1rem;
+    animation: slide-in-up  ease-out 1s both;
 }
 
+
+@keyframes slide-in-left {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-right {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-up {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+/* 面板通用样式 */
 .panel-item {
     background: rgba(6, 30, 93, 0.5);
-    border: 0.01rem solid rgba(14, 148, 235, 0.2); 
-    border-radius: 0.05rem; 
-    padding: 0.1rem; 
-    height: calc(50% - 0.05rem); 
+    border: 0.01rem solid rgba(14, 148, 235, 0.2);
+    border-radius: 0.05rem;
+    padding: 0.1rem;
+    height: calc(50% - 0.05rem);
     position: relative;
     overflow: hidden;
+    /* 添加呼吸灯效果 */
+    box-shadow: 0 0 0.1rem rgba(14, 148, 235, 0.3);
+    animation: panel-breathing 3s ease-in-out infinite;
+}
+
+/* 呼吸灯动画 */
+@keyframes panel-breathing {
+    0% {
+        border-color: rgba(14, 148, 235, 0.2);
+        box-shadow: 0 0 0.1rem rgba(14, 148, 235, 0.3),
+                    inset 0 0 0.2rem rgba(14, 148, 235, 0.1);
+    }
+    50% {
+        border-color: rgba(14, 148, 235, 0.4);
+        box-shadow: 0 0 0.25rem rgba(14, 148, 235, 0.5),
+                    inset 0 0 0.3rem rgba(14, 148, 235, 0.2);
+    }
+    100% {
+        border-color: rgba(14, 148, 235, 0.2);
+        box-shadow: 0 0 0.1rem rgba(14, 148, 235, 0.3),
+                    inset 0 0 0.2rem rgba(14, 148, 235, 0.1);
+    }
+}
+
+/* 数字滚动动画样式 */
+.data-value {
+    font-size: 0.16rem;
+    font-weight: bold;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.data-value.animating {
+    color: #0e94eb;
+    text-shadow: 0 0 0.1rem rgba(14, 148, 235, 0.8);
+    transform: scale(1.1);
+}
+
+/* 3D模型加载动画样式 */
+.model-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    color: #fff;
+}
+
+.model-loading-spinner {
+    width: 0.4rem;
+    height: 0.4rem;
+    border: 0.02rem solid rgba(14, 148, 235, 0.3);
+    border-top: 0.02rem solid #0e94eb;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 0.1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.model-loading-text {
+    font-size: 0.12rem;
+    color: #7ec7ff;
+    margin-bottom: 0.1rem;
+}
+
+.model-loading-progress {
+    width: 2rem;
+    height: 0.02rem;
+    background: rgba(14, 148, 235, 0.2);
+    border-radius: 0.01rem;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.model-loading-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #0e94eb, #7ec7ff);
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 0.01rem;
+}
+
+/* 3D模型容器淡入效果 */
+.model-container-fade {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.model-container-fade.loaded {
+    opacity: 1;
 }
 
 .panel-item::before {
@@ -497,6 +636,87 @@ body {
 #researchLabel {
     top: 50%;
     left: 70%;
+}
+
+/* 3D模型加载进度条样式 */
+.model-loading-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    background: rgba(6, 30, 93, 0.8);
+    padding: 0.2rem;
+    border-radius: 0.1rem;
+    border: 0.01rem solid rgba(14, 148, 235, 0.3);
+    backdrop-filter: blur(0.05rem);
+}
+
+.loading-text {
+    color: #fff;
+    font-size: 0.14rem;
+    margin-bottom: 0.1rem;
+    text-shadow: 0 0 0.05rem rgba(14, 148, 235, 0.8);
+}
+
+.progress-bar-container {
+    width: 2rem;
+    height: 0.04rem;
+    background: rgba(14, 148, 235, 0.2);
+    border-radius: 0.02rem;
+    overflow: hidden;
+    margin-bottom: 0.1rem;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #0e94eb, #00cfff, #0e94eb);
+    background-size: 200% 100%;
+    border-radius: 0.02rem;
+    width: 0%;
+    transition: width 0.3s ease;
+    animation: progress-glow 2s ease-in-out infinite;
+}
+
+.loading-spinner {
+    width: 0.2rem;
+    height: 0.2rem;
+    border: 0.02rem solid rgba(14, 148, 235, 0.3);
+    border-top: 0.02rem solid #0e94eb;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes progress-glow {
+    0% {
+        background-position: 0% 50%;
+        box-shadow: 0 0 0.05rem rgba(14, 148, 235, 0.5);
+    }
+    50% {
+        background-position: 100% 50%;
+        box-shadow: 0 0 0.1rem rgba(14, 148, 235, 0.8);
+    }
+    100% {
+        background-position: 0% 50%;
+        box-shadow: 0 0 0.05rem rgba(14, 148, 235, 0.5);
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 3D模型容器淡入动画 */
+.model-fade-in canvas{
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+
+.model-fade-in.loaded canvas{
+    opacity: 1;
 }
 
 /* 地区分布样式 */

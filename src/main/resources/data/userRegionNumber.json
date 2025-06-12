@@ -1,138 +1,138 @@
 [
     {
         "name": "广东",
-        "value": 423
+        "value": 86000
     },
     {
         "name": "江苏",
-        "value": 387
+        "value": 78600
     },
     {
         "name": "浙江",
-        "value": 365
+        "value": 74200
     },
     {
         "name": "山东",
-        "value": 318
+        "value": 64600
     },
     {
         "name": "河南",
-        "value": 285
+        "value": 57900
     },
     {
         "name": "四川",
-        "value": 278
+        "value": 56500
     },
     {
         "name": "福建",
-        "value": 215
+        "value": 43700
     },
     {
         "name": "上海",
-        "value": 208
+        "value": 42300
     },
     {
         "name": "湖南",
-        "value": 198
+        "value": 40200
     },
     {
         "name": "湖北",
-        "value": 192
+        "value": 39000
     },
     {
         "name": "北京",
-        "value": 186
+        "value": 37800
     },
     {
         "name": "安徽",
-        "value": 175
+        "value": 35600
     },
     {
         "name": "河北",
-        "value": 168
+        "value": 34100
     },
     {
         "name": "江西",
-        "value": 142
+        "value": 28900
     },
     {
         "name": "陕西",
-        "value": 138
+        "value": 28000
     },
     {
         "name": "重庆",
-        "value": 132
+        "value": 26800
     },
     {
         "name": "辽宁",
-        "value": 128
+        "value": 26000
     },
     {
         "name": "云南",
-        "value": 115
+        "value": 23400
     },
     {
         "name": "广西",
-        "value": 108
+        "value": 22000
     },
     {
         "name": "山西",
-        "value": 98
+        "value": 19900
     },
     {
         "name": "台湾",
-        "value": 92
+        "value": 18700
     },
     {
         "name": "贵州",
-        "value": 88
+        "value": 17900
     },
     {
         "name": "天津",
-        "value": 85
+        "value": 17300
     },
     {
         "name": "内蒙古",
-        "value": 72
+        "value": 14600
     },
     {
         "name": "新疆",
-        "value": 68
+        "value": 13800
     },
     {
         "name": "吉林",
-        "value": 62
+        "value": 12600
     },
     {
         "name": "黑龙江",
-        "value": 58
+        "value": 11800
     },
     {
         "name": "甘肃",
-        "value": 52
+        "value": 10600
     },
     {
         "name": "海南",
-        "value": 48
+        "value": 9800
     },
     {
         "name": "香港",
-        "value": 45
+        "value": 9100
     },
     {
         "name": "宁夏",
-        "value": 32
+        "value": 6500
     },
     {
         "name": "青海",
-        "value": 28
+        "value": 5700
     },
     {
         "name": "西藏",
-        "value": 18
+        "value": 3700
     },
     {
         "name": "澳门",
-        "value": 12
+        "value": 2400
     }
 ]

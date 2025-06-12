@@ -1,0 +1,56 @@
+{
+  "totalPets": 1252943,
+  "dogCount": 389328,
+  "catCount": 286935,
+  "otherCount": 576680,
+  "list": [
+    {
+      "proportion": "31.22%",
+      "name": "狗狗",
+      "value": 389328,
+      "perUser": 0.31
+    },
+    {
+      "proportion": "22.48%",
+      "name": "猫咪",
+      "value": 286935,
+      "perUser": 0.22
+    },
+    {
+      "proportion": "12.34%",
+      "name": "其他",
+      "value": 153700,
+      "perUser": 0.12
+    },
+    {
+      "proportion": "10.25%",
+      "name": "鸟类",
+      "value": 127700,
+      "perUser": 0.10
+    },
+    {
+      "proportion": "9.76%",
+      "name": "鱼类",
+      "value": 121600,
+      "perUser": 0.10
+    },
+    {
+      "proportion": "7.69%",
+      "name": "兔子",
+      "value": 95800,
+      "perUser": 0.08
+    },
+    {
+      "proportion": "4.98%",
+      "name": "仓鼠",
+      "value": 62000,
+      "perUser": 0.05
+    },
+    {
+      "proportion": "3.28%",
+      "name": "爬行动物",
+      "value": 40800,
+      "perUser": 0.03
+    }
+  ]
+}

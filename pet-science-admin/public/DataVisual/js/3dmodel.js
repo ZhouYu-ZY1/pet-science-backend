@@ -88,15 +88,29 @@ function loadModel(containerId, cameraPosition, light, modelName, modelSize, mod
         if (onComplete) onComplete();
         return;
     }
-    container.style.opacity = 0; // 初始隐藏容器
+
+    // 添加淡入动画类
+    container.classList.add('model-fade-in');
     container.innerHTML = ''; // 清空容器内容
+
+    // 创建加载界面
+    const loadingContainer = document.createElement('div');
+    loadingContainer.className = 'model-loading-container';
+    loadingContainer.innerHTML = `
+        <div class="loading-text">正在加载3D模型...</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar-${containerId}"></div>
+        </div>
+        <div class="loading-spinner"></div>
+    `;
+    container.appendChild(loadingContainer);
 
     // 获取容器尺寸
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
 
-    const loadingElem = document.getElementById("model-load-text");
-    // loadingElem.textContent = `正在加载3D模型：${loadedModels}/${totalModels}`;
+    const progressBar = document.getElementById(`progress-bar-${containerId}`);
+    const loadingText = loadingContainer.querySelector('.loading-text');
 
     // 创建场景
     const scene = new THREE.Scene();
@@ -198,22 +212,25 @@ function loadModel(containerId, cameraPosition, light, modelName, modelSize, mod
             
             // 模型加载完成，更新计数并调用完成回调
             loadedModels += 1;
-            // loadingElem.textContent = `正在加载3D模型：${loadedModels}/${totalModels}`;
-            if(loadedModels >= totalModels){
-                loadingElem.style.display = 'none';
-            }
-            
+
+            // 隐藏加载界面并显示模型
+            setTimeout(() => {
+                loadingContainer.style.opacity = '0';
+                setTimeout(() => {
+                    loadingContainer.remove();
+                    container.classList.add('loaded');
+                }, 300);
+            }, 500);
+
             // 调用完成回调，触发下一个模型的加载
             if (onComplete) onComplete();
-
-            setTimeout(function() {
-                container.style.opacity = 1; // 显示容器
-            },300)
         }, function(xhr) {
             // 加载进度
-            const percent = Math.round(xhr.loaded / xhr.total * 100);
-            // loadingElem.textContent = `正在加载3D模型：${loadedModels}/${totalModels} (${percent}%)`;
-            loadingElem.textContent = `正在加载3D模型： ${percent}%`;
+            if (xhr.lengthComputable) {
+                const percent = Math.round(xhr.loaded / xhr.total * 100);
+                loadingText.textContent = `正在加载3D模型... ${percent}%`;
+                progressBar.style.width = `${percent}%`;
+            }
         }, function(error) {
             console.error('加载模型失败:', error);
             

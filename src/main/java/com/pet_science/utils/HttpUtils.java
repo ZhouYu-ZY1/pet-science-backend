@@ -60,50 +60,15 @@ public class HttpUtils {
             for (int i = 0; i < awemeList.length(); i++) {
                 try {
                     JSONObject item = awemeList.getJSONObject(i);
-                    if(!item.isNull("video")){
-                        Content content = new Content();
-                        JSONObject statistics = item.getJSONObject("statistics");
-                        Integer commentCount = statistics.getInt("comment_count");
-                        Integer diggCount = statistics.getInt("digg_count");
-                        Integer shareCount = statistics.getInt("share_count");
-                        JSONObject videojson = item.getJSONObject("video");
-                        JSONObject playAddr = videojson.getJSONObject("play_addr");
-                        JSONArray urlList = playAddr.getJSONArray("url_list");
-                        JSONObject cover = videojson.getJSONObject("origin_cover");
-                        JSONArray coverList = cover.getJSONArray("url_list");
-                        JSONObject author = item.getJSONObject("author");
-                        JSONObject avatarThumb = author.getJSONObject("avatar_thumb");
-                        JSONArray authorCovers = avatarThumb.getJSONArray("url_list");
-
-                        String videoSrc = urlList.getString(2); //播放地址
-                        String videoId = item.getString("aweme_id"); //视频ID
-                        String desc = item.getString("desc"); //视频介绍
-                        String shareUrl = item.getString("share_url"); //分享地址
-                        String coverSrc = coverList.getString(0); //图片地址
-                        String authorAvatar = authorCovers.getString(0); //作者头像
-                        String uid = author.getString("uid"); //作者ID
-                        String nickname = author.getString("nickname"); //作者昵称
-
-//                        String videoUrl = getVideoUrl(videoSrc);
-//                        if(!videoUrl.isEmpty()){
-//                            videoSrc = videoUrl;
-//                        }
-                        content.setCommentCount(commentCount);
-                        content.setDiggCount(diggCount);
-                        content.setShareCount(shareCount);
-
-                        content.setType(0); //抖音视频
-                        content.setLike(false); //默认推荐视频都没有收藏
-                        content.setVideoSrc(videoSrc);
-                        content.setVideoId(videoId);
-                        content.setDesc(desc);
-                        content.setShareUrl(shareUrl);
-                        content.setCoverSrc(coverSrc);
-                        content.setAuthorAvatar(authorAvatar);
-                        content.setUid(uid);
-                        content.setNickname(nickname);
+                    Content content = null;
+                    switch (item.getInt("aweme_type")){
+                        case 68-> content = getImageContent(item);
+                        case 0 -> content = getVideoContent(item);
+                    }
+                    if(content != null){
                         contents.add(content);
                     }
+
                 }catch (Exception e){
                     throw new RuntimeException(e);
                 }
@@ -114,6 +79,108 @@ public class HttpUtils {
         return contents; // 返回视频列表
     }
 
+    private static Content getImageContent(JSONObject item) {
+        if(!item.isNull("images")){
+            Content content = new Content();
+            JSONObject statistics = item.getJSONObject("statistics");
+            Integer commentCount = statistics.getInt("comment_count");
+            Integer diggCount = statistics.getInt("digg_count");
+            Integer shareCount = statistics.getInt("share_count");
+            JSONArray images = item.getJSONArray("images");
+            StringBuilder imageUrls = new StringBuilder();
+            for (int i = 0; i < images.length(); i++) {
+                try {
+                    JSONObject image = images.getJSONObject(i);
+                    String imageUrl = image.getJSONArray("url_list").getString(0);
+                    if(i == images.length() - 1){
+                        break;
+                    }
+                    imageUrls.append(imageUrl).append(";");
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            String musicUrl = "";
+            try {
+                musicUrl = item.getJSONObject("music").getJSONObject("play_url").getString("uri");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            JSONObject author = item.getJSONObject("author");
+            JSONObject avatarThumb = author.getJSONObject("avatar_thumb");
+            JSONArray authorCovers = avatarThumb.getJSONArray("url_list");
+            String videoId = item.getString("aweme_id"); //视频ID
+            String desc = item.getString("desc"); //视频介绍
+            String shareUrl = item.getString("share_url"); //分享地址
+            String authorAvatar = authorCovers.getString(0); //作者头像
+            String uid = author.getString("uid"); //作者ID
+            String nickname = author.getString("nickname"); //作者昵称
+            content.setCommentCount(commentCount);
+            content.setDiggCount(diggCount);
+            content.setShareCount(shareCount);
+            content.setType(68); //抖音图文
+            content.setLike(false); //默认推荐视频都没有收藏
+            content.setVideoSrc(musicUrl);
+            content.setCoverSrc(imageUrls.toString());
+            content.setVideoId(videoId);
+            content.setDesc(desc);
+            content.setShareUrl(shareUrl);
+            content.setAuthorAvatar(authorAvatar);
+            content.setUid(uid);
+            content.setNickname(nickname);
+            return content;
+        }
+        return null;
+    }
+
+    private static Content getVideoContent(JSONObject item) {
+        if(!item.isNull("video")){
+            Content content = new Content();
+            JSONObject statistics = item.getJSONObject("statistics");
+            Integer commentCount = statistics.getInt("comment_count");
+            Integer diggCount = statistics.getInt("digg_count");
+            Integer shareCount = statistics.getInt("share_count");
+            JSONObject videojson = item.getJSONObject("video");
+            JSONObject playAddr = videojson.getJSONObject("play_addr");
+            JSONArray urlList = playAddr.getJSONArray("url_list");
+            JSONObject cover = videojson.getJSONObject("origin_cover");
+            JSONArray coverList = cover.getJSONArray("url_list");
+            JSONObject author = item.getJSONObject("author");
+            JSONObject avatarThumb = author.getJSONObject("avatar_thumb");
+            JSONArray authorCovers = avatarThumb.getJSONArray("url_list");
+
+            String videoSrc = urlList.getString(2); //播放地址
+            String videoId = item.getString("aweme_id"); //视频ID
+            String desc = item.getString("desc"); //视频介绍
+            String shareUrl = item.getString("share_url"); //分享地址
+            String coverSrc = coverList.getString(0); //图片地址
+            String authorAvatar = authorCovers.getString(0); //作者头像
+            String uid = author.getString("uid"); //作者ID
+            String nickname = author.getString("nickname"); //作者昵称
+
+//                        String videoUrl = getVideoUrl(videoSrc);
+//                        if(!videoUrl.isEmpty()){
+//                            videoSrc = videoUrl;
+//                        }
+            content.setCommentCount(commentCount);
+            content.setDiggCount(diggCount);
+            content.setShareCount(shareCount);
+
+            content.setType(0); //抖音视频
+            content.setLike(false); //默认推荐视频都没有收藏
+            content.setVideoSrc(videoSrc);
+            content.setVideoId(videoId);
+            content.setDesc(desc);
+            content.setShareUrl(shareUrl);
+            content.setCoverSrc(coverSrc);
+            content.setAuthorAvatar(authorAvatar);
+            content.setUid(uid);
+            content.setNickname(nickname);
+            return content;
+        }
+        return null;
+    }
 
 
     private static String getVideoUrl(String url){

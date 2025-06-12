@@ -1,0 +1,660 @@
+简介信息：
+{
+    "annualTransactionValue": 281132684,
+    "activeWeeklyUsers": 45680,
+    "activeDailyUsers": 12350,
+    "registeredUsers": 856420,
+    "totalOrders": 1245680,
+    "activeMonthlyUsers": 156780,
+    "totalPets": 1680500,
+    "introduction": "萌宠视界平台致力于为宠物爱好者提供全方位的宠物服务，包括宠物商城、宠物AI问答、宠物社区（图文发布、实时通讯）等功能。我们通过线上线为用户提供便捷的宠物用品购买渠道、专业的宠物咨询、以及宠物社区交流平台。平台汇集了众多宠物专家和爱宠人士，共同打造温馨和谐的宠物生态圈，让每一位宠物主人和他们的爱宠都能享受高品质的服务体验。"
+  }
+
+各地区销量分布（万）：
+{
+  "code": 200,
+  "message": "操作成功",
+  "data": [
+    {
+      "name": "广东",
+      "value": 19
+    },
+    {
+      "name": "江苏",
+      "value": 16
+    },
+    {
+      "name": "浙江",
+      "value": 14
+    },
+    {
+      "name": "四川",
+      "value": 13
+    },
+    {
+      "name": "山东",
+      "value": 13
+    },
+    {
+      "name": "河南",
+      "value": 11
+    },
+    {
+      "name": "湖北",
+      "value": 10
+    },
+    {
+      "name": "湖南",
+      "value": 9
+    },
+    {
+      "name": "福建",
+      "value": 9
+    },
+    {
+      "name": "上海",
+      "value": 8
+    },
+    {
+      "name": "北京",
+      "value": 8
+    },
+    {
+      "name": "河北",
+      "value": 8
+    },
+    {
+      "name": "安徽",
+      "value": 8
+    },
+    {
+      "name": "陕西",
+      "value": 7
+    },
+    {
+      "name": "辽宁",
+      "value": 6
+    },
+    {
+      "name": "江西",
+      "value": 6
+    },
+    {
+      "name": "重庆",
+      "value": 6
+    },
+    {
+      "name": "云南",
+      "value": 6
+    },
+    {
+      "name": "广西",
+      "value": 5
+    },
+    {
+      "name": "山西",
+      "value": 5
+    },
+    {
+      "name": "内蒙古",
+      "value": 4
+    },
+    {
+      "name": "贵州",
+      "value": 4
+    },
+    {
+      "name": "天津",
+      "value": 4
+    },
+    {
+      "name": "新疆",
+      "value": 3
+    },
+    {
+      "name": "吉林",
+      "value": 3
+    },
+    {
+      "name": "黑龙江",
+      "value": 3
+    },
+    {
+      "name": "甘肃",
+      "value": 2
+    },
+    {
+      "name": "海南",
+      "value": 2
+    },
+    {
+      "name": "宁夏",
+      "value": 2
+    },
+    {
+      "name": "青海",
+      "value": 1
+    },
+    {
+      "name": "西藏",
+      "value": 1
+    },
+    {
+      "name": "台湾",
+      "value": 6
+    },
+    {
+      "name": "香港",
+      "value": 3
+    }
+  ]
+}
+
+宠物类型数量与占比：
+{
+  "code": 200,
+  "message": "操作成功",
+  "data": {
+    "dogCount": 389328,
+    "otherCount": 576680,
+    "list": [
+      {
+        "proportion": "31.22%",
+        "name": "狗狗",
+        "perUser": 0.31,
+        "value": 389328
+      },
+      {
+        "proportion": "22.48%",
+        "name": "猫咪",
+        "perUser": 0.22,
+        "value": 286935
+      },
+      {
+        "proportion": "12.34%",
+        "name": "其他",
+        "perUser": 0.12,
+        "value": 153700
+      },
+      {
+        "proportion": "10.25%",
+        "name": "鸟类",
+        "perUser": 0.1,
+        "value": 127700
+      },
+      {
+        "proportion": "9.76%",
+        "name": "鱼类",
+        "perUser": 0.1,
+        "value": 121600
+      },
+      {
+        "proportion": "7.69%",
+        "name": "兔子",
+        "perUser": 0.08,
+        "value": 95800
+      },
+      {
+        "proportion": "4.98%",
+        "name": "仓鼠",
+        "perUser": 0.05,
+        "value": 62000
+      },
+      {
+        "proportion": "3.28%",
+        "name": "爬行动物",
+        "perUser": 0.03,
+        "value": 40800
+      }
+    ],
+    "totalPets": 1252943,
+    "catCount": 286935
+  }
+}
+
+各分类产品销售额占比：
+{
+  "code": 200,
+  "message": "操作成功",
+  "data": [
+    {
+      "proportion": "45.00%",
+      "name": "食物",
+      "orderCount": 1260000,
+      "value": 126000000
+    },
+    {
+      "proportion": "18.00%",
+      "name": "玩具",
+      "orderCount": 504000,
+      "value": 50400000
+    },
+    {
+      "proportion": "8.00%",
+      "name": "服饰",
+      "orderCount": 112000,
+      "value": 22400000
+    },
+    {
+      "proportion": "12.00%",
+      "name": "健康",
+      "orderCount": 168000,
+      "value": 33600000
+    },
+    {
+      "proportion": "10.00%",
+      "name": "清洁",
+      "orderCount": 560000,
+      "value": 28000000
+    },
+    {
+      "proportion": "3.50%",
+      "name": "出行",
+      "orderCount": 49000,
+      "value": 9800000
+    },
+    {
+      "proportion": "1.50%",
+      "name": "智能",
+      "orderCount": 8400,
+      "value": 4200000
+    },
+    {
+      "proportion": "1.50%",
+      "name": "居住",
+      "orderCount": 21000,
+      "value": 4200000
+    },
+    {
+      "proportion": "0.50%",
+      "name": "训导",
+      "orderCount": 7000,
+      "value": 1400000
+    }
+  ]
+}
+
+销量最高的商品TOP10：
+{
+  "code": 200,
+  "message": "操作成功",
+  "data": [
+    {
+      "image": "/images/product/9d1d2d74-0a56-4532-9052-ded624225f94.jpg",
+      "name": "狗粮40斤装成犬幼型犬专用金毛拉布拉多边牧通用全价",
+      "value": 185642
+    },
+    {
+      "image": "/images/product/93b71c2e-ade3-40ed-b1f9-d5073ca5f579.jpg",
+      "name": "全犬通用狗粮10斤装冻干小型犬农村土狗专用成犬幼犬中大型犬",
+      "value": 154268
+    },
+    {
+      "image": "/images/product/7ddf05d9-c91b-4203-8844-3758273a8a1c.jpg",
+      "name": "优质天然猫粮 2kg装",
+      "value": 129856
+    },
+    {
+      "image": "/images/product/2b0f61bb-568b-4619-b58e-00c053b7ac55.jpg",
+      "name": "星宴猫粮全价风干粮成猫幼猫小猫营养高蛋白蓝猫布偶猫专用国产",
+      "value": 104523
+    },
+    {
+      "image": "/images/product/0dc5a953-2703-44d5-b6e4-ff24a45867e5.jpg",
+      "name": "幼犬专用狗粮 3kg装",
+      "value": 89245
+    },
+    {
+      "image": "/images/product/f55c9269-586e-4f4d-a124-d6deca6c6b3c.jpg",
+      "name": "猫咪玩具车自动逗猫棒自嗨解闷电动充电智能激光灯红外线宠物用品",
+      "value": 75689
+    },
+    {
+      "image": "/images/product/7f029bec-9283-4b9b-ba5b-01c33125abf3.jpg",
+      "name": "麦德氏小分子鲨鱼软骨素狗狗专用泰迪金毛宠物狗狗关节补钙软骨素",
+      "value": 63452
+    },
+    {
+      "image": "/images/product/ff8af37d-ffee-4d64-9af8-6df06510b5ac.jpg",
+      "name": "小佩自动喂食器SOLO猫咪定时自动投食机猫粮狗粮智能宠物喂食机",
+      "value": 52368
+    },
+    {
+      "image": "/images/product/05520aba-7e43-4185-9b32-f46dfe72e859.jpg",
+      "name": "狗狗毛绒发声飞盘玩具自嗨解闷神器柯基消耗体力宠物耐咬拔河玩具",
+      "value": 42567
+    },
+    {
+      "image": "/images/product/e1c5b067-3b15-4f8f-af05-ab9ffd6f94e8.jpg",
+      "name": "新款帅气宠物狗狗猫咪美式条纹T恤春夏季薄款雪纳瑞泰迪小型犬~潮",
+      "value": 34215
+    }
+  ]
+}
+
+各地区用户数量：
+{
+  "code": 200,
+  "message": "操作成功",
+  "data": [
+    {
+      "name": "广东",
+      "value": 86000
+    },
+    {
+      "name": "江苏",
+      "value": 78600
+    },
+    {
+      "name": "浙江",
+      "value": 74200
+    },
+    {
+      "name": "山东",
+      "value": 64600
+    },
+    {
+      "name": "河南",
+      "value": 57900
+    },
+    {
+      "name": "四川",
+      "value": 56500
+    },
+    {
+      "name": "福建",
+      "value": 43700
+    },
+    {
+      "name": "上海",
+      "value": 42300
+    },
+    {
+      "name": "湖南",
+      "value": 40200
+    },
+    {
+      "name": "湖北",
+      "value": 39000
+    },
+    {
+      "name": "北京",
+      "value": 37800
+    },
+    {
+      "name": "安徽",
+      "value": 35600
+    },
+    {
+      "name": "河北",
+      "value": 34100
+    },
+    {
+      "name": "江西",
+      "value": 28900
+    },
+    {
+      "name": "陕西",
+      "value": 28000
+    },
+    {
+      "name": "重庆",
+      "value": 26800
+    },
+    {
+      "name": "辽宁",
+      "value": 26000
+    },
+    {
+      "name": "云南",
+      "value": 23400
+    },
+    {
+      "name": "广西",
+      "value": 22000
+    },
+    {
+      "name": "山西",
+      "value": 19900
+    },
+    {
+      "name": "台湾",
+      "value": 18700
+    },
+    {
+      "name": "贵州",
+      "value": 17900
+    },
+    {
+      "name": "天津",
+      "value": 17300
+    },
+    {
+      "name": "内蒙古",
+      "value": 14600
+    },
+    {
+      "name": "新疆",
+      "value": 13800
+    },
+    {
+      "name": "吉林",
+      "value": 12600
+    },
+    {
+      "name": "黑龙江",
+      "value": 11800
+    },
+    {
+      "name": "甘肃",
+      "value": 10600
+    },
+    {
+      "name": "海南",
+      "value": 9800
+    },
+    {
+      "name": "香港",
+      "value": 9100
+    },
+    {
+      "name": "宁夏",
+      "value": 6500
+    },
+    {
+      "name": "青海",
+      "value": 5700
+    },
+    {
+      "name": "西藏",
+      "value": 3700
+    },
+    {
+      "name": "澳门",
+      "value": 2400
+    }
+  ]
+}
+
+近期最热门的用户发布内容标签及其数据量，视频数量，分享数量，点赞数量，评论（讨论）数量：
+{
+  "code": 200,
+  "message": "操作成功",
+  "data": [
+    {
+      "videoCount": 12,
+      "shareCount": 1580000,
+      "name": "#狗狗",
+      "diggCount": 4200000,
+      "commentCount": 89500
+    },
+    {
+      "videoCount": 4,
+      "shareCount": 1151919,
+      "name": "#万物可爱计划",
+      "diggCount": 3600372,
+      "commentCount": 63873
+    },
+    {
+      "videoCount": 9,
+      "shareCount": 1200000,
+      "name": "#猫咪",
+      "diggCount": 2950000,
+      "commentCount": 72300
+    },
+    {
+      "videoCount": 8,
+      "shareCount": 1150000,
+      "name": "#柴犬",
+      "diggCount": 2800000,
+      "commentCount": 65200
+    },
+    {
+      "videoCount": 6,
+      "shareCount": 980000,
+      "name": "#金毛",
+      "diggCount": 2350000,
+      "commentCount": 52800
+    },
+    {
+      "videoCount": 6,
+      "shareCount": 850000,
+      "name": "#橘猫",
+      "diggCount": 2100000,
+      "commentCount": 48900
+    },
+    {
+      "videoCount": 5,
+      "shareCount": 850000,
+      "name": "#柯基",
+      "diggCount": 1950000,
+      "commentCount": 43600
+    },
+    {
+      "videoCount": 4,
+      "shareCount": 720000,
+      "name": "#萨摩",
+      "diggCount": 1680000,
+      "commentCount": 38200
+    },
+    {
+      "videoCount": 4,
+      "shareCount": 650000,
+      "name": "#暹罗猫",
+      "diggCount": 1580000,
+      "commentCount": 35700
+    },
+    {
+      "videoCount": 3,
+      "shareCount": 480000,
+      "name": "#布偶猫",
+      "diggCount": 1250000,
+      "commentCount": 28400
+    },
+    {
+      "videoCount": 4,
+      "shareCount": 420000,
+      "name": "#鹦鹉",
+      "diggCount": 980000,
+      "commentCount": 22800
+    },
+    {
+      "videoCount": 3,
+      "shareCount": 350000,
+      "name": "#虎皮鹦鹉",
+      "diggCount": 820000,
+      "commentCount": 18500
+    },
+    {
+      "videoCount": 1,
+      "shareCount": 365192,
+      "name": "#心思全写在脸上的猫猫",
+      "diggCount": 786484,
+      "commentCount": 12359
+    },
+    {
+      "videoCount": 2,
+      "shareCount": 1386641,
+      "name": "#萌宠出道计划",
+      "diggCount": 786079,
+      "commentCount": 35155
+    },
+    {
+      "videoCount": 1,
+      "shareCount": 264153,
+      "name": "#歌曲薛定谔的你",
+      "diggCount": 757903,
+      "commentCount": 7113
+    },
+    {
+      "videoCount": 3,
+      "shareCount": 320000,
+      "name": "#金鱼",
+      "diggCount": 750000,
+      "commentCount": 16800
+    },
+    {
+      "videoCount": 2,
+      "shareCount": 280000,
+      "name": "#文鸟",
+      "diggCount": 650000,
+      "commentCount": 14200
+    },
+    {
+      "videoCount": 3,
+      "shareCount": 280000,
+      "name": "#兔子",
+      "diggCount": 650000,
+      "commentCount": 15200
+    },
+    {
+      "videoCount": 2,
+      "shareCount": 250000,
+      "name": "#锦鲤",
+      "diggCount": 580000,
+      "commentCount": 12900
+    },
+    {
+      "videoCount": 2,
+      "shareCount": 200000,
+      "name": "#热带鱼",
+      "diggCount": 460000,
+      "commentCount": 10500
+    },
+    {
+      "videoCount": 2,
+      "shareCount": 180000,
+      "name": "#垂耳兔",
+      "diggCount": 420000,
+      "commentCount": 9800
+    },
+    {
+      "videoCount": 2,
+      "shareCount": 150000,
+      "name": "#仓鼠",
+      "diggCount": 350000,
+      "commentCount": 8200
+    },
+    {
+      "videoCount": 1,
+      "shareCount": 120000,
+      "name": "#豚鼠",
+      "diggCount": 280000,
+      "commentCount": 6500
+    },
+    {
+      "videoCount": 1,
+      "shareCount": 95000,
+      "name": "#蜥蜴",
+      "diggCount": 220000,
+      "commentCount": 5100
+    },
+    {
+      "videoCount": 1,
+      "shareCount": 75000,
+      "name": "#乌龟",
+      "diggCount": 180000,
+      "commentCount": 4200
+    }
+  ]
+}

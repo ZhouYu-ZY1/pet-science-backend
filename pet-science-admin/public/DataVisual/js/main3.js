@@ -20,7 +20,9 @@ function loadTopSellingProducts() {
                         axisPointer: {
                             type: 'shadow'
                         },
-                        formatter: '{b}: {c}件'
+                        formatter: function(params) {
+                            return params.name + ': ' + formatNumber(params.value) + '件';
+                        }
                     },
                     grid: {
                         left: '-90',
@@ -42,7 +44,10 @@ function loadTopSellingProducts() {
                         },
                         axisLabel: {
                             color: '#fff',
-                            fontSize: 10
+                            fontSize: 10,
+                            formatter: function(value) {
+                                return formatNumber(value);
+                            }
                         },
                         splitLine: {
                             show: false
@@ -91,7 +96,9 @@ function loadTopSellingProducts() {
                                 show: true,
                                 position: 'right',
                                 color: '#fff',
-                                formatter: '{c}件'
+                                formatter: function(params) {
+                                    return formatNumber(params.value) + '件';
+                                }
                             }
                         }
                     ]

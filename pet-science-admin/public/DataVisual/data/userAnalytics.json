@@ -1,0 +1,82 @@
+{
+  "userBehaviorAnalytics": {
+    "hourlyActivity": [
+      { "hour": "00:00", "activeUsers": 8, "newRegistrations": 0 },
+      { "hour": "01:00", "activeUsers": 5, "newRegistrations": 0 },
+      { "hour": "02:00", "activeUsers": 3, "newRegistrations": 0 },
+      { "hour": "03:00", "activeUsers": 2, "newRegistrations": 0 },
+      { "hour": "04:00", "activeUsers": 1, "newRegistrations": 0 },
+      { "hour": "05:00", "activeUsers": 2, "newRegistrations": 0 },
+      { "hour": "06:00", "activeUsers": 5, "newRegistrations": 1 },
+      { "hour": "07:00", "activeUsers": 12, "newRegistrations": 2 },
+      { "hour": "08:00", "activeUsers": 18, "newRegistrations": 3 },
+      { "hour": "09:00", "activeUsers": 25, "newRegistrations": 4 },
+      { "hour": "10:00", "activeUsers": 32, "newRegistrations": 5 },
+      { "hour": "11:00", "activeUsers": 28, "newRegistrations": 3 },
+      { "hour": "12:00", "activeUsers": 35, "newRegistrations": 4 },
+      { "hour": "13:00", "activeUsers": 30, "newRegistrations": 2 },
+      { "hour": "14:00", "activeUsers": 33, "newRegistrations": 3 },
+      { "hour": "15:00", "activeUsers": 38, "newRegistrations": 5 },
+      { "hour": "16:00", "activeUsers": 42, "newRegistrations": 6 },
+      { "hour": "17:00", "activeUsers": 45, "newRegistrations": 4 },
+      { "hour": "18:00", "activeUsers": 48, "newRegistrations": 3 },
+      { "hour": "19:00", "activeUsers": 52, "newRegistrations": 5 },
+      { "hour": "20:00", "activeUsers": 58, "newRegistrations": 7 },
+      { "hour": "21:00", "activeUsers": 55, "newRegistrations": 6 },
+      { "hour": "22:00", "activeUsers": 38, "newRegistrations": 3 },
+      { "hour": "23:00", "activeUsers": 22, "newRegistrations": 1 }
+    ],
+    "weeklyTrend": [
+      { "week": "第1周", "newUsers": 27, "activeUsers": 21, "retentionRate": 77.8 },
+      { "week": "第2周", "newUsers": 24, "activeUsers": 32, "retentionRate": 76.5 },
+      { "week": "第3周", "newUsers": 28, "activeUsers": 45, "retentionRate": 76.2 },
+      { "week": "第4周", "newUsers": 31, "activeUsers": 58, "retentionRate": 75.9 }
+    ],
+    "userSegmentation": [
+      { "segment": "新用户", "count": 25, "percentage": 22.7, "avgSessionTime": 8.5 },
+      { "segment": "活跃用户", "count": 45, "percentage": 40.9, "avgSessionTime": 15.2 },
+      { "segment": "忠实用户", "count": 28, "percentage": 25.5, "avgSessionTime": 22.8 },
+      { "segment": "流失用户", "count": 12, "percentage": 10.9, "avgSessionTime": 3.2 }
+    ],
+    "deviceDistribution": [
+      { "device": "移动端", "count": 78, "percentage": 70.9 },
+      { "device": "桌面端", "count": 25, "percentage": 22.7 },
+      { "device": "平板端", "count": 7, "percentage": 6.4 }
+    ],
+    "ageDistribution": [
+      { "ageGroup": "18-25岁", "count": 32, "percentage": 29.1 },
+      { "ageGroup": "26-35岁", "count": 45, "percentage": 40.9 },
+      { "ageGroup": "36-45岁", "count": 23, "percentage": 20.9 },
+      { "ageGroup": "46岁以上", "count": 10, "percentage": 9.1 }
+    ],
+    "genderDistribution": [
+      { "gender": "女性", "count": 68, "percentage": 61.8 },
+      { "gender": "男性", "count": 42, "percentage": 38.2 }
+    ],
+    "userEngagement": {
+      "averageSessionDuration": 16.8,
+      "averagePageViews": 8.5,
+      "bounceRate": 23.4,
+      "returnVisitorRate": 65.2,
+      "conversionRate": 12.8
+    },
+    "topFeatures": [
+      { "feature": "宠物商城", "usage": 85, "satisfaction": 4.6 },
+      { "feature": "宠物AI问答", "usage": 72, "satisfaction": 4.4 },
+      { "feature": "宠物社区", "usage": 68, "satisfaction": 4.3 },
+      { "feature": "宠物百科", "usage": 45, "satisfaction": 4.2 },
+      { "feature": "在线咨询", "usage": 38, "satisfaction": 4.5 }
+    ],
+    "userFeedback": {
+      "totalReviews": 156,
+      "averageRating": 4.4,
+      "ratingDistribution": [
+        { "stars": 5, "count": 78, "percentage": 50.0 },
+        { "stars": 4, "count": 45, "percentage": 28.8 },
+        { "stars": 3, "count": 22, "percentage": 14.1 },
+        { "stars": 2, "count": 8, "percentage": 5.1 },
+        { "stars": 1, "count": 3, "percentage": 1.9 }
+      ]
+    }
+  }
+}

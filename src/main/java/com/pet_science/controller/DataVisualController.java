@@ -30,6 +30,7 @@ public class DataVisualController {
      * 获取数据可视化的简介信息
      */
     @GetMapping("/intro")
+    @ApiOperation(value = "获取简介信息", notes = "获取简介信息")
     public Result<JSONObject> getDataVisualIntro() {
         JSONObject jsonObject = dataVisualService.getPlatformOverview();
         return Result.successResultData(jsonObject);
@@ -49,7 +50,7 @@ public class DataVisualController {
      * 获取各类产品销售额和占比
      */
     @GetMapping("/userRegionNumber")
-    @ApiOperation(value = "获取各类产品销售额和占比", notes = "展示各类产品的销售额和占比")
+    @ApiOperation(value = "获取各地区用户数量", notes = "获取各地区用户数量")
     public Result<List<JSONObject>> getUserRegionNumber() {
         List<JSONObject> userRegionNumber = dataVisualService.getUserRegionNumber();
         return Result.successResultData(userRegionNumber);

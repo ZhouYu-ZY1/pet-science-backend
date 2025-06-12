@@ -1,0 +1,325 @@
+{
+  "userGrowthTrend": {
+    "daily": [
+      {
+        "date": "2024-09-01",
+        "newUsers": 2180,
+        "totalUsers": 790200,
+        "activeUsers": 9650,
+        "weeklyActiveUsers": 42800,
+        "retentionRate": 76.2,
+        "growthRate": 0.28
+      },
+      {
+        "date": "2024-09-02",
+        "newUsers": 2250,
+        "totalUsers": 792450,
+        "activeUsers": 9780,
+        "weeklyActiveUsers": 43050,
+        "retentionRate": 76.5,
+        "growthRate": 0.28
+      },
+      {
+        "date": "2024-09-03",
+        "newUsers": 2120,
+        "totalUsers": 794570,
+        "activeUsers": 9850,
+        "weeklyActiveUsers": 43280,
+        "retentionRate": 76.8,
+        "growthRate": 0.27
+      },
+      {
+        "date": "2024-09-04",
+        "newUsers": 2080,
+        "totalUsers": 796650,
+        "activeUsers": 9920,
+        "weeklyActiveUsers": 43520,
+        "retentionRate": 77.1,
+        "growthRate": 0.26
+      },
+      {
+        "date": "2024-09-05",
+        "newUsers": 2150,
+        "totalUsers": 798800,
+        "activeUsers": 9980,
+        "weeklyActiveUsers": 43750,
+        "retentionRate": 77.4,
+        "growthRate": 0.27
+      },
+      {
+        "date": "2024-09-06",
+        "newUsers": 2020,
+        "totalUsers": 800820,
+        "activeUsers": 9820,
+        "weeklyActiveUsers": 43980,
+        "retentionRate": 77.0,
+        "growthRate": 0.25
+      },
+      {
+        "date": "2024-09-07",
+        "newUsers": 1930,
+        "totalUsers": 802750,
+        "activeUsers": 9720,
+        "weeklyActiveUsers": 44180,
+        "retentionRate": 76.8,
+        "growthRate": 0.24
+      },
+      {
+        "date": "2024-09-08",
+        "newUsers": 2280,
+        "totalUsers": 797030,
+        "activeUsers": 10050,
+        "weeklyActiveUsers": 43520,
+        "retentionRate": 77.0,
+        "growthRate": 0.29
+      },
+      {
+        "date": "2024-09-09",
+        "newUsers": 2350,
+        "totalUsers": 799380,
+        "activeUsers": 10180,
+        "weeklyActiveUsers": 43750,
+        "retentionRate": 77.3,
+        "growthRate": 0.29
+      },
+      {
+        "date": "2024-09-10",
+        "newUsers": 2420,
+        "totalUsers": 801800,
+        "activeUsers": 10320,
+        "weeklyActiveUsers": 43980,
+        "retentionRate": 77.6,
+        "growthRate": 0.30
+      },
+      {
+        "date": "2024-09-11",
+        "newUsers": 2580,
+        "totalUsers": 804380,
+        "activeUsers": 10450,
+        "weeklyActiveUsers": 44220,
+        "retentionRate": 78.0,
+        "growthRate": 0.32
+      },
+      {
+        "date": "2024-09-12",
+        "newUsers": 2650,
+        "totalUsers": 807030,
+        "activeUsers": 10580,
+        "weeklyActiveUsers": 44450,
+        "retentionRate": 78.2,
+        "growthRate": 0.33
+      },
+      {
+        "date": "2024-09-13",
+        "newUsers": 2380,
+        "totalUsers": 809410,
+        "activeUsers": 10720,
+        "weeklyActiveUsers": 44680,
+        "retentionRate": 77.5,
+        "growthRate": 0.29
+      },
+      {
+        "date": "2024-09-14",
+        "newUsers": 2450,
+        "totalUsers": 811860,
+        "activeUsers": 10850,
+        "weeklyActiveUsers": 44920,
+        "retentionRate": 77.8,
+        "growthRate": 0.30
+      },
+      {
+        "date": "2024-09-15",
+        "newUsers": 2520,
+        "totalUsers": 814380,
+        "activeUsers": 10980,
+        "weeklyActiveUsers": 45150,
+        "retentionRate": 78.1,
+        "growthRate": 0.31
+      },
+      {
+        "date": "2024-09-16",
+        "newUsers": 2580,
+        "totalUsers": 816960,
+        "activeUsers": 11120,
+        "weeklyActiveUsers": 45380,
+        "retentionRate": 78.0,
+        "growthRate": 0.32
+      },
+      {
+        "date": "2024-09-17",
+        "newUsers": 2650,
+        "totalUsers": 819610,
+        "activeUsers": 11250,
+        "weeklyActiveUsers": 45620,
+        "retentionRate": 78.2,
+        "growthRate": 0.32
+      },
+      {
+        "date": "2024-09-18",
+        "newUsers": 2780,
+        "totalUsers": 822390,
+        "activeUsers": 11380,
+        "weeklyActiveUsers": 45850,
+        "retentionRate": 78.5,
+        "growthRate": 0.34
+      },
+      {
+        "date": "2024-09-19",
+        "newUsers": 2920,
+        "totalUsers": 825310,
+        "activeUsers": 11520,
+        "weeklyActiveUsers": 46080,
+        "retentionRate": 78.8,
+        "growthRate": 0.35
+      },
+      {
+        "date": "2024-09-20",
+        "newUsers": 2650,
+        "totalUsers": 827960,
+        "activeUsers": 11650,
+        "weeklyActiveUsers": 46320,
+        "retentionRate": 78.0,
+        "growthRate": 0.32
+      },
+      {
+        "date": "2024-09-21",
+        "newUsers": 2580,
+        "totalUsers": 830540,
+        "activeUsers": 11780,
+        "weeklyActiveUsers": 46550,
+        "retentionRate": 78.2,
+        "growthRate": 0.31
+      },
+      {
+        "date": "2024-09-22",
+        "newUsers": 2720,
+        "totalUsers": 833260,
+        "activeUsers": 11920,
+        "weeklyActiveUsers": 46780,
+        "retentionRate": 78.4,
+        "growthRate": 0.33
+      },
+      {
+        "date": "2024-09-23",
+        "newUsers": 2850,
+        "totalUsers": 836110,
+        "activeUsers": 12050,
+        "weeklyActiveUsers": 47020,
+        "retentionRate": 78.6,
+        "growthRate": 0.34
+      },
+      {
+        "date": "2024-09-24",
+        "newUsers": 2980,
+        "totalUsers": 839090,
+        "activeUsers": 12180,
+        "weeklyActiveUsers": 47250,
+        "retentionRate": 78.8,
+        "growthRate": 0.36
+      },
+      {
+        "date": "2024-09-25",
+        "newUsers": 3120,
+        "totalUsers": 842210,
+        "activeUsers": 12420,
+        "weeklyActiveUsers": 47480,
+        "retentionRate": 79.1,
+        "growthRate": 0.37
+      },
+      {
+        "date": "2024-09-26",
+        "newUsers": 2950,
+        "totalUsers": 845160,
+        "activeUsers": 12250,
+        "weeklyActiveUsers": 47720,
+        "retentionRate": 78.9,
+        "growthRate": 0.35
+      },
+      {
+        "date": "2024-09-27",
+        "newUsers": 2680,
+        "totalUsers": 847840,
+        "activeUsers": 12080,
+        "weeklyActiveUsers": 47950,
+        "retentionRate": 78.5,
+        "growthRate": 0.32
+      },
+      {
+        "date": "2024-09-28",
+        "newUsers": 2750,
+        "totalUsers": 850590,
+        "activeUsers": 12150,
+        "weeklyActiveUsers": 48180,
+        "retentionRate": 78.4,
+        "growthRate": 0.32
+      },
+      {
+        "date": "2024-09-29",
+        "newUsers": 2980,
+        "totalUsers": 853570,
+        "activeUsers": 12280,
+        "weeklyActiveUsers": 48420,
+        "retentionRate": 78.6,
+        "growthRate": 0.35
+      },
+      {
+        "date": "2024-09-30",
+        "newUsers": 2850,
+        "totalUsers": 856420,
+        "activeUsers": 12350,
+        "weeklyActiveUsers": 48650,
+        "retentionRate": 78.8,
+        "growthRate": 0.33
+      }
+    ],
+    "summary": {
+      "totalUsers": 856420,
+      "totalNewUsers": 87650,
+      "averageDailyNewUsers": 2922,
+      "peakDailyNewUsers": 3380,
+      "averageActiveUsers": 12350,
+      "averageRetentionRate": 78.8,
+      "totalGrowthRate": 11.4
+    },
+    "retentionAnalysis": {
+      "dailyRetention": [
+        { "day": 1, "retentionRate": 85.2, "userCount": 2650 },
+        { "day": 3, "retentionRate": 78.9, "userCount": 2456 },
+        { "day": 7, "retentionRate": 72.5, "userCount": 2256 },
+        { "day": 14, "retentionRate": 65.8, "userCount": 2048 },
+        { "day": 30, "retentionRate": 58.3, "userCount": 1814 }
+      ],
+      "weeklyRetention": [
+        { "week": "第1周", "retentionRate": 72.5, "activeUsers": 33180, "newUsers": 21850 },
+        { "week": "第2周", "retentionRate": 68.9, "activeUsers": 31250, "newUsers": 22180 },
+        { "week": "第3周", "retentionRate": 71.2, "activeUsers": 32450, "newUsers": 22850 },
+        { "week": "第4周", "retentionRate": 73.8, "activeUsers": 33920, "newUsers": 23430 }
+      ],
+      "monthlyRetention": [
+        { "month": "7月", "retentionRate": 58.3, "activeUsers": 142580, "newUsers": 89650 },
+        { "month": "8月", "retentionRate": 61.2, "activeUsers": 148920, "newUsers": 92180 },
+        { "month": "9月", "retentionRate": 63.8, "activeUsers": 156780, "newUsers": 93310 }
+      ],
+      "cohortAnalysis": [
+        {
+          "cohort": "2024-07",
+          "month0": 100,
+          "month1": 58.3,
+          "month2": 45.2,
+          "month3": 38.9
+        },
+        {
+          "cohort": "2024-08",
+          "month0": 100,
+          "month1": 61.2,
+          "month2": 47.8
+        },
+        {
+          "cohort": "2024-09",
+          "month0": 100,
+          "month1": 63.8
+        }
+      ]
+    }
+  }
+}

@@ -11,6 +11,7 @@ export default defineConfig({
     }
   },
   server: {
+    allowedHosts: ['api.u1156996.nyat.app'], // 允许的主机名
     port: 3000,
     proxy: {
       '/api': {

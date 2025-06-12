@@ -60,17 +60,19 @@ public class ContentServiceImpl implements ContentService {
     public boolean likeVideo(ContentLike contentLike) {
         try {
             String userId = contentLike.getUser_id();
-            String videoId = contentLike.getContent().getVideoId();
-            if (contentLike.getContent().getType() == 0) {  //0为抖音视频
+            Content content = contentLike.getContent();
+            String videoId = content.getVideoId();
+            Integer type = content.getType();
+            if (type == 0 || type == 68) {  //0为抖音视频、68为抖音图文
                 //验证视频在不在数据库中
                 if (contentMapper.findTypeById(videoId) <= 0) {
                     //如果不存在则插入数据
-                    contentLike.getContent().setStatus(1); //设置状态为已审核
-                    if(contentMapper.insertVideo(contentLike.getContent()) <= 0){
+                    content.setStatus(1); //设置状态为已审核
+                    if(contentMapper.insertVideo(content) <= 0){
                         throw new RuntimeException("抖音视频插入失败");
                     }
                 }
-            } else if (contentLike.getContent().getType() == 1) { //1为用户上传视频
+            } else if (type == 1) { //1为用户上传视频
                 if (contentMapper.findTypeById(videoId) <= 0) {
                     //如果不存在则说明数据异常
                     throw new RuntimeException("视频数据异常");

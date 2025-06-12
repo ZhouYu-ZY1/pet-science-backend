@@ -1,0 +1,35 @@
+graph TD
+    classDef blue fill:#e6f3ff,stroke:#3399ff,stroke-width:2px;
+    classDef diamond fill:#e6f3ff,stroke:#3399ff,stroke-width:2px,shape:diamond;
+    classDef startEnd fill:#cce6ff,stroke:#0066cc,stroke-width:2px;
+
+%% 控制层入口
+    CTRL(Controller层):::startEnd --> SERVICE[调用Service方法]:::blue
+
+%% 主流程
+    SERVICE --> OPERATION{操作类型}:::diamond
+    OPERATION -->|查询| CACHE[查询Redis缓存]:::blue
+    OPERATION -->|增删改| DB[操作MySQL]:::blue
+    OPERATION -->|文件| MINIO[访问MinIO]:::blue
+
+%% 查询分支
+    CACHE --> HIT{缓存命中?}:::diamond
+    HIT -->|是| RETURN_DATA(返回缓存数据):::blue
+    HIT -->|否| QUERY_DB[查询数据库]:::blue
+    QUERY_DB --> SAVE_CACHE[保存到缓存]:::blue
+    SAVE_CACHE --> RETURN_DATA
+
+%% 增删改分支
+    DB --> UPDATE_DB[执行SQL操作]:::blue
+    UPDATE_DB --> CLEAN_CACHE[清理缓存]:::blue
+    CLEAN_CACHE --> RETURN_RESULT(返回操作结果):::blue
+
+%% 文件分支
+    MINIO --> UPLOAD[上传文件]:::blue
+    UPLOAD --> GET_URL[获取文件URL]:::blue
+    GET_URL --> RETURN_URL(返回URL):::blue
+
+%% 统一返回
+    RETURN_DATA --> RESPONSE(返回响应):::startEnd
+    RETURN_RESULT --> RESPONSE
+    RETURN_URL --> RESPONSE

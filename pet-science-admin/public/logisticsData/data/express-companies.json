@@ -1,0 +1,104 @@
+{
+  "companyDistribution": [
+    { "name": "京东物流", "value": 224587, "percentage": 18.55, "color": "#00d4ff" },
+    { "name": "顺丰速运", "value": 189200, "percentage": 15.63, "color": "#0088ff" },
+    { "name": "圆通快递", "value": 156300, "percentage": 12.91, "color": "#00ff88" },
+    { "name": "圆通速递", "value": 142800, "percentage": 11.80, "color": "#ffaa00" },
+    { "name": "申通快递", "value": 128500, "percentage": 10.62, "color": "#ff4444" },
+    { "name": "韵达速运", "value": 118200, "percentage": 9.76, "color": "#88ccff" },
+    { "name": "德邦物流", "value": 95300, "percentage": 7.87, "color": "#00ccaa" },
+    { "name": "极兔速递", "value": 87200, "percentage": 7.20, "color": "#aa88ff" },
+    { "name": "百世快递", "value": 68400, "percentage": 5.65, "color": "#888888" }
+  ],
+  "totalVolume": 1210487,
+  "companyDetails": [
+    {
+      "name": "京东物流",
+      "headquarters": "北京",
+      "founded": 2007,
+      "coverage": "全国",
+      "specialties": ["电商配送", "仓储服务", "供应链管理"],
+      "marketShare": 18.55,
+      "dailyPackages": 224587
+    },
+    {
+      "name": "顺丰速运", 
+      "headquarters": "深圳",
+      "founded": 1993,
+      "coverage": "全国及国际",
+      "specialties": ["高端快递", "冷链运输", "航空运输"],
+      "marketShare": 15.63,
+      "dailyPackages": 189200
+    },
+    {
+      "name": "圆通快递",
+      "headquarters": "上海",
+      "founded": 2000,
+      "coverage": "全国",
+      "specialties": ["电商快递", "普通快递", "国际快递"],
+      "marketShare": 12.91,
+      "dailyPackages": 156300
+    },
+    {
+      "name": "圆通速递",
+      "headquarters": "上海", 
+      "founded": 2000,
+      "coverage": "全国",
+      "specialties": ["快递服务", "物流配送", "仓储服务"],
+      "marketShare": 11.80,
+      "dailyPackages": 142800
+    },
+    {
+      "name": "申通快递",
+      "headquarters": "上海",
+      "founded": 1993,
+      "coverage": "全国",
+      "specialties": ["快递服务", "电商配送", "代收货款"],
+      "marketShare": 10.62,
+      "dailyPackages": 128500
+    },
+    {
+      "name": "韵达速运",
+      "headquarters": "上海",
+      "founded": 1999,
+      "coverage": "全国",
+      "specialties": ["快递服务", "电商物流", "仓配一体"],
+      "marketShare": 9.76,
+      "dailyPackages": 118200
+    },
+    {
+      "name": "德邦物流",
+      "headquarters": "上海",
+      "founded": 1996,
+      "coverage": "全国",
+      "specialties": ["大件快递", "零担运输", "整车运输"],
+      "marketShare": 7.87,
+      "dailyPackages": 95300
+    },
+    {
+      "name": "极兔速递",
+      "headquarters": "上海",
+      "founded": 2015,
+      "coverage": "全国及东南亚",
+      "specialties": ["电商快递", "国际快递", "末端配送"],
+      "marketShare": 7.20,
+      "dailyPackages": 87200
+    },
+    {
+      "name": "百世快递",
+      "headquarters": "杭州",
+      "founded": 2010,
+      "coverage": "全国",
+      "specialties": ["快递服务", "供应链", "云仓服务"],
+      "marketShare": 5.65,
+      "dailyPackages": 68400
+    }
+  ],
+  "industryMetrics": {
+    "totalDailyVolume": 1210487,
+    "averageDeliveryTime": "2.3天",
+    "customerSatisfaction": 4.2,
+    "onTimeDeliveryRate": 96.8,
+    "lostPackageRate": 0.02
+  }
+}

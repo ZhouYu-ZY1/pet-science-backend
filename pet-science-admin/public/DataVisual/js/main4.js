@@ -23,7 +23,7 @@ function loadOrderMap() {
                     tooltip: {
                         trigger: 'item',
                         formatter: function(params) {
-                            return params.name + '<br/>销量: ' + (params.value || 0);
+                            return params.name + '<br/>用户数: ' + formatNumber(params.value || 0);
                         },
                         backgroundColor: 'rgba(255,255,255,0.8)',
                         textStyle: {
@@ -31,7 +31,7 @@ function loadOrderMap() {
                         }
                     },
                     visualMap: {
-                        min: 0,
+                        min: 10000,
                         max: Math.max(...data.map(item => item.value), 100),
                         left: 'right',
                         top: 'center',
@@ -42,6 +42,9 @@ function loadOrderMap() {
                         },
                         textStyle: {
                             color: '#fff'
+                        },
+                        formatter: function(value) {
+                            return formatNumber(value);
                         }
                     },
                     series: [
@@ -53,13 +56,15 @@ function loadOrderMap() {
                             center: [104, 36],
                             aspectScale: 0.75,
                             label: {
-                                top: 0,
                                 show: true,
                                 color: '#fff',
                                 formatter: function(params) {
+                                    if (params.value && params.value > 20000) {
+                                        return params.name + '\n' + formatNumber(params.value);
+                                    }
                                     return params.name;
                                 },
-                                fontSize: 11
+                                fontSize: 10
                             },
                             itemStyle: {
                                 areaColor: '#199af0',

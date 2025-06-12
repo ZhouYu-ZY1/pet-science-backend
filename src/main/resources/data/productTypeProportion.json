@@ -1,56 +1,56 @@
 [
   {
-    "proportion": "52.18%",
+    "proportion": "45.00%",
     "name": "食物",
-    "orderCount": 127,
-    "value": "23,415.00"
+    "orderCount": 1260000,
+    "value": 126000000.00
   },
   {
-    "proportion": "15.73%",
+    "proportion": "18.00%",
     "name": "玩具",
-    "orderCount": 42,
-    "value": "7,058.50"
+    "orderCount": 504000,
+    "value": 50400000.00
   },
   {
-    "proportion": "3.21%",
+    "proportion": "8.00%",
     "name": "服饰",
-    "orderCount": 8,
-    "value": "1,442.00"
+    "orderCount": 112000,
+    "value": 22400000.00
   },
   {
-    "proportion": "5.89%",
+    "proportion": "12.00%",
     "name": "健康",
-    "orderCount": 15,
-    "value": "2,645.00"
+    "orderCount": 168000,
+    "value": 33600000.00
   },
   {
-    "proportion": "12.64%",
+    "proportion": "10.00%",
     "name": "清洁",
-    "orderCount": 31,
-    "value": "5,675.00"
+    "orderCount": 560000,
+    "value": 28000000.00
   },
   {
-    "proportion": "4.32%",
+    "proportion": "3.50%",
     "name": "出行",
-    "orderCount": 11,
-    "value": "1,940.00"
+    "orderCount": 49000,
+    "value": 9800000.00
   },
   {
-    "proportion": "2.15%",
+    "proportion": "1.50%",
     "name": "智能",
-    "orderCount": 5,
-    "value": "965.50"
+    "orderCount": 8400,
+    "value": 4200000.00
   },
   {
-    "proportion": "2.88%",
+    "proportion": "1.50%",
     "name": "居住",
-    "orderCount": 7,
-    "value": "1,295.00"
+    "orderCount": 21000,
+    "value": 4200000.00
   },
   {
-    "proportion": "1.00%",
+    "proportion": "0.50%",
     "name": "训导",
-    "orderCount": 3,
-    "value": "449.00"
+    "orderCount": 7000,
+    "value": 1400000.00
   }
 ]

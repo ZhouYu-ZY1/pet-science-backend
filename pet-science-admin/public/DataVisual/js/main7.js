@@ -88,9 +88,9 @@ function echart_map() {
                         trigger: 'item',
                         formatter: function(params) {
                             if(params.value[2] != undefined){
-                                return params.name + '<br/>销量: ' + params.value[2];
+                                return params.name + '<br/>销量: ' + params.value[2] + "万";
                             }
-                            return params.name + '<br/>销量: ' + (params.value || 0);
+                            return params.name + '<br/>销量: ' + (params.value || 0) + "万";
                         },
                         backgroundColor: 'rgba(255,255,255,0.8)',
                         textStyle: {
@@ -98,12 +98,15 @@ function echart_map() {
                         }
                     },
                     visualMap: {
-                        min: 0,
-                        max: Math.max(...data.map(item => item.value), 100),
+                        min: 1,
+                        max: Math.max(...data.map(item => item.value), 1),
                         left: 'right',
                         top: 'center',
                         text: ['高', '低'],
                         calculable: true,
+                        formatter: function(value) {
+                            return value + '万';
+                        },
                         // inRange: {
                         //     color: ['#03e9ff', '#1280d1', '#0c67b3', '#064e94']
                         // },

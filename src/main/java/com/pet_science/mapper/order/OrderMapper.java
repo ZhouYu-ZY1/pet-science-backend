@@ -20,16 +20,23 @@ public interface OrderMapper {
     @SelectProvider(type = OrderSqlProvider.class, method = "getOrderList")
     @Results({
             @Result(property = "orderId", column = "order_id"),
-            @Result(property = "orderItem", javaType = OrderItem.class, one = @One(select = "mapOrderItem"), column = "order_id"),
+            @Result(property = "orderItem", javaType = OrderItem.class, one = @One(select = "mapFirstOrderItem"), column = "order_id"),
+            @Result(property = "orderItems", javaType = List.class, many = @Many(select = "mapOrderItems"), column = "order_id"),
             @Result(property = "shipping", javaType = OrderShipping.class, one = @One(select = "mapShipping"), column = "order_id"),
             @Result(property = "payment", javaType = OrderPayment.class, one = @One(select = "mapPayment"), column = "order_id")
     })
     List<Order> getOrderList(Map<String, Object> params);
     /**
-     * 根据订单ID查询订单项
+     * 根据订单ID查询第一个订单项（向后兼容）
+     */
+    @Select("SELECT * FROM order_items WHERE order_id = #{orderId} LIMIT 1")
+    OrderItem mapFirstOrderItem(Integer orderId);
+
+    /**
+     * 根据订单ID查询所有订单项
      */
     @Select("SELECT * FROM order_items WHERE order_id = #{orderId}")
-    OrderItem mapOrderItem(Integer orderId);
+    List<OrderItem> mapOrderItems(Integer orderId);
     /**
      * 根据订单ID查询物流信息
      */

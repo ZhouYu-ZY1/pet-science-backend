@@ -3,6 +3,7 @@ package com.pet_science.pojo.order;
 import lombok.Data;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class Order {
@@ -23,9 +24,11 @@ public class Order {
     private Date createdAt;
     // 更新时间
     private Date updatedAt;
-    
-    // 关联的订单项（非数据库字段，用于数据传输）
+
+    // 关联的订单项（非数据库字段，用于数据传输）- 保持向后兼容性
     private OrderItem orderItem;
+    // 关联的订单项列表（非数据库字段，用于支持多商品订单）
+    private List<OrderItem> orderItems;
     // 关联的支付信息（非数据库字段，用于数据传输）
     private OrderPayment payment;
     // 关联的物流信息（非数据库字段，用于数据传输）

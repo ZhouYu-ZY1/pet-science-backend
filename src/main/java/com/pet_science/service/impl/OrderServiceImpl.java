@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.benmanes.caffeine.cache.Cache;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -101,10 +102,12 @@ public class OrderServiceImpl implements OrderService {
             throw new BusinessException("订单不属于该用户");
         }
 
-        // 查询订单项 - 修改为获取单个订单项
+        // 查询订单项列表
         List<OrderItem> orderItems = orderItemMapper.findByOrderId(orderId);
         if (orderItems != null && !orderItems.isEmpty()) {
-            // 只取第一个订单项
+            // 设置订单项列表（支持多商品）
+            order.setOrderItems(orderItems);
+            // 为了向后兼容，也设置第一个订单项
             order.setOrderItem(orderItems.get(0));
         }
 
@@ -146,7 +149,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 创建订单
-     * 
+     *
      * @param order 订单信息（包含订单项）
      * @return 创建的订单
      */
@@ -169,37 +172,50 @@ public class OrderServiceImpl implements OrderService {
         order.setCreatedAt(now);
         order.setUpdatedAt(now);
 
-        // 通过ProductService获取并设置Order中的商品信息、计算价格等信息
-        OrderItem orderItem = order.getOrderItem();
-        if (orderItem == null || orderItem.getProductId() == null) {
-            throw new BusinessException("订单项或商品ID不能为空");
-        }
-        
-        // 获取商品信息
-        Product product = productService.getProductDetail(orderItem.getProductId());
-        if (product == null) {
-            throw new BusinessException("商品不存在");
+        // 获取订单项列表（支持多商品和单商品）
+        List<OrderItem> orderItems = getOrderItemsFromOrder(order);
+        if (orderItems == null || orderItems.isEmpty()) {
+            throw new BusinessException("订单项不能为空");
         }
 
-        // 检查商品库存
-        Integer quantity = orderItem.getQuantity(); // 购买数量
-        if(quantity == null || product.getStock() < quantity){
-            throw new BusinessException("商品库存不足");
-        }
+        // 验证所有订单项并计算总金额
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        for (OrderItem orderItem : orderItems) {
+            if (orderItem.getProductId() == null) {
+                throw new BusinessException("商品ID不能为空");
+            }
 
-        // 获取商品单价
-        BigDecimal price = product.getPrice();
-        // 设置订单项的商品信息
-        orderItem.setProductName(product.getProductName());
-        orderItem.setProductImage(product.getMainImage());
-        orderItem.setPrice(price);
-        
-        // 计算订单总金额
-        if (price != null) {
+            // 获取商品信息
+            Product product = productService.getProductDetail(orderItem.getProductId());
+            if (product == null) {
+                throw new BusinessException("商品不存在：" + orderItem.getProductId());
+            }
+
+            // 检查商品库存
+            Integer quantity = orderItem.getQuantity();
+            if (quantity == null || quantity <= 0) {
+                throw new BusinessException("购买数量必须大于0");
+            }
+            if (product.getStock() < quantity) {
+                throw new BusinessException("商品库存不足：" + product.getProductName());
+            }
+
+            // 获取商品单价并设置订单项信息
+            BigDecimal price = product.getPrice();
+            orderItem.setProductName(product.getProductName());
+            orderItem.setProductImage(product.getMainImage());
+            orderItem.setPrice(price);
+
+            // 计算小计
             BigDecimal subtotal = price.multiply(new BigDecimal(quantity));
             orderItem.setSubtotal(subtotal);
-            order.setTotalAmount(subtotal); // 设置订单总金额
+
+            // 累加到总金额
+            totalAmount = totalAmount.add(subtotal);
         }
+
+        // 设置订单总金额
+        order.setTotalAmount(totalAmount);
 
         // 保存订单
         int result = orderMapper.insert(order);
@@ -207,11 +223,13 @@ public class OrderServiceImpl implements OrderService {
             throw new SystemException("创建订单失败");
         }
 
-        // 保存订单项
-        orderItem.setOrderId(order.getOrderId());
-        orderItem.setCreatedAt(now);
-        orderItem.setUpdatedAt(now);
-        orderItemMapper.insert(orderItem);
+        // 批量保存订单项
+        for (OrderItem orderItem : orderItems) {
+            orderItem.setOrderId(order.getOrderId());
+            orderItem.setCreatedAt(now);
+            orderItem.setUpdatedAt(now);
+        }
+        orderItemMapper.batchInsert(orderItems);
 
         // 保存物流信息
         OrderShipping shipping = order.getShipping();
@@ -373,7 +391,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 生成订单号
-     * 
+     *
      * @return 订单号
      */
     private String generateOrderNo() {
@@ -381,6 +399,28 @@ public class OrderServiceImpl implements OrderService {
         String dateStr = String.format("%tY%<tm%<td", new Date());
         String randomStr = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 6);
         return "ORD" + dateStr + randomStr;
+    }
+
+    /**
+     * 从订单对象中获取订单项列表
+     * 支持多商品订单（orderItems）和单商品订单（orderItem）的兼容性
+     *
+     * @param order 订单对象
+     * @return 订单项列表
+     */
+    private List<OrderItem> getOrderItemsFromOrder(Order order) {
+        List<OrderItem> orderItems = new ArrayList<>();
+
+        // 优先使用 orderItems 列表（多商品订单）
+        if (order.getOrderItems() != null && !order.getOrderItems().isEmpty()) {
+            orderItems.addAll(order.getOrderItems());
+        }
+        // 如果没有 orderItems，则使用单个 orderItem（向后兼容）
+        else if (order.getOrderItem() != null) {
+            orderItems.add(order.getOrderItem());
+        }
+
+        return orderItems;
     }
 
 

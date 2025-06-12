@@ -1,0 +1,51 @@
+{
+  "monthlyTrends": {
+    "months": ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+    "series": [
+      {
+        "name": "公路运输",
+        "type": "area",
+        "data": [2856, 2234, 3456, 3892, 4234, 4567, 4892, 5123, 4756, 4234, 3892, 3567],
+        "color": "#00d4ff"
+      },
+      {
+        "name": "铁路运输", 
+        "type": "area",
+        "data": [1234, 1456, 1892, 2123, 2345, 2567, 2789, 2934, 2678, 2345, 2123, 1892],
+        "color": "#00ff88"
+      },
+      {
+        "name": "航空运输",
+        "type": "area", 
+        "data": [456, 567, 678, 789, 892, 934, 1023, 1156, 1089, 934, 789, 678],
+        "color": "#ffaa00"
+      },
+      {
+        "name": "水路运输",
+        "type": "area",
+        "data": [234, 345, 456, 567, 678, 789, 892, 934, 856, 678, 567, 456],
+        "color": "#ff6b6b"
+      }
+    ]
+  },
+  "trendAnalysis": {
+    "totalVolume": 45678,
+    "yearOverYear": 12.5,
+    "peakMonth": "8月",
+    "peakVolume": 10146,
+    "averageGrowth": 8.3,
+    "seasonalPattern": "夏季高峰"
+  },
+  "forecast": {
+    "nextMonth": {
+      "predicted": 4234,
+      "confidence": 87.5,
+      "trend": "下降"
+    },
+    "nextQuarter": {
+      "predicted": 12567,
+      "confidence": 82.3,
+      "trend": "稳定"
+    }
+  }
+}
