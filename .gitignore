@@ -32,3 +32,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/pet-science-admin/public/DataVisual/models/
